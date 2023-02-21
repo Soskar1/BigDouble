@@ -1,9 +1,10 @@
 #include <string>
+#include <sstream>
 
 namespace Big {
 	class BigDouble {
 	private:
-		std::string m_Buffer;
+		std::stringstream m_Buffer;
 		std::string m_FractionalPart;
 		std::string m_IntegralPart;
 
@@ -81,26 +82,27 @@ namespace Big {
 		}
 
 		void UpdateBuffer() {
-			m_Buffer = m_IntegralPart + "." + m_FractionalPart;
+			m_Buffer.str(std::string());
+			m_Buffer << m_IntegralPart << "." << m_FractionalPart;
 		}
 
 	public:
 		BigDouble(std::string buffer) {
-			m_Buffer = buffer;
+			m_Buffer << buffer;
 
 			size_t fractionPosition = buffer.find('.');
 
 			if (fractionPosition == std::string::npos) {
-				m_Buffer.insert(m_Buffer.length(), ".0");
-				fractionPosition = m_Buffer.length() - 2;
+				m_Buffer << ".0";
+				fractionPosition = buffer.length();
 			}
 
-			m_IntegralPart = m_Buffer.substr(0, fractionPosition);
-			m_FractionalPart = m_Buffer.substr(fractionPosition + 1, m_Buffer.length() - fractionPosition);
+			m_IntegralPart = m_Buffer.str().substr(0, fractionPosition);
+			m_FractionalPart = m_Buffer.str().substr(fractionPosition + 1, m_Buffer.str().length() - fractionPosition);
 		}
 
 		BigDouble operator+(const BigDouble& bigDouble) {
-			BigDouble newBigDouble(m_Buffer);
+			BigDouble newBigDouble(m_Buffer.str());
 
 			newBigDouble.AddFractionParts(bigDouble);
 			newBigDouble.AddIntegralParts(bigDouble);
@@ -110,7 +112,7 @@ namespace Big {
 		}
 
 		std::string ToString() {
-			return m_Buffer;
+			return m_Buffer.str();
 		}
 	};
 }

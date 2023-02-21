@@ -2,7 +2,7 @@
 <Project>
   <ProjectOutputs>
     <ProjectOutput>
-      <FullPath>D:\Projects\C++\DSA\BigDouble\x64\Debug\BigDouble.exe</FullPath>
+      <FullPath>D:\Projects\C++\BigDouble\x64\Debug\BigDouble.exe</FullPath>
     </ProjectOutput>
   </ProjectOutputs>
   <ContentFiles />

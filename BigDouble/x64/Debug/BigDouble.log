@@ -1,3 +1,3 @@
 ﻿  Example.cpp
-D:\Projects\C++\DSA\BigDouble\BigDouble\BigDouble.h(17,1): warning C4267: инициализация: преобразование из "size_t" в "int"; возможна потеря данных
-  BigDouble.vcxproj -> D:\Projects\C++\DSA\BigDouble\x64\Debug\BigDouble.exe
+D:\Projects\C++\BigDouble\BigDouble\BigDouble.h(18,1): warning C4267: инициализация: преобразование из "size_t" в "int"; возможна потеря данных
+  BigDouble.vcxproj -> D:\Projects\C++\BigDouble\x64\Debug\BigDouble.exe

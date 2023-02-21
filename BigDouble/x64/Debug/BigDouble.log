@@ -1,8 +1,0 @@
-﻿  Example.cpp
-<<<<<<< HEAD
-D:\Projects\C++\BigDouble\BigDouble\BigDouble.h(18,1): warning C4267: инициализация: преобразование из "size_t" в "int"; возможна потеря данных
-  LINK : не найден или не выполнена сборка D:\Projects\C++\BigDouble\x64\Debug\BigDouble.exe при последней инкрементной компоновке; выполняется полная компоновка
-=======
-D:\Projects\C++\BigDouble\BigDouble\BigDouble.h(28,1): warning C4267: инициализация: преобразование из "size_t" в "int"; возможна потеря данных
->>>>>>> 53fcef6156dfd372f19135e248c945e9a1ec6bfb
-  BigDouble.vcxproj -> D:\Projects\C++\BigDouble\x64\Debug\BigDouble.exe

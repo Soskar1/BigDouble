@@ -12,11 +12,21 @@ namespace Big {
 
 		const int ASCII_INT_DIFFERENCE = 48;
 
+		std::string GetFractionalPart() const {
+			return m_FractionalPart;
+		}
+
+		std::string GetIntegralPart() const {
+			return m_IntegralPart;
+		}
+
 		void AddFractionParts(const BigDouble& bigDouble) {
-			size_t minFractionLength = std::min(m_FractionalPart.length(), bigDouble.m_FractionalPart.length());
+			std::string tempFractionalPart = bigDouble.GetFractionalPart();
+
+			size_t minFractionLength = std::min(m_FractionalPart.length(), tempFractionalPart.length());
 
 			for (int index = minFractionLength - 1; index >= 0; --index) {
-				int num = (m_FractionalPart[index] - ASCII_INT_DIFFERENCE) + (bigDouble.m_FractionalPart[index] - ASCII_INT_DIFFERENCE) + m_Memory;
+				int num = (m_FractionalPart[index] - ASCII_INT_DIFFERENCE) + (tempFractionalPart[index] - ASCII_INT_DIFFERENCE) + m_Memory;
 				
 				if (m_Memory) {
 					m_Memory = false;
@@ -30,16 +40,18 @@ namespace Big {
 				m_FractionalPart[index] = num + ASCII_INT_DIFFERENCE;
 			}
 
-			if (m_FractionalPart.length() < bigDouble.m_FractionalPart.length()) {
-				m_FractionalPart += bigDouble.m_FractionalPart.substr(minFractionLength, bigDouble.m_FractionalPart.length());
+			if (m_FractionalPart.length() < tempFractionalPart.length()) {
+				m_FractionalPart += tempFractionalPart.substr(minFractionLength, tempFractionalPart.length());
 			}
 		}
 
 		void AddIntegralParts(const BigDouble& bigDouble) {
-			size_t minIntegralLength = std::min(m_IntegralPart.length(), bigDouble.m_IntegralPart.length());
+			std::string tempIntegralPart = bigDouble.GetIntegralPart();
+
+			size_t minIntegralLength = std::min(m_IntegralPart.length(), tempIntegralPart.length());
 
 			for (int index = 0; index < minIntegralLength; ++index) {
-				int num = (m_IntegralPart[m_IntegralPart.length() - 1 - index] - ASCII_INT_DIFFERENCE) + (bigDouble.m_IntegralPart[bigDouble.m_IntegralPart.length() - 1 - index] - ASCII_INT_DIFFERENCE) + m_Memory;
+				int num = (m_IntegralPart[m_IntegralPart.length() - 1 - index] - ASCII_INT_DIFFERENCE) + (tempIntegralPart[tempIntegralPart.length() - 1 - index] - ASCII_INT_DIFFERENCE) + m_Memory;
 
 				if (m_Memory) {
 					m_Memory = false;
@@ -53,8 +65,8 @@ namespace Big {
 				m_IntegralPart[m_IntegralPart.length() - 1 - index] = num + ASCII_INT_DIFFERENCE;
 			}
 
-			if (m_IntegralPart.length() < bigDouble.m_IntegralPart.length()) {
-				m_IntegralPart.insert(0, bigDouble.m_IntegralPart.substr(0, bigDouble.m_IntegralPart.length() - m_IntegralPart.length()));
+			if (m_IntegralPart.length() < tempIntegralPart.length()) {
+				m_IntegralPart.insert(0, tempIntegralPart.substr(0, tempIntegralPart.length() - m_IntegralPart.length()));
 			}
 
 			while (m_Memory) {

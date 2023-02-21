@@ -1,3 +1,4 @@
 ﻿  Example.cpp
 D:\Projects\C++\BigDouble\BigDouble\BigDouble.h(18,1): warning C4267: инициализация: преобразование из "size_t" в "int"; возможна потеря данных
+  LINK : не найден или не выполнена сборка D:\Projects\C++\BigDouble\x64\Debug\BigDouble.exe при последней инкрементной компоновке; выполняется полная компоновка
   BigDouble.vcxproj -> D:\Projects\C++\BigDouble\x64\Debug\BigDouble.exe

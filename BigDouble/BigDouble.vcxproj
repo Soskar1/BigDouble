@@ -25,7 +25,7 @@
   <ItemGroup>
     <ClCompile Include="BigDouble.cpp" />
     <ClCompile Include="BigInt.cpp" />
-    <ClCompile Include="Example.cpp" />
+    <ClCompile Include="Tests.cpp" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>16.0</VCProjectVersion>

@@ -12,10 +12,10 @@ namespace Big {
 	}
 
 	BigInt BigInt::operator+(const BigInt& bigInt) const {
-		BigInt newBigInt(this->ToString());
+		BigInt newBigInt;
 		bool memory = false;
 
-		std::string thisBigIntBuffer = newBigInt.ToString();
+		std::string thisBigIntBuffer = this->ToString();
 		std::string tempBigIntBuffer = bigInt.ToString();
 
 		size_t minIntegralPartLength = std::min(thisBigIntBuffer.length(), tempBigIntBuffer.length());
@@ -63,6 +63,43 @@ namespace Big {
 		}
 
 		newBigInt.UpdateBuffer(thisBigIntBuffer);
+
+		return newBigInt;
+	}
+
+	BigInt BigInt::operator+(bool& memory) const {
+		BigInt newBigInt(this->ToString());
+
+		if (!memory)
+			return newBigInt;
+
+		int i = 0;
+		std::string buffer = newBigInt.m_Buffer.str();
+		
+		while (memory) {
+			if (i == buffer.length()) {
+				buffer.insert(0, 1, '1');
+				memory = false;
+				break;
+			}
+
+			int num = buffer[buffer.length() - 1 - i] - ASCII_INT_DIFFERENCE + memory;
+
+			if (memory) {
+				memory = false;
+			}
+
+			if (num >= 10) {
+				memory = true;
+				num -= 10;
+			}
+
+			buffer[buffer.length() - 1 - i] = num + ASCII_INT_DIFFERENCE;
+
+			++i;
+		}
+
+		newBigInt.UpdateBuffer(buffer);
 
 		return newBigInt;
 	}

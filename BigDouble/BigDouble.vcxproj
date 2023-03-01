@@ -18,6 +18,15 @@
       <Platform>x64</Platform>
     </ProjectConfiguration>
   </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="BigDouble.h" />
+    <ClInclude Include="BigInt.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="BigDouble.cpp" />
+    <ClCompile Include="BigInt.cpp" />
+    <ClCompile Include="Example.cpp" />
+  </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>16.0</VCProjectVersion>
     <Keyword>Win32Proj</Keyword>
@@ -126,12 +135,6 @@
       <GenerateDebugInformation>true</GenerateDebugInformation>
     </Link>
   </ItemDefinitionGroup>
-  <ItemGroup>
-    <ClCompile Include="Example.cpp" />
-  </ItemGroup>
-  <ItemGroup>
-    <ClInclude Include="BigDouble.h" />
-  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>

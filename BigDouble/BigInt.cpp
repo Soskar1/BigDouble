@@ -107,23 +107,40 @@ namespace Big {
 	BigInt BigInt::operator-(const BigInt& bigInt) const {
 		BigInt newBigInt;
 
-		std::string buffer = this->ToString();
-		std::string tempBuffer = bigInt.ToString();
+		std::string firstBuffer = this->ToString();
+		std::string secondBuffer = bigInt.ToString();
 
 		std::string newBuffer;
 
 		bool memory = false;
+		bool isNegative = false;
 
-		size_t minNumLength = std::min(buffer.length(), tempBuffer.length());
+		size_t minNumLength = std::min(firstBuffer.length(), secondBuffer.length());
+
+		if (firstBuffer.length() < secondBuffer.length()) {
+			isNegative = true;
+
+			std::string tmp = firstBuffer;
+			firstBuffer = secondBuffer;
+			secondBuffer = tmp;
+		}
 
 		for (int index = 0; index < minNumLength; ++index) {
-			int num = (buffer[buffer.length() - index - 1] - ASCII_INT_DIFFERENCE) - (tempBuffer[tempBuffer.length() - index - 1] - ASCII_INT_DIFFERENCE) - memory;
+			int num = (firstBuffer[firstBuffer.length() - index - 1] - ASCII_INT_DIFFERENCE) - (secondBuffer[secondBuffer.length() - index - 1] - ASCII_INT_DIFFERENCE) - memory;
 
 			if (memory) {
 				memory = false;
 			}
 
 			if (num < 0) {
+				if ((int)firstBuffer.length() - index - 2 < 0) {
+					num = -num;
+					isNegative = true;
+
+					newBuffer += num + ASCII_INT_DIFFERENCE;
+					break;
+				}
+
 				num += 10;
 				memory = true;
 			}
@@ -132,12 +149,13 @@ namespace Big {
 		}
 
 		while (memory) {
-			if (minNumLength == buffer.length() - 1) {
+			if (minNumLength == firstBuffer.length() - 1) {
 				memory = false;
+				firstBuffer.erase(0, 1);
 				break;
 			}
 
-			int num = buffer[buffer.length() - 1 - minNumLength] - ASCII_INT_DIFFERENCE - memory;
+			int num = firstBuffer[firstBuffer.length() - 1 - minNumLength] - ASCII_INT_DIFFERENCE - memory;
 
 			if (memory) {
 				memory = false;
@@ -155,8 +173,16 @@ namespace Big {
 
 		std::reverse(newBuffer.begin(), newBuffer.end());
 
-		if (minNumLength < buffer.length() - 1) {
-			newBuffer.insert(0, buffer.substr(0, buffer.length() - minNumLength));
+		if (minNumLength < firstBuffer.length()) {
+			newBuffer.insert(0, firstBuffer.substr(0, firstBuffer.length() - minNumLength));
+		}
+		else if (minNumLength < secondBuffer.length()) {
+			newBuffer.insert(0, secondBuffer.substr(0, secondBuffer.length() - minNumLength));
+			isNegative = true;
+		}
+
+		if (isNegative) {
+			newBuffer.insert(0, 1, '-');
 		}
 
 		newBigInt.SetBuffer(newBuffer);

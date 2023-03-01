@@ -8,13 +8,11 @@ namespace Big {
 	private:
 		std::stringstream m_Buffer;
 
-		bool m_Memory;
-
-		const int ASCII_INT_DIFFERENCE = 48;
-
-		void Addition(const BigInt& bigInt);
+		void UpdateBuffer(const std::string& newBuffer);
 	public:
-		BigInt(std::string buffer);
+		BigInt();
+
+		BigInt(const std::string& buffer);
 
 		BigInt operator+(const BigInt& bigInt) const;
 

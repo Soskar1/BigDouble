@@ -15,13 +15,13 @@ namespace Big {
 		BigInt newBigInt;
 		bool memory = false;
 
-		std::string thisBigIntBuffer = this->ToString();
-		std::string tempBigIntBuffer = bigInt.ToString();
+		std::string firstBuffer = this->ToString();
+		std::string secondBuffer = bigInt.ToString();
 
-		size_t minNumLength = std::min(thisBigIntBuffer.length(), tempBigIntBuffer.length());
+		size_t minNumLength = std::min(firstBuffer.length(), secondBuffer.length());
 
 		for (int index = 0; index < minNumLength; ++index) {
-			int num = (thisBigIntBuffer[thisBigIntBuffer.length() - 1 - index] - ASCII_INT_DIFFERENCE) + (tempBigIntBuffer[tempBigIntBuffer.length() - 1 - index] - ASCII_INT_DIFFERENCE) + memory;
+			int num = (firstBuffer[firstBuffer.length() - 1 - index] - ASCII_INT_DIFFERENCE) + (secondBuffer[secondBuffer.length() - 1 - index] - ASCII_INT_DIFFERENCE) + memory;
 
 			if (memory) {
 				memory = false;
@@ -32,21 +32,21 @@ namespace Big {
 				num -= 10;
 			}
 
-			thisBigIntBuffer[thisBigIntBuffer.length() - 1 - index] = num + ASCII_INT_DIFFERENCE;
+			firstBuffer[firstBuffer.length() - 1 - index] = num + ASCII_INT_DIFFERENCE;
 		}
 
-		if (thisBigIntBuffer.length() < tempBigIntBuffer.length()) {
-			thisBigIntBuffer.insert(0, tempBigIntBuffer.substr(0, tempBigIntBuffer.length() - thisBigIntBuffer.length()));
+		if (firstBuffer.length() < secondBuffer.length()) {
+			firstBuffer.insert(0, secondBuffer.substr(0, secondBuffer.length() - firstBuffer.length()));
 		}
 
 		while (memory) {
-			if (minNumLength == thisBigIntBuffer.length()) {
-				thisBigIntBuffer.insert(0, 1, '1');
+			if (minNumLength == firstBuffer.length()) {
+				firstBuffer.insert(0, 1, '1');
 				memory = false;
 				break;
 			}
 
-			int num = thisBigIntBuffer[thisBigIntBuffer.length() - 1 - minNumLength] - ASCII_INT_DIFFERENCE + memory;
+			int num = firstBuffer[firstBuffer.length() - 1 - minNumLength] - ASCII_INT_DIFFERENCE + memory;
 
 			if (memory) {
 				memory = false;
@@ -57,12 +57,12 @@ namespace Big {
 				num -= 10;
 			}
 
-			thisBigIntBuffer[thisBigIntBuffer.length() - 1 - minNumLength] = num + ASCII_INT_DIFFERENCE;
+			firstBuffer[firstBuffer.length() - 1 - minNumLength] = num + ASCII_INT_DIFFERENCE;
 
 			++minNumLength;
 		}
 
-		newBigInt.SetBuffer(thisBigIntBuffer);
+		newBigInt.SetBuffer(firstBuffer);
 
 		return newBigInt;
 	}
@@ -186,6 +186,47 @@ namespace Big {
 		}
 
 		newBigInt.SetBuffer(newBuffer);
+
+		return newBigInt;
+	}
+
+	BigInt BigInt::operator-(bool& memory) const {
+		BigInt newBigInt(this->ToString());
+
+		if (!memory)
+			return newBigInt;
+
+		int i = 0;
+		std::string buffer = newBigInt.m_Buffer.str();
+
+		while (memory) {
+			if (i == buffer.length() - 1) {
+				memory = false;
+				buffer.erase(0, 1);
+				break;
+			}
+
+			int num = buffer[buffer.length() - 1 - i] - ASCII_INT_DIFFERENCE - memory;
+
+			if (memory) {
+				memory = false;
+			}
+
+			if (num < 0) {
+				memory = true;
+				num += 10;
+			}
+
+			buffer[buffer.length() - 1 - i] = num + ASCII_INT_DIFFERENCE;
+
+			++i;
+		}
+
+		if (buffer.length() == 0) {
+			buffer.insert(0, 1, '0');
+		}
+
+		newBigInt.SetBuffer(buffer);
 
 		return newBigInt;
 	}

@@ -10,7 +10,7 @@ namespace Big {
 
 		BigInt m_IntegralPart;
 
-		void UpdateBuffer();
+		void SetBuffer(const std::string& buffer);
 
 		std::string GetFractionalPart() const;
 
@@ -20,6 +20,8 @@ namespace Big {
 		BigDouble(const std::string& buffer);
 
 		BigDouble operator+(const BigDouble& bigDouble) const;
+
+		BigDouble operator-(const BigDouble& bigDouble) const;
 
 		std::string ToString() const;
 	};

@@ -3,14 +3,16 @@
 #include "BigInt.h"
 
 namespace Big {
-	class BigDouble {
+	class BigDouble{
 	private:
 		std::stringstream m_Buffer;
 		std::string m_FractionalPart;
 
 		BigInt m_IntegralPart;
 
-		void UpdateBuffer();
+		bool m_IsNegative = false;
+
+		void SetBuffer(const std::string& buffer);
 
 		std::string GetFractionalPart() const;
 
@@ -20,6 +22,10 @@ namespace Big {
 		BigDouble(const std::string& buffer);
 
 		BigDouble operator+(const BigDouble& bigDouble) const;
+
+		BigDouble operator-(const BigDouble& bigDouble) const;
+
+		bool operator<(const BigDouble& bigDouble) const;
 
 		std::string ToString() const;
 	};

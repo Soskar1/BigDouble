@@ -2,13 +2,16 @@
 
 #include <string>
 #include <sstream>
+#include <algorithm>
 
 namespace Big {
 	class BigInt {
 	private:
-		std::stringstream m_Buffer;
+		std::stringstream m_IntegralBuffer;
 
-		void UpdateBuffer(const std::string& newBuffer);
+		bool m_IsNegative = false;
+
+		void SetBuffer(const std::string& newBuffer);
 	public:
 		BigInt();
 
@@ -17,6 +20,14 @@ namespace Big {
 		BigInt operator+(const BigInt& bigInt) const;
 
 		BigInt operator+(bool& memory) const;
+
+		BigInt operator-(const BigInt& bigInt) const;
+
+		BigInt operator-(bool& memory) const;
+
+		bool operator<(const BigInt& bigInt) const;
+
+		bool operator==(const BigInt& bigInt) const;
 
 		std::string ToString() const;
 	};

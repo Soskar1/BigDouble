@@ -177,10 +177,12 @@ namespace Big {
 		this->m_Buffer.str(std::string());
 		this->m_FractionalPart = buffer;
 
-		if (!m_IsNegative)
+		if (!m_IsNegative || this->m_IntegralPart.ToString()[0] == '-') {
 			this->m_Buffer << this->m_IntegralPart.ToString() << "." << this->m_FractionalPart;
-		else
+		}
+		else {
 			this->m_Buffer << "-" << this->m_IntegralPart.ToString() << "." << this->m_FractionalPart;
+		}
 	}
 
 	std::string BigDouble::ToString() const {

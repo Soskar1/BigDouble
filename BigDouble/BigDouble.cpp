@@ -106,6 +106,14 @@ namespace Big {
 			}
 
 			if (num < 0) {
+				if (CheckForZeros(index - 1)) {
+					num = -num;
+					newBigDouble.m_IsNegative = true;
+
+					newBuffer += num + ASCII_INT_DIFFERENCE;
+					break;
+				}
+
 				num += 10;
 				memory = true;
 			}
@@ -115,10 +123,13 @@ namespace Big {
 
 		std::reverse(newBuffer.begin(), newBuffer.end());
 
+		if (newBuffer.length() < secondFractionalPart.length()) {
+			newBuffer.insert(0, secondFractionalPart.substr(0, secondFractionalPart.length() - newBuffer.length()));
+;		}
+
 		newBigDouble.m_IntegralPart = this->m_IntegralPart - bigDouble.m_IntegralPart - memory;
 
 		newBigDouble.SetBuffer(newBuffer);
-
 		return newBigDouble;
 	}
 
@@ -126,10 +137,31 @@ namespace Big {
 		return m_FractionalPart;
 	}
 
+	bool BigDouble::CheckForZeros(int startIndex) const {
+		bool result = true;
+
+		for (int j = startIndex; j >= 0; --j) {
+			if (this->m_FractionalPart[j] != '0') {
+				result = false;
+				break;
+			}
+		}
+
+		if (this->m_IntegralPart.ToString().length() > 1 || this->m_IntegralPart.ToString()[0] != '0') {
+			result = false;
+		}
+
+		return result;
+	}
+
 	void BigDouble::SetBuffer(const std::string& buffer) {
 		m_Buffer.str(std::string());
 		this->m_FractionalPart = buffer;
-		m_Buffer << m_IntegralPart.ToString() << "." << this->m_FractionalPart;
+
+		if (!m_IsNegative)
+			m_Buffer << m_IntegralPart.ToString() << "." << this->m_FractionalPart;
+		else
+			m_Buffer << "-" << m_IntegralPart.ToString() << "." << this->m_FractionalPart;
 	}
 
 	std::string BigDouble::ToString() const {

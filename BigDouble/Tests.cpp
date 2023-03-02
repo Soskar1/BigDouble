@@ -103,4 +103,7 @@ void main() {
 	BigDoubleSubtractTest("0.973", "0.4", "0.573");
 	BigDoubleSubtractTest("1.5", "0.6", "0.9");
 	BigDoubleSubtractTest("1000.001", "0.002", "999.999");
+	BigDoubleSubtractTest("0.3", "0.7", "-0.4");
+	BigDoubleSubtractTest("0.01", "0.02", "-0.01");
+	BigDoubleSubtractTest("0.001", "0.01", "-0.009");
 }

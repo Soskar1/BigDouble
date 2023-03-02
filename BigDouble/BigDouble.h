@@ -10,9 +10,13 @@ namespace Big {
 
 		BigInt m_IntegralPart;
 
+		bool m_IsNegative = false;
+
 		void SetBuffer(const std::string& buffer);
 
 		std::string GetFractionalPart() const;
+
+		bool CheckForZeros(int startIndex) const;
 
 	public:
 		BigDouble();

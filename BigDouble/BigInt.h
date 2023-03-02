@@ -23,6 +23,8 @@ namespace Big {
 
 		BigInt operator-(bool& memory) const;
 
+		bool operator<(const BigInt& bigInt) const;
+
 		std::string ToString() const;
 	};
 }

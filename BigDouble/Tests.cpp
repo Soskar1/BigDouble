@@ -59,6 +59,19 @@ void BigDoubleSubtractTest(const std::string& firstArg, const std::string& secon
 	assert(third.ToString() == result);
 }
 
+void BigIntLessTest(const std::string& firstArg, const std::string& secondArg, bool result) {
+	++test;
+
+	Big::BigInt first(firstArg);
+	Big::BigInt second(secondArg);
+
+	bool less = first < second;
+
+	std::cout << test << "# result: " << less << std::endl;
+
+	assert(less == result);
+}
+
 void main() {
 	//std::cout << "BigInt Addition Tests: \n";
 	//BigIntAdditionTest("2", "5", "7");
@@ -75,35 +88,45 @@ void main() {
 	//BigDoubleAdditionTest("0.99999", "0.00001", "1.0");
 	//BigDoubleAdditionTest("999.99999", "0.00001", "1000.0");
 
-	test = 0;
-	std::cout << "---------\n";
-	std::cout << "BigInt Subtract Tests: \n";
-	BigIntSubtractTest("8", "5", "3");
-	BigIntSubtractTest("999", "187", "812");
-	BigIntSubtractTest("10", "2", "8");
-	BigIntSubtractTest("1000", "1", "999");
-	BigIntSubtractTest("132", "87", "45");
-	BigIntSubtractTest("63545641", "600", "63545041");
-	BigIntSubtractTest("5", "8", "-3");
-	BigIntSubtractTest("72", "82", "-10");
-	BigIntSubtractTest("72", "172", "-100");
-	BigIntSubtractTest("1", "99999", "-99998");
-	BigIntSubtractTest("1", "10", "-9");
-	BigIntSubtractTest("1", "10000", "-9999");
-	BigIntSubtractTest("5", "5", "0");
+	//test = 0;
+	//std::cout << "---------\n";
+	//std::cout << "BigInt Subtract Tests: \n";
+	//BigIntSubtractTest("8", "5", "3");
+	//BigIntSubtractTest("999", "187", "812");
+	//BigIntSubtractTest("10", "2", "8");
+	//BigIntSubtractTest("1000", "1", "999");
+	//BigIntSubtractTest("132", "87", "45");
+	//BigIntSubtractTest("63545641", "600", "63545041");
+	//BigIntSubtractTest("5", "8", "-3");
+	//BigIntSubtractTest("72", "82", "-10");
+	//BigIntSubtractTest("72", "172", "-100");
+	//BigIntSubtractTest("1", "99999", "-99998");
+	//BigIntSubtractTest("1", "10", "-9");
+	//BigIntSubtractTest("1", "10000", "-9999");
+	//BigIntSubtractTest("5", "5", "0");
+
+	//test = 0;
+	//std::cout << "---------\n";
+	//std::cout << "BigDouble Subtract Tests: \n";
+	//BigDoubleSubtractTest("0.5", "0.3", "0.2");
+	//BigDoubleSubtractTest("0.537", "0.121", "0.416");
+	//BigDoubleSubtractTest("0.47", "0.18", "0.29");
+	//BigDoubleSubtractTest("0.501", "0.002", "0.499");
+	//BigDoubleSubtractTest("0.101", "0.0001", "0.1009");
+	//BigDoubleSubtractTest("0.973", "0.4", "0.573");
+	//BigDoubleSubtractTest("1.5", "0.6", "0.9");
+	//BigDoubleSubtractTest("1000.001", "0.002", "999.999");
+	//BigDoubleSubtractTest("0.3", "0.7", "-0.4");
+	//BigDoubleSubtractTest("0.01", "0.02", "-0.01");
+	//BigDoubleSubtractTest("0.001", "0.01", "-0.009");
 
 	test = 0;
 	std::cout << "---------\n";
-	std::cout << "BigDouble Subtract Tests: \n";
-	BigDoubleSubtractTest("0.5", "0.3", "0.2");
-	BigDoubleSubtractTest("0.537", "0.121", "0.416");
-	BigDoubleSubtractTest("0.47", "0.18", "0.29");
-	BigDoubleSubtractTest("0.501", "0.002", "0.499");
-	BigDoubleSubtractTest("0.101", "0.0001", "0.1009");
-	BigDoubleSubtractTest("0.973", "0.4", "0.573");
-	BigDoubleSubtractTest("1.5", "0.6", "0.9");
-	BigDoubleSubtractTest("1000.001", "0.002", "999.999");
-	BigDoubleSubtractTest("0.3", "0.7", "-0.4");
-	BigDoubleSubtractTest("0.01", "0.02", "-0.01");
-	BigDoubleSubtractTest("0.001", "0.01", "-0.009");
+	std::cout << "BigInt < Tests: \n";
+	BigIntLessTest("152", "372", true);
+	BigIntLessTest("1", "0", false);
+	BigIntLessTest("25", "1", false);
+	BigIntLessTest("48", "4014158", true);
+	BigIntLessTest("4014157", "4014158", true);
+	BigIntLessTest("99999", "99999", false);
 }

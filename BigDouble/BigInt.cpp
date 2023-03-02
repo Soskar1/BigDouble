@@ -231,6 +231,23 @@ namespace Big {
 		return newBigInt;
 	}
 
+	bool BigInt::operator<(const BigInt& bigInt) const {
+		if (this->ToString().length() < bigInt.ToString().length())
+			return true;
+		else if (this->ToString().length() > bigInt.ToString().length())
+			return false;
+
+		std::string firstBuffer = this->ToString();
+		std::string secondBuffer = bigInt.ToString();
+
+		for (int index = 0; index < firstBuffer.length(); ++index) {
+			if (firstBuffer[index] < secondBuffer[index])
+				return true;
+		}
+
+		return false;
+	}
+
 	std::string BigInt::ToString() const {
 		return m_Buffer.str();
 	}

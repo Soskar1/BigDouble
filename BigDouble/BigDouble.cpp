@@ -133,6 +133,10 @@ namespace Big {
 		return newBigDouble;
 	}
 
+	bool BigDouble::operator<(const BigDouble& bigDouble) const {
+		return false;
+	}
+
 	std::string BigDouble::GetFractionalPart() const {
 		return m_FractionalPart;
 	}

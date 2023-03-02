@@ -248,6 +248,13 @@ namespace Big {
 		return false;
 	}
 
+	bool BigInt::operator==(const BigInt& bigInt) const {
+		if (this->ToString() == bigInt.ToString())
+			return true;
+
+		return false;
+	}
+
 	std::string BigInt::ToString() const {
 		return m_Buffer.str();
 	}

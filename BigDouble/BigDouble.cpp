@@ -134,6 +134,9 @@ namespace Big {
 	}
 
 	bool BigDouble::operator<(const BigDouble& bigDouble) const {
+		if (this->m_IntegralPart < bigDouble.m_IntegralPart)
+			return true;
+
 		return false;
 	}
 

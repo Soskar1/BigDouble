@@ -72,6 +72,19 @@ void BigIntLessTest(const std::string& firstArg, const std::string& secondArg, b
 	assert(less == result);
 }
 
+void BigIntEqualTest(const std::string& firstArg, const std::string& secondArg, bool result) {
+	++test;
+
+	Big::BigInt first(firstArg);
+	Big::BigInt second(secondArg);
+
+	bool equal = first == second;
+
+	std::cout << test << "# result: " << equal << std::endl;
+
+	assert(equal == result);
+}
+
 void main() {
 	//std::cout << "BigInt Addition Tests: \n";
 	//BigIntAdditionTest("2", "5", "7");
@@ -129,4 +142,12 @@ void main() {
 	BigIntLessTest("48", "4014158", true);
 	BigIntLessTest("4014157", "4014158", true);
 	BigIntLessTest("99999", "99999", false);
+
+	test = 0;
+	std::cout << "---------\n";
+	std::cout << "BigInt == Tests: \n";
+	BigIntEqualTest("100", "100", true);
+	BigIntEqualTest("1", "100", false);
+	BigIntEqualTest("14684", "100", false);
+
 }

@@ -4,11 +4,11 @@
 
 namespace Big {
 	BigInt::BigInt() {
-		m_Buffer.str(std::string());
+		m_IntegralBuffer.str(std::string());
 	}
 
 	BigInt::BigInt(const std::string& buffer) {
-		m_Buffer << buffer;
+		m_IntegralBuffer << buffer;
 	}
 
 	BigInt BigInt::operator+(const BigInt& bigInt) const {
@@ -74,7 +74,7 @@ namespace Big {
 			return newBigInt;
 
 		int i = 0;
-		std::string buffer = newBigInt.m_Buffer.str();
+		std::string buffer = newBigInt.m_IntegralBuffer.str();
 		
 		while (memory) {
 			if (i == buffer.length()) {
@@ -113,12 +113,11 @@ namespace Big {
 		std::string newBuffer;
 
 		bool memory = false;
-		bool isNegative = false;
 
 		size_t minNumLength = std::min(firstBuffer.length(), secondBuffer.length());
 
 		if (firstBuffer.length() < secondBuffer.length()) {
-			isNegative = true;
+			newBigInt.m_IsNegative = true;
 
 			std::string tmp = firstBuffer;
 			firstBuffer = secondBuffer;
@@ -135,7 +134,7 @@ namespace Big {
 			if (num < 0) {
 				if ((int)firstBuffer.length() - index - 2 < 0) {
 					num = -num;
-					isNegative = true;
+					newBigInt.m_IsNegative = true;
 
 					newBuffer += num + ASCII_INT_DIFFERENCE;
 					break;
@@ -178,11 +177,7 @@ namespace Big {
 		}
 		else if (minNumLength < secondBuffer.length()) {
 			newBuffer.insert(0, secondBuffer.substr(0, secondBuffer.length() - minNumLength));
-			isNegative = true;
-		}
-
-		if (isNegative) {
-			newBuffer.insert(0, 1, '-');
+			newBigInt.m_IsNegative = true;
 		}
 
 		newBigInt.SetBuffer(newBuffer);
@@ -197,7 +192,7 @@ namespace Big {
 			return newBigInt;
 
 		int i = 0;
-		std::string buffer = newBigInt.m_Buffer.str();
+		std::string buffer = newBigInt.m_IntegralBuffer.str();
 
 		while (memory) {
 			if (i == buffer.length() - 1) {
@@ -256,10 +251,17 @@ namespace Big {
 	}
 
 	std::string BigInt::ToString() const {
-		return m_Buffer.str();
+		return m_IntegralBuffer.str();
 	}
 
 	void BigInt::SetBuffer(const std::string& newBuffer) {
-		m_Buffer.str(newBuffer);
+		m_IntegralBuffer.str(std::string());
+
+		if (this->m_IsNegative) {
+			m_IntegralBuffer << "-" << newBuffer;
+		}
+		else {
+			m_IntegralBuffer << newBuffer;
+		}
 	}
 }

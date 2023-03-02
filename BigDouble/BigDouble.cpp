@@ -91,9 +91,20 @@ namespace Big {
 			maxFractionLength = secondFractionalPart.length();
 			firstFractionalPart.insert(firstFractionalPart.length(), maxFractionLength - firstFractionalPart.length(), '0');
 		}
-		else {
+		else if (firstFractionalPart.length() > secondFractionalPart.length()) {
 			maxFractionLength = firstFractionalPart.length();
 			secondFractionalPart.insert(secondFractionalPart.length(), maxFractionLength - secondFractionalPart.length(), '0');
+
+			if (*this < bigDouble) {
+				newBigDouble.m_IsNegative = true;
+
+				std::string tmp = firstFractionalPart;
+				firstFractionalPart = secondFractionalPart;
+				secondFractionalPart = tmp;
+			}
+		}
+		else {
+			maxFractionLength = firstFractionalPart.length();
 		}
 
 		bool memory = false;
@@ -106,7 +117,7 @@ namespace Big {
 			}
 
 			if (num < 0) {
-				if (CheckForZeros(index - 1)) {
+				if (!newBigDouble.m_IsNegative && *this < bigDouble) {
 					num = -num;
 					newBigDouble.m_IsNegative = true;
 
@@ -146,6 +157,8 @@ namespace Big {
 			for (int index = 0; index < minFractionSize; ++index) {
 				if (firstBuffer[index] < secondBuffer[index])
 					return true;
+				else if (firstBuffer[index] > secondBuffer[index])
+					return false;
 			}
 
 			if (firstBuffer.length() < secondBuffer.length()) {
@@ -157,37 +170,20 @@ namespace Big {
 	}
 
 	std::string BigDouble::GetFractionalPart() const {
-		return m_FractionalPart;
-	}
-
-	bool BigDouble::CheckForZeros(int startIndex) const {
-		bool result = true;
-
-		for (int j = startIndex; j >= 0; --j) {
-			if (this->m_FractionalPart[j] != '0') {
-				result = false;
-				break;
-			}
-		}
-
-		if (this->m_IntegralPart.ToString().length() > 1 || this->m_IntegralPart.ToString()[0] != '0') {
-			result = false;
-		}
-
-		return result;
+		return this->m_FractionalPart;
 	}
 
 	void BigDouble::SetBuffer(const std::string& buffer) {
-		m_Buffer.str(std::string());
+		this->m_Buffer.str(std::string());
 		this->m_FractionalPart = buffer;
 
 		if (!m_IsNegative)
-			m_Buffer << m_IntegralPart.ToString() << "." << this->m_FractionalPart;
+			this->m_Buffer << this->m_IntegralPart.ToString() << "." << this->m_FractionalPart;
 		else
-			m_Buffer << "-" << m_IntegralPart.ToString() << "." << this->m_FractionalPart;
+			this->m_Buffer << "-" << this->m_IntegralPart.ToString() << "." << this->m_FractionalPart;
 	}
 
 	std::string BigDouble::ToString() const {
-		return m_Buffer.str();
+		return this->m_Buffer.str();
 	}
 }

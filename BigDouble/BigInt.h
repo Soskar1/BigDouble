@@ -7,7 +7,9 @@
 namespace Big {
 	class BigInt {
 	private:
-		std::stringstream m_Buffer;
+		std::stringstream m_IntegralBuffer;
+
+		bool m_IsNegative = false;
 
 		void SetBuffer(const std::string& newBuffer);
 	public:

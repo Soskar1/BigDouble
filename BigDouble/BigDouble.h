@@ -3,7 +3,7 @@
 #include "BigInt.h"
 
 namespace Big {
-	class BigDouble {
+	class BigDouble{
 	private:
 		std::stringstream m_Buffer;
 		std::string m_FractionalPart;
@@ -15,8 +15,6 @@ namespace Big {
 		void SetBuffer(const std::string& buffer);
 
 		std::string GetFractionalPart() const;
-
-		bool CheckForZeros(int startIndex) const;
 
 	public:
 		BigDouble();

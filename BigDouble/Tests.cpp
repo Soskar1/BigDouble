@@ -72,6 +72,19 @@ void BigIntLessTest(const std::string& firstArg, const std::string& secondArg, b
 	assert(less == result);
 }
 
+void BigDoubleLessTest(const std::string& firstArg, const std::string& secondArg, bool result) {
+	++test;
+
+	Big::BigDouble first(firstArg);
+	Big::BigDouble second(secondArg);
+
+	bool less = first < second;
+
+	std::cout << test << "# result: " << less << std::endl;
+
+	assert(less == result);
+}
+
 void BigIntEqualTest(const std::string& firstArg, const std::string& secondArg, bool result) {
 	++test;
 
@@ -142,6 +155,16 @@ void main() {
 	BigIntLessTest("48", "4014158", true);
 	BigIntLessTest("4014157", "4014158", true);
 	BigIntLessTest("99999", "99999", false);
+
+	test = 0;
+	std::cout << "---------\n";
+	std::cout << "BigDouble < Tests: \n";
+	BigDoubleLessTest("2.0", "5.6", true);
+	BigDoubleLessTest("7.2", "5.6", false);
+	BigDoubleLessTest("777.2", "777.6", true);
+	BigDoubleLessTest("1.8468", "1.84681", true);
+	BigDoubleLessTest("1.8468", "1.845", false);
+	BigDoubleLessTest("1.8468", "1.846", false);
 
 	test = 0;
 	std::cout << "---------\n";

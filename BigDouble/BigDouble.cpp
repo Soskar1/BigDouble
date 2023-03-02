@@ -137,6 +137,22 @@ namespace Big {
 		if (this->m_IntegralPart < bigDouble.m_IntegralPart)
 			return true;
 
+		if (this->m_IntegralPart == bigDouble.m_IntegralPart) {
+			std::string firstBuffer = this->GetFractionalPart();
+			std::string secondBuffer = bigDouble.GetFractionalPart();
+
+			size_t minFractionSize = std::min(firstBuffer.length(), secondBuffer.length());
+
+			for (int index = 0; index < minFractionSize; ++index) {
+				if (firstBuffer[index] < secondBuffer[index])
+					return true;
+			}
+
+			if (firstBuffer.length() < secondBuffer.length()) {
+				return true;
+			}
+		}
+
 		return false;
 	}
 

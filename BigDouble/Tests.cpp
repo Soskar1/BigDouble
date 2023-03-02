@@ -146,6 +146,9 @@ void main() {
 	BigDoubleSubtractTest("0.01", "0.02", "-0.01");
 	BigDoubleSubtractTest("0.001", "0.01", "-0.009");
 	BigDoubleSubtractTest("7.7", "8.8", "-1.1");
+	BigDoubleSubtractTest("177.7", "188.8", "-11.1");
+	BigDoubleSubtractTest("5.7", "5.7", "0.0");
+	BigDoubleSubtractTest("1.0", "10000.1", "-9999.1");
 
 	//test = 0;
 	//std::cout << "---------\n";

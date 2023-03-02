@@ -116,7 +116,7 @@ namespace Big {
 
 		size_t minNumLength = std::min(firstBuffer.length(), secondBuffer.length());
 
-		if (firstBuffer.length() < secondBuffer.length()) {
+		if (firstBuffer.length() < secondBuffer.length() || *this < bigInt) {
 			newBigInt.m_IsNegative = true;
 
 			std::string tmp = firstBuffer;
@@ -178,6 +178,12 @@ namespace Big {
 		else if (minNumLength < secondBuffer.length()) {
 			newBuffer.insert(0, secondBuffer.substr(0, secondBuffer.length() - minNumLength));
 			newBigInt.m_IsNegative = true;
+		}
+
+		if (newBuffer.length() > 1) {
+			while (newBuffer[0] == '0') {
+				newBuffer.erase(0, 1);
+			}
 		}
 
 		newBigInt.SetBuffer(newBuffer);

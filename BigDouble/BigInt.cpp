@@ -306,6 +306,8 @@ namespace Big {
 			for (int index = 0; index < firstBuffer.length(); ++index) {
 				if (firstBuffer[index] > secondBuffer[index])
 					return true;
+				else if (firstBuffer[index] < secondBuffer[index])
+					return false;
 			}
 		}
 

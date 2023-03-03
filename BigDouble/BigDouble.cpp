@@ -197,6 +197,9 @@ namespace Big {
 				if (firstBuffer[index] > secondBuffer[index]) {
 					return true;
 				}
+				else if (firstBuffer[index] < secondBuffer[index]) {
+					return false;
+				}
 			}
 
 			if (firstBuffer.length() > minFractionSize)
@@ -220,14 +223,15 @@ namespace Big {
 	}
 
 	bool BigDouble::operator==(const BigDouble& bigDouble) const {
-		if (this->ToString() == bigDouble.ToString())
-			return true;
-
-		return false;
+		return this->ToString() == bigDouble.ToString();
 	}
 
 	bool BigDouble::operator<=(const BigDouble& bigDouble) const {
 		return (*this == bigDouble || *this < bigDouble);
+	}
+
+	bool BigDouble::operator>=(const BigDouble& bigDouble) const {
+		return (*this == bigDouble || *this > bigDouble);
 	}
 
 	std::string BigDouble::GetFractionalPart() const {

@@ -29,6 +29,8 @@ namespace Big {
 
 		bool operator<=(const BigDouble& bigDouble) const;
 
+		bool operator>=(const BigDouble& bigDouble) const;
+
 		bool operator==(const BigDouble& bigDouble) const;
 
 		std::string ToString() const;

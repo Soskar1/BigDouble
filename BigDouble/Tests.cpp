@@ -94,11 +94,11 @@ void BigIntGreaterTest(const std::string& firstArg, const std::string& secondArg
 	Big::BigInt first(firstArg);
 	Big::BigInt second(secondArg);
 
-	bool less = first > second;
+	bool greater = first > second;
 
-	fout << test << "# result: " << less << std::endl;
+	fout << test << "# result: " << greater << std::endl;
 
-	assert(less == result);
+	assert(greater == result);
 }
 
 void BigDoubleGreaterTest(const std::string& firstArg, const std::string& secondArg, bool result) {
@@ -107,11 +107,11 @@ void BigDoubleGreaterTest(const std::string& firstArg, const std::string& second
 	Big::BigDouble first(firstArg);
 	Big::BigDouble second(secondArg);
 
-	bool less = first > second;
+	bool greater = first > second;
 
-	fout << test << "# result: " << less << std::endl;
+	fout << test << "# result: " << greater << std::endl;
 
-	assert(less == result);
+	assert(greater == result);
 }
 
 void BigIntLessOrEqualTest(const std::string& firstArg, const std::string& secondArg, bool result) {
@@ -120,11 +120,11 @@ void BigIntLessOrEqualTest(const std::string& firstArg, const std::string& secon
 	Big::BigInt first(firstArg);
 	Big::BigInt second(secondArg);
 
-	bool less = first <= second;
+	bool lessOrEqual = first <= second;
 
-	fout << test << "# result: " << less << std::endl;
+	fout << test << "# result: " << lessOrEqual << std::endl;
 
-	assert(less == result);
+	assert(lessOrEqual == result);
 }
 
 void BigDoubleLessOrEqualTest(const std::string& firstArg, const std::string& secondArg, bool result) {
@@ -133,11 +133,11 @@ void BigDoubleLessOrEqualTest(const std::string& firstArg, const std::string& se
 	Big::BigDouble first(firstArg);
 	Big::BigDouble second(secondArg);
 
-	bool less = first <= second;
+	bool lessOrEqual = first <= second;
 
-	fout << test << "# result: " << less << std::endl;
+	fout << test << "# result: " << lessOrEqual << std::endl;
 
-	assert(less == result);
+	assert(lessOrEqual == result);
 }
 
 void BigIntEqualTest(const std::string& firstArg, const std::string& secondArg, bool result) {
@@ -172,11 +172,24 @@ void BigIntGreaterOrEqualTest(const std::string& firstArg, const std::string& se
 	Big::BigInt first(firstArg);
 	Big::BigInt second(secondArg);
 
-	bool equal = first >= second;
+	bool greaterOrEqual = first >= second;
 
-	fout << test << "# result: " << equal << std::endl;
+	fout << test << "# result: " << greaterOrEqual << std::endl;
 
-	assert(equal == result);
+	assert(greaterOrEqual == result);
+}
+
+void BigDoubleGreaterOrEqualTest(const std::string& firstArg, const std::string& secondArg, bool result) {
+	++test;
+
+	Big::BigDouble first(firstArg);
+	Big::BigDouble second(secondArg);
+
+	bool greaterOrEqual = first >= second;
+
+	fout << test << "# result: " << greaterOrEqual << std::endl;
+
+	assert(greaterOrEqual == result);
 }
 
 int main() {
@@ -286,12 +299,13 @@ int main() {
 	BigIntGreaterTest("23", "24", false);
 	BigIntGreaterTest("199870", "199869", true);
 	BigIntGreaterTest("-1", "1", false);
-	BigIntGreaterTest("1", "-1", true);
+	BigIntGreaterTest("1", "-1", true);	//10
 	BigIntGreaterTest("-4", "-8", true);
 	BigIntGreaterTest("-4", "-3", false);
 	BigIntGreaterTest("-208", "-3", false);
 	BigIntGreaterTest("-200978", "-200979", true);
 	BigIntGreaterTest("-1001", "-1001", false);
+	BigIntGreaterTest("51145", "51644", false);
 
 	test = 0;
 	fout << "---------\n";
@@ -378,6 +392,16 @@ int main() {
 	BigIntGreaterOrEqualTest("-164", "-181", true);
 	BigIntGreaterOrEqualTest("-16004", "-16001", false);
 	BigIntGreaterOrEqualTest("-16004", "-16011", true);
+
+	test = 0;
+	fout << "---------\n";
+	fout << "BigDouble >= Tests: \n";
+	BigDoubleGreaterOrEqualTest("0.0", "0.0", true);
+	BigDoubleGreaterOrEqualTest("5.0", "7.0", false);
+	BigDoubleGreaterOrEqualTest("51145.0", "51644.0", false);
+	BigDoubleGreaterOrEqualTest("0.51145", "0.51644", false);
+	BigDoubleGreaterOrEqualTest("-105.501", "-105.888", true);
+	BigDoubleGreaterOrEqualTest("-1.501", "0.78545", false);
 
 	fout.close();
 	return 0;

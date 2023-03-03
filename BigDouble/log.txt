@@ -81,6 +81,7 @@ BigInt > Tests:
 13# result: 0
 14# result: 1
 15# result: 0
+16# result: 0
 ---------
 BigDouble > Tests: 
 1# result: 1
@@ -155,3 +156,11 @@ BigInt >= Tests:
 5# result: 1
 6# result: 0
 7# result: 1
+---------
+BigDouble >= Tests: 
+1# result: 1
+2# result: 0
+3# result: 0
+4# result: 0
+5# result: 1
+6# result: 0

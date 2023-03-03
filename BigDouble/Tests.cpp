@@ -114,6 +114,19 @@ void BigDoubleGreaterTest(const std::string& firstArg, const std::string& second
 	assert(less == result);
 }
 
+void BigIntLessOrEqualTest(const std::string& firstArg, const std::string& secondArg, bool result) {
+	++test;
+
+	Big::BigInt first(firstArg);
+	Big::BigInt second(secondArg);
+
+	bool less = first <= second;
+
+	fout << test << "# result: " << less << std::endl;
+
+	assert(less == result);
+}
+
 void BigIntEqualTest(const std::string& firstArg, const std::string& secondArg, bool result) {
 	++test;
 
@@ -191,10 +204,13 @@ void main() {
 	BigIntLessTest("-1", "1", true);
 	BigIntLessTest("-1", "-2", false);
 	BigIntLessTest("-100", "-20", true);
-	BigIntLessTest("-100", "-101", false);
+	BigIntLessTest("-100", "-101", false); //10
 	BigIntLessTest("97800", "-97800", false);
 	BigIntLessTest("-97800", "-97800", false);
 	BigIntLessTest("-1970", "-1969", true);
+	BigIntLessTest("-16784068463455", "-16784168463451", false);
+	BigIntLessTest("16784068463455", "16784168463451", true);
+	BigIntLessTest("16784068463455", "10784168463451", false);
 
 	test = 0;
 	fout << "---------\n";
@@ -207,8 +223,10 @@ void main() {
 	BigDoubleLessTest("1.8468", "1.846", false);
 	BigDoubleLessTest("0.001", "0.01", true);
 	BigDoubleLessTest("0.47", "0.18", false);
+	BigDoubleLessTest("0.16784068463455", "0.10784168463451", false);
+	BigDoubleLessTest("0.16784068463455", "0.16784168463451", true); //10
 	BigDoubleLessTest("-1.0", "1.0", true);
-	BigDoubleLessTest("-1.0", "-2.0", false); //10
+	BigDoubleLessTest("-1.0", "-2.0", false);
 	BigDoubleLessTest("-1970.0", "-1969.0", true);
 	BigDoubleLessTest("-1.5", "-1.0", true);
 	BigDoubleLessTest("-1.5578", "-1.55781", false);
@@ -271,6 +289,24 @@ void main() {
 	BigIntEqualTest("100", "100", true);
 	BigIntEqualTest("1", "100", false);
 	BigIntEqualTest("14684", "100", false);
+	BigIntEqualTest("-105", "-105", true);
+	BigIntEqualTest("-105", "105", false);
+	BigIntEqualTest("105", "-105", false);
+
+	test = 0;
+	fout << "---------\n";
+	fout << "BigInt <= Tests: \n";
+	BigIntLessOrEqualTest("0", "0", true);
+	BigIntLessOrEqualTest("0", "1", true);
+	BigIntLessOrEqualTest("1", "0", false);
+	BigIntLessOrEqualTest("105", "105", true);
+	BigIntLessOrEqualTest("50", "105", true);
+	BigIntLessOrEqualTest("1068", "1067", false);
+	BigIntLessOrEqualTest("-1", "0", true);
+	BigIntLessOrEqualTest("0", "-1", false);
+	BigIntLessOrEqualTest("-1", "-1", true);
+	BigIntLessOrEqualTest("-16784168463455", "-16784168463451", true);
+	BigIntLessOrEqualTest("-16784068463455", "-16784168463451", false);
 
 	fout.close();
 }

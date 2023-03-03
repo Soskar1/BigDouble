@@ -256,6 +256,8 @@ namespace Big {
 			for (int index = 0; index < firstBuffer.length(); ++index) {
 				if (firstBuffer[index] < secondBuffer[index])
 					return true;
+				else if (firstBuffer[index] > secondBuffer[index])
+					return false;
 			}
 		}
 		else if (this->m_IsNegative && bigInt.m_IsNegative) {
@@ -267,6 +269,8 @@ namespace Big {
 			for (int index = 0; index < firstBuffer.length(); ++index) {
 				if (firstBuffer[index] > secondBuffer[index])
 					return true;
+				else if (firstBuffer[index] < secondBuffer[index])
+					return false;
 			}
 		}
 
@@ -310,6 +314,13 @@ namespace Big {
 
 	bool BigInt::operator==(const BigInt& bigInt) const {
 		if (this->ToString() == bigInt.ToString())
+			return true;
+
+		return false;
+	}
+
+	bool BigInt::operator<=(const BigInt& bigInt) const {
+		if (*this == bigInt || *this < bigInt)
 			return true;
 
 		return false;

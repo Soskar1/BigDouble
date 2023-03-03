@@ -35,6 +35,8 @@ namespace Big {
 
 		bool operator>(const BigInt& bigInt) const;
 
+		bool operator<=(const BigInt& bigInt) const;
+
 		bool operator==(const BigInt& bigInt) const;
 
 		std::string ToString() const;

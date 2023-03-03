@@ -5,6 +5,7 @@
 
 #include "BigDouble.h"
 #include "BigInt.h"
+#include "BigMath.h"
 
 std::ofstream fout("log.txt");
 
@@ -218,12 +219,50 @@ void BigDoubleNotEqualTest(const std::string& firstArg, const std::string& secon
 	assert(notEqual == result);
 }
 
+void BigIntUnaryMinusTest(const std::string& firstArg, const std::string& result) {
+	++test;
+
+	Big::BigInt first(firstArg);
+	Big::BigInt second;
+	second = -first;
+
+	fout << test << "# result: " << second.ToString() << std::endl;
+
+	assert(second.ToString() == result);
+}
+
+void BigMathIntAbs(const std::string& firstArg, const std::string& result) {
+	++test;
+
+	Big::BigInt first(firstArg);
+	Big::BigInt second;
+	second = Big::abs(first);
+
+	fout << test << "# result: " << second.ToString() << std::endl;
+
+	assert(second.ToString() == result);
+}
+
 int main() {
-	fout << "BigInt addition tests: \n";
+	fout << "BigInt + tests: \n";
 	BigIntAdditionTest("2", "5", "7");
-	//BigIntAdditionTest("7", "3", "10");
-	//BigIntAdditionTest("1999", "1", "2000");
-	//BigIntAdditionTest("999", "1", "1000");
+	BigIntAdditionTest("4", "1", "5");
+	BigIntAdditionTest("7", "3", "10");
+	BigIntAdditionTest("10", "8", "18");
+	BigIntAdditionTest("19", "8", "27");
+	BigIntAdditionTest("1999", "1", "2000");
+	BigIntAdditionTest("999", "1", "1000");
+	BigIntAdditionTest("658646351", "6842654", "665489005");
+	BigIntAdditionTest("5", "-3", "2");
+	BigIntAdditionTest("5", "-6", "-1");
+	BigIntAdditionTest("1354", "-6418", "-5064");
+	BigIntAdditionTest("1354631452", "-641865", "1353989587");
+	BigIntAdditionTest("-5", "6", "1");
+	BigIntAdditionTest("-107", "2000", "1893");
+	BigIntAdditionTest("-107894", "2000", "-105894");
+	BigIntAdditionTest("-5", "-4", "-9");
+	BigIntAdditionTest("-564", "-136", "-700");
+	BigIntAdditionTest("-84265", "-96514", "-180779");
 
 	//test = 0;
 	//fout << "---------\n";
@@ -234,22 +273,27 @@ int main() {
 	//BigDoubleAdditionTest("0.99999", "0.00001", "1.0");
 	//BigDoubleAdditionTest("999.99999", "0.00001", "1000.0");
 
-	//test = 0;
-	//fout << "---------\n";
-	//fout << "BigInt subtract tests: \n";
-	//BigIntSubtractTest("8", "5", "3");
-	//BigIntSubtractTest("999", "187", "812");
-	//BigIntSubtractTest("10", "2", "8");
-	//BigIntSubtractTest("1000", "1", "999");
-	//BigIntSubtractTest("132", "87", "45");
-	//BigIntSubtractTest("63545641", "600", "63545041");
-	//BigIntSubtractTest("5", "8", "-3");
-	//BigIntSubtractTest("72", "82", "-10");
-	//BigIntSubtractTest("72", "172", "-100");
-	//BigIntSubtractTest("1", "99999", "-99998");
-	//BigIntSubtractTest("1", "10", "-9");
-	//BigIntSubtractTest("1", "10000", "-9999");
-	//BigIntSubtractTest("5", "5", "0");
+	test = 0;
+	fout << "---------\n";
+	fout << "BigInt - tests: \n";
+	BigIntSubtractTest("8", "5", "3");
+	BigIntSubtractTest("7", "6", "1");
+	BigIntSubtractTest("10", "6", "4");
+	BigIntSubtractTest("25", "12", "13");
+	BigIntSubtractTest("25", "9", "16");
+	BigIntSubtractTest("999", "187", "812");
+	BigIntSubtractTest("1000", "1", "999");
+	BigIntSubtractTest("132", "87", "45");
+	BigIntSubtractTest("63545641", "600", "63545041");
+	BigIntSubtractTest("684625246842", "9894046894", "674731199948");
+	BigIntSubtractTest("5", "5", "0");
+	BigIntSubtractTest("5", "8", "-3");
+	BigIntSubtractTest("72", "82", "-10");
+	BigIntSubtractTest("72", "172", "-100");
+	BigIntSubtractTest("1", "99999", "-99998");
+	BigIntSubtractTest("1", "10", "-9");
+	BigIntSubtractTest("1", "10000", "-9999");
+	BigIntSubtractTest("68716542684", "89798286458908", "-89729569916224");
 
 	//test = 0;
 	//fout << "---------\n";
@@ -445,6 +489,20 @@ int main() {
 	BigDoubleNotEqualTest("3546512.0", "0.3546512", true);
 	BigDoubleNotEqualTest("-684.684", "684.684", true);
 	BigDoubleNotEqualTest("-104.000001", "-104.000001", false);
+
+	test = 0;
+	fout << "---------\n";
+	fout << "BigInt unary- Tests: \n";
+	BigIntUnaryMinusTest("1", "-1");
+	BigIntUnaryMinusTest("1876", "-1876");
+	BigIntUnaryMinusTest("-165", "165");
+	BigIntUnaryMinusTest("0", "0");
+
+	//test = 0;
+	//fout << "---------\n";
+	//fout << "BigMath abs BigInt Tests: \n";
+	//BigMathIntAbs("5", "5");
+	//BigMathIntAbs("158", "158");
 
 	fout.close();
 	return 0;

@@ -8,6 +8,7 @@ namespace Big {
 	class BigInt {
 	private:
 		std::stringstream m_IntegralBuffer;
+		std::string m_IntegralString;
 
 		bool m_IsNegative = false;
 

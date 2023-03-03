@@ -12,6 +12,12 @@ namespace Big {
 		bool m_IsNegative = false;
 
 		void SetBuffer(const std::string& newBuffer);
+
+		bool GetIsNegative() const;
+
+		void SetIsNegative(const bool& value);
+
+		friend class BigDouble;
 	public:
 		BigInt();
 

@@ -9,6 +9,12 @@ namespace Big {
 
 	BigInt::BigInt(const std::string& buffer) {
 		m_IntegralBuffer << buffer;
+
+		if (buffer.length() > 0) {
+			if (buffer[0] == '-') {
+				m_IsNegative = true;
+			}
+		}
 	}
 
 	BigInt BigInt::operator+(const BigInt& bigInt) const {
@@ -233,17 +239,35 @@ namespace Big {
 	}
 
 	bool BigInt::operator<(const BigInt& bigInt) const {
-		if (this->ToString().length() < bigInt.ToString().length())
+		if (this->m_IsNegative && !bigInt.m_IsNegative)
 			return true;
-		else if (this->ToString().length() > bigInt.ToString().length())
+		else if (!this->m_IsNegative && bigInt.m_IsNegative)
 			return false;
 
 		std::string firstBuffer = this->ToString();
 		std::string secondBuffer = bigInt.ToString();
 
-		for (int index = 0; index < firstBuffer.length(); ++index) {
-			if (firstBuffer[index] < secondBuffer[index])
+		if (!this->m_IsNegative && !bigInt.m_IsNegative) {
+			if (firstBuffer.length() < secondBuffer.length())
 				return true;
+			else if (firstBuffer.length() > secondBuffer.length())
+				return false;
+
+			for (int index = 0; index < firstBuffer.length(); ++index) {
+				if (firstBuffer[index] < secondBuffer[index])
+					return true;
+			}
+		}
+		else if (this->m_IsNegative && bigInt.m_IsNegative) {
+			if (firstBuffer.length() < secondBuffer.length())
+				return false;
+			else if (firstBuffer.length() > secondBuffer.length())
+				return true;
+
+			for (int index = 0; index < firstBuffer.length(); ++index) {
+				if (firstBuffer[index] > secondBuffer[index])
+					return true;
+			}
 		}
 
 		return false;
@@ -269,5 +293,15 @@ namespace Big {
 		else {
 			m_IntegralBuffer << newBuffer;
 		}
+	}
+
+	bool BigInt::GetIsNegative() const {
+		return this->m_IsNegative;
+	}
+
+	void BigInt::SetIsNegative(const bool& value) {
+		this->m_IsNegative = value;
+
+		this->SetBuffer(this->m_IntegralBuffer.str());
 	}
 }

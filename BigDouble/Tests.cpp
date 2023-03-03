@@ -127,6 +127,19 @@ void BigIntLessOrEqualTest(const std::string& firstArg, const std::string& secon
 	assert(less == result);
 }
 
+void BigDoubleLessOrEqualTest(const std::string& firstArg, const std::string& secondArg, bool result) {
+	++test;
+
+	Big::BigDouble first(firstArg);
+	Big::BigDouble second(secondArg);
+
+	bool less = first <= second;
+
+	fout << test << "# result: " << less << std::endl;
+
+	assert(less == result);
+}
+
 void BigIntEqualTest(const std::string& firstArg, const std::string& secondArg, bool result) {
 	++test;
 
@@ -330,6 +343,17 @@ int main() {
 	BigIntLessOrEqualTest("-1", "-1", true);
 	BigIntLessOrEqualTest("-16784168463455", "-16784168463451", true);
 	BigIntLessOrEqualTest("-16784068463455", "-16784168463451", false);
+
+	test = 0;
+	fout << "---------\n";
+	fout << "BigDouble <= Tests: \n";
+	BigDoubleLessOrEqualTest("0.0", "0.0", true);
+	BigDoubleLessOrEqualTest("1.0", "0.0", false);
+	BigDoubleLessOrEqualTest("6854.0", "9999.0", true);
+	BigDoubleLessOrEqualTest("0.801", "0.8", false);
+	BigDoubleLessOrEqualTest("0.801", "1.8", true);
+	BigDoubleLessOrEqualTest("-16784168463455.16784168463451", "-16784168463451.16784168463451", true);
+	BigDoubleLessOrEqualTest("-15641.1354", "-15641.136", false);
 
 	fout.close();
 	return 0;

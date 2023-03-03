@@ -226,6 +226,10 @@ namespace Big {
 		return false;
 	}
 
+	bool BigDouble::operator<=(const BigDouble& bigDouble) const {
+		return (*this == bigDouble || *this < bigDouble);
+	}
+
 	std::string BigDouble::GetFractionalPart() const {
 		return this->m_FractionalPart;
 	}

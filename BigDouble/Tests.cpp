@@ -140,7 +140,20 @@ void BigIntEqualTest(const std::string& firstArg, const std::string& secondArg, 
 	assert(equal == result);
 }
 
-void main() {
+void BigDoubleEqualTest(const std::string& firstArg, const std::string& secondArg, bool result) {
+	++test;
+
+	Big::BigDouble first(firstArg);
+	Big::BigDouble second(secondArg);
+
+	bool equal = first == second;
+
+	fout << test << "# result: " << equal << std::endl;
+
+	assert(equal == result);
+}
+
+int main() {
 	fout << "BigInt addition tests: \n";
 	BigIntAdditionTest("2", "5", "7");
 	BigIntAdditionTest("7", "3", "10");
@@ -295,6 +308,16 @@ void main() {
 
 	test = 0;
 	fout << "---------\n";
+	fout << "BigDouble == Tests: \n";
+	BigDoubleEqualTest("0.0", "0.0", true);
+	BigDoubleEqualTest("1.0", "2.0", false);
+	BigDoubleEqualTest("1.0", "1.1", false);
+	BigDoubleEqualTest("1.1654", "1.1654", true);
+	BigDoubleEqualTest("-864.1586", "864.1586", false);
+	BigDoubleEqualTest("0.001", "0.1", false);
+
+	test = 0;
+	fout << "---------\n";
 	fout << "BigInt <= Tests: \n";
 	BigIntLessOrEqualTest("0", "0", true);
 	BigIntLessOrEqualTest("0", "1", true);
@@ -309,4 +332,5 @@ void main() {
 	BigIntLessOrEqualTest("-16784068463455", "-16784168463451", false);
 
 	fout.close();
+	return 0;
 }

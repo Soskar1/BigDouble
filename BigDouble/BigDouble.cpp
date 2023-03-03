@@ -219,6 +219,13 @@ namespace Big {
 		return false;
 	}
 
+	bool BigDouble::operator==(const BigDouble& bigDouble) const {
+		if (this->ToString() == bigDouble.ToString())
+			return true;
+
+		return false;
+	}
+
 	std::string BigDouble::GetFractionalPart() const {
 		return this->m_FractionalPart;
 	}

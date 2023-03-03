@@ -273,6 +273,41 @@ namespace Big {
 		return false;
 	}
 
+	bool BigInt::operator>(const BigInt& bigInt) const {
+		if (this->m_IsNegative && !bigInt.m_IsNegative)
+			return false;
+		else if (!this->m_IsNegative && bigInt.m_IsNegative)
+			return true;
+
+		std::string firstBuffer = this->ToString();
+		std::string secondBuffer = bigInt.ToString();
+
+		if (this->m_IsNegative && bigInt.m_IsNegative) {
+			if (firstBuffer.length() > secondBuffer.length())
+				return false;
+			else if (firstBuffer.length() < secondBuffer.length())
+				return true;
+
+			for (int index = 0; index < firstBuffer.length(); ++index) {
+				if (firstBuffer[index] < secondBuffer[index])
+					return true;
+			}
+		}
+		else if (!this->m_IsNegative && !bigInt.m_IsNegative) {
+			if (firstBuffer.length() > secondBuffer.length())
+				return true;
+			else if (firstBuffer.length() < secondBuffer.length())
+				return false;
+
+			for (int index = 0; index < firstBuffer.length(); ++index) {
+				if (firstBuffer[index] > secondBuffer[index])
+					return true;
+			}
+		}
+
+		return false;
+	}
+
 	bool BigInt::operator==(const BigInt& bigInt) const {
 		if (this->ToString() == bigInt.ToString())
 			return true;

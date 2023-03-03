@@ -88,6 +88,19 @@ void BigDoubleLessTest(const std::string& firstArg, const std::string& secondArg
 	assert(less == result);
 }
 
+void BigIntGreaterTest(const std::string& firstArg, const std::string& secondArg, bool result) {
+	++test;
+
+	Big::BigInt first(firstArg);
+	Big::BigInt second(secondArg);
+
+	bool less = first > second;
+
+	fout << test << "# result: " << less << std::endl;
+
+	assert(less == result);
+}
+
 void BigIntEqualTest(const std::string& firstArg, const std::string& secondArg, bool result) {
 	++test;
 
@@ -190,6 +203,25 @@ void main() {
 	BigDoubleLessTest("-1.00001", "-1.000001", true);
 	BigDoubleLessTest("0.47", "-0.18", false);
 	BigDoubleLessTest("0.0", "0.0", false);
+
+	test = 0;
+	fout << "---------\n";
+	fout << "BigInt > Tests: \n";
+	BigIntGreaterTest("8", "2", true);
+	BigIntGreaterTest("2", "8", false);
+	BigIntGreaterTest("12", "8", true);
+	BigIntGreaterTest("8", "12", false);
+	BigIntGreaterTest("24", "23", true);
+	BigIntGreaterTest("23", "23", false);
+	BigIntGreaterTest("23", "24", false);
+	BigIntGreaterTest("199870", "199869", true);
+	BigIntGreaterTest("-1", "1", false);
+	BigIntGreaterTest("1", "-1", true);
+	BigIntGreaterTest("-4", "-8", true);
+	BigIntGreaterTest("-4", "-3", false);
+	BigIntGreaterTest("-208", "-3", false);
+	BigIntGreaterTest("-200978", "-200979", true);
+	BigIntGreaterTest("-1001", "-1001", false);
 
 	test = 0;
 	fout << "---------\n";

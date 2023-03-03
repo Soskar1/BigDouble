@@ -4,28 +4,6 @@ BigInt addition tests:
 3# result: 2000
 4# result: 1000
 ---------
-BigDouble addition tests: 
-1# result: 0.7
-2# result: 0.102
-3# result: 1.05
-4# result: 1.0
-5# result: 1000.0
----------
-BigInt subtract tests: 
-1# result: 3
-2# result: 812
-3# result: 8
-4# result: 999
-5# result: 45
-6# result: 63545041
-7# result: -3
-8# result: -10
-9# result: -100
-10# result: -99998
-11# result: -9
-12# result: -9999
-13# result: 0
----------
 BigInt < Tests: 
 1# result: 1
 2# result: 0
@@ -164,3 +142,9 @@ BigDouble >= Tests:
 4# result: 0
 5# result: 1
 6# result: 0
+---------
+BigInt != Tests: 
+1# result: 1
+2# result: 0
+3# result: 1
+4# result: 0

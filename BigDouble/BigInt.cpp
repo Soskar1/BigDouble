@@ -322,6 +322,10 @@ namespace Big {
 		return this->ToString() == bigInt.ToString();
 	}
 
+	bool BigInt::operator!=(const BigInt& bigInt) const {
+		return this->ToString() != bigInt.ToString();
+	}
+
 	bool BigInt::operator>=(const BigInt& bigInt) const {
 		return (*this == bigInt || *this > bigInt);
 	}

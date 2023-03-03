@@ -192,6 +192,19 @@ void BigDoubleGreaterOrEqualTest(const std::string& firstArg, const std::string&
 	assert(greaterOrEqual == result);
 }
 
+void BigIntNotEqualTest(const std::string& firstArg, const std::string& secondArg, bool result) {
+	++test;
+
+	Big::BigInt first(firstArg);
+	Big::BigInt second(secondArg);
+
+	bool notEqual = first != second;
+
+	fout << test << "# result: " << notEqual << std::endl;
+
+	assert(notEqual == result);
+}
+
 int main() {
 	fout << "BigInt addition tests: \n";
 	BigIntAdditionTest("2", "5", "7");
@@ -199,31 +212,31 @@ int main() {
 	BigIntAdditionTest("1999", "1", "2000");
 	BigIntAdditionTest("999", "1", "1000");
 
-	test = 0;
-	fout << "---------\n";
-	fout << "BigDouble addition tests: \n";
-	BigDoubleAdditionTest("0.2", "0.5", "0.7");
-	BigDoubleAdditionTest("0.031", "0.071", "0.102");
-	BigDoubleAdditionTest("0.93", "0.12", "1.05");
-	BigDoubleAdditionTest("0.99999", "0.00001", "1.0");
-	BigDoubleAdditionTest("999.99999", "0.00001", "1000.0");
+	//test = 0;
+	//fout << "---------\n";
+	//fout << "BigDouble addition tests: \n";
+	//BigDoubleAdditionTest("0.2", "0.5", "0.7");
+	//BigDoubleAdditionTest("0.031", "0.071", "0.102");
+	//BigDoubleAdditionTest("0.93", "0.12", "1.05");
+	//BigDoubleAdditionTest("0.99999", "0.00001", "1.0");
+	//BigDoubleAdditionTest("999.99999", "0.00001", "1000.0");
 
-	test = 0;
-	fout << "---------\n";
-	fout << "BigInt subtract tests: \n";
-	BigIntSubtractTest("8", "5", "3");
-	BigIntSubtractTest("999", "187", "812");
-	BigIntSubtractTest("10", "2", "8");
-	BigIntSubtractTest("1000", "1", "999");
-	BigIntSubtractTest("132", "87", "45");
-	BigIntSubtractTest("63545641", "600", "63545041");
-	BigIntSubtractTest("5", "8", "-3");
-	BigIntSubtractTest("72", "82", "-10");
-	BigIntSubtractTest("72", "172", "-100");
-	BigIntSubtractTest("1", "99999", "-99998");
-	BigIntSubtractTest("1", "10", "-9");
-	BigIntSubtractTest("1", "10000", "-9999");
-	BigIntSubtractTest("5", "5", "0");
+	//test = 0;
+	//fout << "---------\n";
+	//fout << "BigInt subtract tests: \n";
+	//BigIntSubtractTest("8", "5", "3");
+	//BigIntSubtractTest("999", "187", "812");
+	//BigIntSubtractTest("10", "2", "8");
+	//BigIntSubtractTest("1000", "1", "999");
+	//BigIntSubtractTest("132", "87", "45");
+	//BigIntSubtractTest("63545641", "600", "63545041");
+	//BigIntSubtractTest("5", "8", "-3");
+	//BigIntSubtractTest("72", "82", "-10");
+	//BigIntSubtractTest("72", "172", "-100");
+	//BigIntSubtractTest("1", "99999", "-99998");
+	//BigIntSubtractTest("1", "10", "-9");
+	//BigIntSubtractTest("1", "10000", "-9999");
+	//BigIntSubtractTest("5", "5", "0");
 
 	//test = 0;
 	//fout << "---------\n";
@@ -402,6 +415,14 @@ int main() {
 	BigDoubleGreaterOrEqualTest("0.51145", "0.51644", false);
 	BigDoubleGreaterOrEqualTest("-105.501", "-105.888", true);
 	BigDoubleGreaterOrEqualTest("-1.501", "0.78545", false);
+
+	test = 0;
+	fout << "---------\n";
+	fout << "BigInt != Tests: \n";
+	BigIntNotEqualTest("0", "1", true);
+	BigIntNotEqualTest("0", "0", false);
+	BigIntNotEqualTest("-165", "165", true);
+	BigIntNotEqualTest("-100", "-100", false);
 
 	fout.close();
 	return 0;

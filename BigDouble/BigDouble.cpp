@@ -183,6 +183,42 @@ namespace Big {
 		return false;
 	}
 
+	bool BigDouble::operator>(const BigDouble& bigDouble) const {
+		if (this->m_IntegralPart > bigDouble.m_IntegralPart)
+			return true;
+
+		std::string firstBuffer = this->GetFractionalPart();
+		std::string secondBuffer = bigDouble.GetFractionalPart();
+
+		size_t minFractionSize = std::min(firstBuffer.length(), secondBuffer.length());
+
+		if (!this->m_IntegralPart.m_IsNegative && !bigDouble.m_IntegralPart.m_IsNegative) {
+			for (int index = 0; index < minFractionSize; ++index) {
+				if (firstBuffer[index] > secondBuffer[index]) {
+					return true;
+				}
+			}
+
+			if (firstBuffer.length() > minFractionSize)
+				return true;
+		}
+		else if (this->m_IntegralPart.m_IsNegative && bigDouble.m_IntegralPart.m_IsNegative) {
+			for (int index = 0; index < minFractionSize; ++index) {
+				if (firstBuffer[index] < secondBuffer[index]) {
+					return true;
+				}
+				else if (firstBuffer[index] > secondBuffer[index]) {
+					return false;
+				}
+			}
+
+			if (firstBuffer.length() < minFractionSize)
+				return true;
+		}
+
+		return false;
+	}
+
 	std::string BigDouble::GetFractionalPart() const {
 		return this->m_FractionalPart;
 	}

@@ -50,6 +50,33 @@ BigInt > Tests:
 14# result: 1
 15# result: 0
 ---------
+BigDouble > Tests: 
+1# result: 1
+2# result: 0
+3# result: 1
+4# result: 0
+5# result: 1
+6# result: 0
+7# result: 1
+8# result: 0
+9# result: 1
+10# result: 0
+11# result: 0
+12# result: 1
+13# result: 0
+14# result: 0
+15# result: 1
+16# result: 0
+17# result: 0
+18# result: 1
+19# result: 1
+20# result: 1
+21# result: 1
+22# result: 0
+23# result: 1
+24# result: 0
+25# result: 1
+---------
 BigInt == Tests: 
 1# result: 1
 2# result: 0

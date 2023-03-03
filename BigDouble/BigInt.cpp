@@ -313,17 +313,15 @@ namespace Big {
 	}
 
 	bool BigInt::operator<=(const BigInt& bigInt) const {
-		if (*this == bigInt || *this < bigInt)
-			return true;
-
-		return false;
+		return (*this == bigInt || *this < bigInt);
 	}
 
 	bool BigInt::operator==(const BigInt& bigInt) const {
-		if (this->ToString() == bigInt.ToString())
-			return true;
+		return this->ToString() == bigInt.ToString();
+	}
 
-		return false;
+	bool BigInt::operator>=(const BigInt& bigInt) const {
+		return (*this == bigInt || *this > bigInt);
 	}
 
 	std::string BigInt::ToString() const {

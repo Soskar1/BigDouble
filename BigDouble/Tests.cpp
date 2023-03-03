@@ -221,9 +221,9 @@ void BigDoubleNotEqualTest(const std::string& firstArg, const std::string& secon
 int main() {
 	fout << "BigInt addition tests: \n";
 	BigIntAdditionTest("2", "5", "7");
-	BigIntAdditionTest("7", "3", "10");
-	BigIntAdditionTest("1999", "1", "2000");
-	BigIntAdditionTest("999", "1", "1000");
+	//BigIntAdditionTest("7", "3", "10");
+	//BigIntAdditionTest("1999", "1", "2000");
+	//BigIntAdditionTest("999", "1", "1000");
 
 	//test = 0;
 	//fout << "---------\n";

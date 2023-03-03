@@ -1,5 +1,42 @@
-BigInt addition tests: 
+BigInt + tests: 
 1# result: 7
+2# result: 5
+3# result: 10
+4# result: 18
+5# result: 27
+6# result: 2000
+7# result: 1000
+8# result: 665489005
+9# result: 2
+10# result: -1
+11# result: -5064
+12# result: 1353989587
+13# result: 1
+14# result: 1893
+15# result: -105894
+16# result: -9
+17# result: -700
+18# result: -180779
+---------
+BigInt - tests: 
+1# result: 3
+2# result: 1
+3# result: 4
+4# result: 13
+5# result: 16
+6# result: 812
+7# result: 999
+8# result: 45
+9# result: 63545041
+10# result: 674731199948
+11# result: 0
+12# result: -3
+13# result: -10
+14# result: -100
+15# result: -99998
+16# result: -9
+17# result: -9999
+18# result: -89729569916224
 ---------
 BigInt < Tests: 
 1# result: 1
@@ -153,4 +190,8 @@ BigDouble != Tests:
 4# result: 1
 5# result: 0
 ---------
-BigInt = Tests: 
+BigInt unary- Tests: 
+1# result: -1
+2# result: -1876
+3# result: 165
+4# result: 0

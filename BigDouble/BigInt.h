@@ -32,6 +32,8 @@ namespace Big {
 
 		BigInt operator-(bool& memory) const;
 
+		BigInt operator-() const;
+
 		bool operator<(const BigInt& bigInt) const;
 
 		bool operator>(const BigInt& bigInt) const;

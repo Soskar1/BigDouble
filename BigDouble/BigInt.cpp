@@ -9,66 +9,83 @@ namespace Big {
 
 	BigInt::BigInt(const std::string& buffer) {
 		m_IntegralBuffer << buffer;
+		m_IntegralString = buffer;
 
-		if (buffer.length() > 0) {
-			if (buffer[0] == '-') {
+		if (m_IntegralString.length() > 0) {
+			if (m_IntegralString[0] == '-') {
 				m_IsNegative = true;
+				m_IntegralString.erase(0, 1);
 			}
 		}
 	}
 
 	BigInt BigInt::operator+(const BigInt& bigInt) const {
 		BigInt newBigInt;
+
+		if (this->m_IsNegative && !bigInt.m_IsNegative) {
+			newBigInt = bigInt - *this;
+			return newBigInt;
+		}
+		else if (!this->m_IsNegative && bigInt.m_IsNegative) {
+			newBigInt = *this - bigInt;
+			return newBigInt;
+		}
+		else if (this->m_IsNegative && bigInt.m_IsNegative) {
+			newBigInt.SetIsNegative(true);
+		}
+
+		std::string firstBuffer = this->m_IntegralString;
+		std::string secondBuffer = bigInt.m_IntegralString;
+
+		std::string newBuffer;
+
 		bool memory = false;
 
-		std::string firstBuffer = this->ToString();
-		std::string secondBuffer = bigInt.ToString();
+		size_t minNumberSize = std::min(firstBuffer.length(), secondBuffer.length());
 
-		size_t minNumLength = std::min(firstBuffer.length(), secondBuffer.length());
-
-		for (int index = 0; index < minNumLength; ++index) {
-			int num = (firstBuffer[firstBuffer.length() - 1 - index] - ASCII_INT_DIFFERENCE) + (secondBuffer[secondBuffer.length() - 1 - index] - ASCII_INT_DIFFERENCE) + memory;
+		for (int index = 0; index < minNumberSize; ++index) {
+			int num = (firstBuffer[firstBuffer.length() - index - 1] - ASCII_INT_DIFFERENCE) + (secondBuffer[secondBuffer.length() - index - 1] - ASCII_INT_DIFFERENCE) + memory;
 
 			if (memory) {
 				memory = false;
 			}
 
 			if (num >= 10) {
-				memory = true;
 				num -= 10;
+				memory = true;
 			}
 
-			firstBuffer[firstBuffer.length() - 1 - index] = num + ASCII_INT_DIFFERENCE;
-		}
-
-		if (firstBuffer.length() < secondBuffer.length()) {
-			firstBuffer.insert(0, secondBuffer.substr(0, secondBuffer.length() - firstBuffer.length()));
+			newBuffer += num + ASCII_INT_DIFFERENCE;
 		}
 
 		while (memory) {
-			if (minNumLength == firstBuffer.length()) {
-				firstBuffer.insert(0, 1, '1');
+			if (newBuffer.length() == firstBuffer.length()) {
+				newBuffer += '1';
 				memory = false;
 				break;
 			}
 
-			int num = firstBuffer[firstBuffer.length() - 1 - minNumLength] - ASCII_INT_DIFFERENCE + memory;
+			int num = firstBuffer[firstBuffer.length() - newBuffer.length() - 1] - ASCII_INT_DIFFERENCE + memory;
 
 			if (memory) {
 				memory = false;
 			}
 
 			if (num >= 10) {
-				memory = true;
 				num -= 10;
+				memory = true;
 			}
 
-			firstBuffer[firstBuffer.length() - 1 - minNumLength] = num + ASCII_INT_DIFFERENCE;
-
-			++minNumLength;
+			newBuffer += num + ASCII_INT_DIFFERENCE;
 		}
 
-		newBigInt.SetBuffer(firstBuffer);
+		std::reverse(newBuffer.begin(), newBuffer.end());
+
+		if (newBuffer.length() < firstBuffer.length()) {
+			newBuffer.insert(0, firstBuffer.substr(0, firstBuffer.length() - newBuffer.length()));
+		}
+
+		newBigInt.SetBuffer(newBuffer);
 
 		return newBigInt;
 	}
@@ -113,24 +130,35 @@ namespace Big {
 	BigInt BigInt::operator-(const BigInt& bigInt) const {
 		BigInt newBigInt;
 
-		std::string firstBuffer = this->ToString();
-		std::string secondBuffer = bigInt.ToString();
+		std::string firstBuffer = this->m_IntegralString;
+		std::string secondBuffer = bigInt.m_IntegralString;
 
 		std::string newBuffer;
 
 		bool memory = false;
 
-		size_t minNumLength = std::min(firstBuffer.length(), secondBuffer.length());
+		BigInt tmp1(this->ToString());
+		BigInt tmp2(bigInt.ToString());
 
-		if (firstBuffer.length() < secondBuffer.length() || *this < bigInt) {
-			newBigInt.m_IsNegative = true;
+		if (tmp1.m_IsNegative) {
+			tmp1 = -tmp1;
+		}
 
+		if (tmp2.m_IsNegative) {
+			tmp2 = -tmp2;
+		}
+
+		if (tmp1 < tmp2) {
 			std::string tmp = firstBuffer;
 			firstBuffer = secondBuffer;
 			secondBuffer = tmp;
+
+			newBigInt.SetIsNegative(true);
 		}
 
-		for (int index = 0; index < minNumLength; ++index) {
+		size_t minNumberSize = std::min(firstBuffer.length(), secondBuffer.length());
+
+		for (int index = 0; index < minNumberSize; ++index) {
 			int num = (firstBuffer[firstBuffer.length() - index - 1] - ASCII_INT_DIFFERENCE) - (secondBuffer[secondBuffer.length() - index - 1] - ASCII_INT_DIFFERENCE) - memory;
 
 			if (memory) {
@@ -138,14 +166,6 @@ namespace Big {
 			}
 
 			if (num < 0) {
-				if ((int)firstBuffer.length() - index - 2 < 0) {
-					num = -num;
-					newBigInt.m_IsNegative = true;
-
-					newBuffer += num + ASCII_INT_DIFFERENCE;
-					break;
-				}
-
 				num += 10;
 				memory = true;
 			}
@@ -154,46 +174,31 @@ namespace Big {
 		}
 
 		while (memory) {
-			if (minNumLength == firstBuffer.length() - 1) {
-				memory = false;
-				firstBuffer.erase(0, 1);
-				break;
-			}
-
-			int num = firstBuffer[firstBuffer.length() - 1 - minNumLength] - ASCII_INT_DIFFERENCE - memory;
+			int num = firstBuffer[firstBuffer.length() - newBuffer.length() - 1] - ASCII_INT_DIFFERENCE - memory;
 
 			if (memory) {
 				memory = false;
 			}
 
 			if (num < 0) {
-				memory = true;
 				num += 10;
+				memory = true;
 			}
 
 			newBuffer += num + ASCII_INT_DIFFERENCE;
-
-			++minNumLength;
 		}
-
+		
 		std::reverse(newBuffer.begin(), newBuffer.end());
 
-		if (minNumLength < firstBuffer.length()) {
-			newBuffer.insert(0, firstBuffer.substr(0, firstBuffer.length() - minNumLength));
-		}
-		else if (minNumLength < secondBuffer.length()) {
-			newBuffer.insert(0, secondBuffer.substr(0, secondBuffer.length() - minNumLength));
-			newBigInt.m_IsNegative = true;
+		if (newBuffer.length() < firstBuffer.length()) {
+			newBuffer.insert(0, firstBuffer.substr(0, firstBuffer.length() - newBuffer.length()));
 		}
 
-		if (newBuffer.length() > 1) {
-			while (newBuffer[0] == '0') {
-				newBuffer.erase(0, 1);
-			}
+		if (newBuffer.length() > 1 && newBuffer[0] == '0') {
+			newBuffer.erase(0, 1);
 		}
 
 		newBigInt.SetBuffer(newBuffer);
-
 		return newBigInt;
 	}
 
@@ -234,6 +239,16 @@ namespace Big {
 		}
 
 		newBigInt.SetBuffer(buffer);
+
+		return newBigInt;
+	}
+
+	BigInt BigInt::operator-() const {
+		BigInt newBigInt(this->ToString());
+
+		if (this->ToString() != "0") {
+			newBigInt.SetIsNegative(!this->m_IsNegative);
+		}
 
 		return newBigInt;
 	}
@@ -352,6 +367,6 @@ namespace Big {
 	void BigInt::SetIsNegative(const bool& value) {
 		this->m_IsNegative = value;
 
-		this->SetBuffer(this->m_IntegralBuffer.str());
+		this->SetBuffer(this->m_IntegralString);
 	}
 }

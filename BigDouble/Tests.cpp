@@ -205,6 +205,19 @@ void BigIntNotEqualTest(const std::string& firstArg, const std::string& secondAr
 	assert(notEqual == result);
 }
 
+void BigDoubleNotEqualTest(const std::string& firstArg, const std::string& secondArg, bool result) {
+	++test;
+
+	Big::BigDouble first(firstArg);
+	Big::BigDouble second(secondArg);
+
+	bool notEqual = first != second;
+
+	fout << test << "# result: " << notEqual << std::endl;
+
+	assert(notEqual == result);
+}
+
 int main() {
 	fout << "BigInt addition tests: \n";
 	BigIntAdditionTest("2", "5", "7");
@@ -423,6 +436,15 @@ int main() {
 	BigIntNotEqualTest("0", "0", false);
 	BigIntNotEqualTest("-165", "165", true);
 	BigIntNotEqualTest("-100", "-100", false);
+
+	test = 0;
+	fout << "---------\n";
+	fout << "BigDouble != Tests: \n";
+	BigDoubleNotEqualTest("0.0", "0.1", true);
+	BigDoubleNotEqualTest("0.0", "0.0", false);
+	BigDoubleNotEqualTest("3546512.0", "0.3546512", true);
+	BigDoubleNotEqualTest("-684.684", "684.684", true);
+	BigDoubleNotEqualTest("-104.000001", "-104.000001", false);
 
 	fout.close();
 	return 0;

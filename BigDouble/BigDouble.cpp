@@ -226,6 +226,10 @@ namespace Big {
 		return this->ToString() == bigDouble.ToString();
 	}
 
+	bool BigDouble::operator!=(const BigDouble& bigDouble) const {
+		return this->ToString() != bigDouble.ToString();;
+	}
+
 	bool BigDouble::operator<=(const BigDouble& bigDouble) const {
 		return (*this == bigDouble || *this < bigDouble);
 	}

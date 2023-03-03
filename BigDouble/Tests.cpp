@@ -250,6 +250,7 @@ int main() {
 	BigIntAdditionTest("7", "3", "10");
 	BigIntAdditionTest("10", "8", "18");
 	BigIntAdditionTest("19", "8", "27");
+	BigIntAdditionTest("5", "35", "40");
 	BigIntAdditionTest("1999", "1", "2000");
 	BigIntAdditionTest("999", "1", "1000");
 	BigIntAdditionTest("658646351", "6842654", "665489005");
@@ -287,6 +288,7 @@ int main() {
 	BigIntSubtractTest("63545641", "600", "63545041");
 	BigIntSubtractTest("684625246842", "9894046894", "674731199948");
 	BigIntSubtractTest("5", "5", "0");
+	BigIntSubtractTest("5684", "5684", "0");
 	BigIntSubtractTest("5", "8", "-3");
 	BigIntSubtractTest("72", "82", "-10");
 	BigIntSubtractTest("72", "172", "-100");
@@ -294,6 +296,17 @@ int main() {
 	BigIntSubtractTest("1", "10", "-9");
 	BigIntSubtractTest("1", "10000", "-9999");
 	BigIntSubtractTest("68716542684", "89798286458908", "-89729569916224");
+	BigIntSubtractTest("5", "-2", "7");
+	BigIntSubtractTest("57", "-43", "100");
+	BigIntSubtractTest("6845625", "-970909", "7816534");
+	BigIntSubtractTest("-5", "3", "-8");
+	BigIntSubtractTest("-5", "35", "-40");
+	BigIntSubtractTest("-58462", "6872", "-65334");
+	BigIntSubtractTest("-6548", "684232456", "-684239004");
+	BigIntSubtractTest("-5", "-2", "-3");
+	BigIntSubtractTest("-5", "-8", "3");
+	BigIntSubtractTest("-5684", "-5684", "0");
+	BigIntSubtractTest("-94826", "-897254", "802428");
 
 	//test = 0;
 	//fout << "---------\n";

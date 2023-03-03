@@ -23,11 +23,11 @@ namespace Big {
 		BigInt newBigInt;
 
 		if (this->m_IsNegative && !bigInt.m_IsNegative) {
-			newBigInt = bigInt - *this;
+			newBigInt = bigInt - (-*this);
 			return newBigInt;
 		}
 		else if (!this->m_IsNegative && bigInt.m_IsNegative) {
-			newBigInt = *this - bigInt;
+			newBigInt = *this - (-bigInt);
 			return newBigInt;
 		}
 		else if (this->m_IsNegative && bigInt.m_IsNegative) {
@@ -38,6 +38,12 @@ namespace Big {
 		std::string secondBuffer = bigInt.m_IntegralString;
 
 		std::string newBuffer;
+
+		if (*this < bigInt) {
+			std::string tmp = firstBuffer;
+			firstBuffer = secondBuffer;
+			secondBuffer = tmp;
+		}
 
 		bool memory = false;
 
@@ -130,6 +136,21 @@ namespace Big {
 	BigInt BigInt::operator-(const BigInt& bigInt) const {
 		BigInt newBigInt;
 
+		if (!this->m_IsNegative && bigInt.m_IsNegative) {
+			newBigInt = *this + (-bigInt);
+			return newBigInt;
+		}
+		else if (this->m_IsNegative && !bigInt.m_IsNegative) {
+			newBigInt = -*this + bigInt;
+
+			newBigInt.SetIsNegative(true);
+			return newBigInt;
+		}
+		else if (this->m_IsNegative && bigInt.m_IsNegative) {
+			newBigInt = *this + (-bigInt);
+			return newBigInt;
+		}
+
 		std::string firstBuffer = this->m_IntegralString;
 		std::string secondBuffer = bigInt.m_IntegralString;
 
@@ -137,18 +158,7 @@ namespace Big {
 
 		bool memory = false;
 
-		BigInt tmp1(this->ToString());
-		BigInt tmp2(bigInt.ToString());
-
-		if (tmp1.m_IsNegative) {
-			tmp1 = -tmp1;
-		}
-
-		if (tmp2.m_IsNegative) {
-			tmp2 = -tmp2;
-		}
-
-		if (tmp1 < tmp2) {
+		if (*this < bigInt) {
 			std::string tmp = firstBuffer;
 			firstBuffer = secondBuffer;
 			secondBuffer = tmp;
@@ -194,7 +204,7 @@ namespace Big {
 			newBuffer.insert(0, firstBuffer.substr(0, firstBuffer.length() - newBuffer.length()));
 		}
 
-		if (newBuffer.length() > 1 && newBuffer[0] == '0') {
+		while (newBuffer.length() > 1 && newBuffer[0] == '0') {
 			newBuffer.erase(0, 1);
 		}
 
@@ -351,6 +361,7 @@ namespace Big {
 
 	void BigInt::SetBuffer(const std::string& newBuffer) {
 		m_IntegralBuffer.str(std::string());
+		m_IntegralString = newBuffer;
 
 		if (this->m_IsNegative) {
 			m_IntegralBuffer << "-" << newBuffer;

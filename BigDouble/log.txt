@@ -18,6 +18,7 @@ BigInt + tests:
 17# result: -9
 18# result: -700
 19# result: -180779
+20# result: -300
 ---------
 BigDouble + tests: 
 1# result: 0.7
@@ -148,6 +149,18 @@ BigDouble - tests:
 30# result: 0.084
 31# result: -3857.069
 32# result: 412.746
+---------
+BigInt * Tests: 
+---------
+BigInt += Tests: 
+1# result: 2
+2# result: 3971
+3# result: 10010
+4# result: 0
+5# result: -250
+6# result: 250
+7# result: -300
+8# result: -300
 ---------
 BigInt < Tests: 
 1# result: 1

@@ -50,9 +50,10 @@ namespace Big {
 
 		bool memory = false;
 
-		size_t minNumberSize = std::min(firstBuffer.length(), secondBuffer.length());
+		size_t minNumberLength = std::min(firstBuffer.length(), secondBuffer.length());
+		size_t maxNumberLength = std::max(firstBuffer.length(), secondBuffer.length());
 
-		for (int index = 0; index < minNumberSize; ++index) {
+		for (int index = 0; index < minNumberLength; ++index) {
 			int num = (firstBuffer[firstBuffer.length() - index - 1] - ASCII_INT_DIFFERENCE) + (secondBuffer[secondBuffer.length() - index - 1] - ASCII_INT_DIFFERENCE) + memory;
 
 			if (memory) {
@@ -68,13 +69,13 @@ namespace Big {
 		}
 
 		while (memory) {
-			if (newBuffer.length() == firstBuffer.length()) {
+			if (newBuffer.length() == maxNumberLength) {
 				newBuffer += '1';
 				memory = false;
 				break;
 			}
 
-			int num = firstBuffer[firstBuffer.length() - newBuffer.length() - 1] - ASCII_INT_DIFFERENCE + memory;
+			int num = firstBuffer[maxNumberLength - newBuffer.length() - 1] - ASCII_INT_DIFFERENCE + memory;
 
 			if (memory) {
 				memory = false;
@@ -181,6 +182,44 @@ namespace Big {
 		return newBigInt;
 	}
 
+	BigInt BigInt::operator*(const BigInt& bigInt) const {
+		BigInt newBigInt;
+
+		std::string firstBuffer = this->m_IntegralString;
+		std::string secondBuffer = bigInt.m_IntegralString;
+		std::string newBuffer;
+
+		int memory = 0;
+
+		if (*this < bigInt) {
+			std::string tmp = firstBuffer;
+			firstBuffer = secondBuffer;
+			secondBuffer = tmp;
+		}
+
+		for (int i = firstBuffer.length() - 1; i >= 0; --i) {
+			for (int j = secondBuffer.length() - 1; j >= 0; --j) {
+				int num = (firstBuffer[j] - ASCII_INT_DIFFERENCE) * (secondBuffer[i] - ASCII_INT_DIFFERENCE) + memory;
+
+				if (num >= 10) {
+					memory = num / 10;
+					num %= 10;
+				}
+
+				newBuffer += num + ASCII_INT_DIFFERENCE;
+			}
+
+			if (firstBuffer.length() - i > 0) {
+				newBuffer.insert(newBuffer.length(), firstBuffer.length() - i, '0');
+			}
+
+			//newBigInt += BigInt(newBuffer);
+		}
+
+		//newBigInt.SetIntegralBuffer(newBuffer);
+		return newBigInt;
+	}
+
 	BigInt BigInt::operator-() const {
 		BigInt newBigInt(this->ToString());
 
@@ -200,6 +239,11 @@ namespace Big {
 	BigInt& BigInt::operator++() {
 		*this = *this + BigInt("1");
 
+		return *this;
+	}
+
+	BigInt& BigInt::operator+=(const BigInt& bigInt) {
+		*this = *this + bigInt;
 		return *this;
 	}
 

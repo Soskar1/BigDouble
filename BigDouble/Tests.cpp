@@ -11,6 +11,7 @@ std::ofstream fout("log.txt");
 
 int test = 0;
 
+#pragma region Test Methods
 void BigIntAdditionTest(const std::string& firstArg, const std::string& secondArg, const std::string& result) {
 	++test;
 
@@ -267,7 +268,7 @@ void BigIntPreIncrementTest(const std::string& firstArg, const std::string& resu
 	assert(first.ToString() == result);
 }
 
-void BigDoublePreDecrementTests(const std::string& firstArg, const std::string& result) {
+void BigDoublePreDecrementTest(const std::string& firstArg, const std::string& result) {
 	++test;
 
 	Big::BigDouble first(firstArg);
@@ -279,7 +280,7 @@ void BigDoublePreDecrementTests(const std::string& firstArg, const std::string& 
 	assert(first.ToString() == result);
 }
 
-void BigDoublePreIncrementTests(const std::string& firstArg, const std::string& result) {
+void BigDoublePreIncrementTest(const std::string& firstArg, const std::string& result) {
 	++test;
 
 	Big::BigDouble first(firstArg);
@@ -291,19 +292,35 @@ void BigDoublePreIncrementTests(const std::string& firstArg, const std::string& 
 	assert(first.ToString() == result);
 }
 
-void BigMathIntAbs(const std::string& firstArg, const std::string& result) {
+void BigIntMultiplicationTest(const std::string& firstArg, const std::string& secondArg, const std::string& result) {
 	++test;
 
 	Big::BigInt first(firstArg);
-	Big::BigInt second;
-	second = Big::abs(first);
+	Big::BigInt second(secondArg);
 
-	fout << test << "# result: " << second.ToString() << std::endl;
+	Big::BigInt third = first * second;
 
-	assert(second.ToString() == result);
+	fout << test << "# result: " << third.ToString() << std::endl;
+
+	assert(third.ToString() == result);
 }
 
+void BigIntAddAssignmentTest(const std::string& firstArg, const std::string& secondArg, const std::string& result) {
+	++test;
+
+	Big::BigInt first(firstArg);
+	Big::BigInt second(secondArg);
+
+	first += second;
+
+	fout << test << "# result: " << first.ToString() << std::endl;
+
+	assert(first.ToString() == result);
+}
+#pragma endregion
+
 int main() {
+#pragma region BigInt + Tests
 	fout << "BigInt + tests: \n";
 	BigIntAdditionTest("2", "5", "7");
 	BigIntAdditionTest("4", "1", "5");
@@ -324,7 +341,10 @@ int main() {
 	BigIntAdditionTest("-5", "-4", "-9");
 	BigIntAdditionTest("-564", "-136", "-700");
 	BigIntAdditionTest("-84265", "-96514", "-180779");
+	BigIntAdditionTest("-275", "-25", "-300");
+#pragma endregion
 
+#pragma region BigDouble + Tests
 	test = 0;
 	fout << "---------\n";
 	fout << "BigDouble + tests: \n";
@@ -362,7 +382,9 @@ int main() {
 	BigDoubleAdditionTest("-5.01", "-7.99", "-13.0");
 	BigDoubleAdditionTest("-565.0154", "-6145.8491546", "-6710.8645546");
 	BigDoubleAdditionTest("-6145.8491546", "-565.0154", "-6710.8645546");
+#pragma endregion
 
+#pragma region ++BigInt Tests
 	test = 0;
 	fout << "---------\n";
 	fout << "++BigInt tests: \n";
@@ -372,33 +394,41 @@ int main() {
 	BigIntPreIncrementTest("-1", "0");
 	BigIntPreIncrementTest("-10", "-9");
 	BigIntPreIncrementTest("-1000", "-999");
+#pragma endregion
 
+#pragma region ++BigDouble Tests
 	test = 0;
 	fout << "---------\n";
 	fout << "++BigDouble tests: \n";
-	BigDoublePreIncrementTests("1.0", "2.0");
-	BigDoublePreIncrementTests("9.0", "10.0");
-	BigDoublePreIncrementTests("999.999", "1000.999");
-	BigDoublePreIncrementTests("-2.2", "-1.2");
-	BigDoublePreIncrementTests("-10.0", "-9.0");
-	BigDoublePreIncrementTests("-0.2", "0.8");
-	BigDoublePreIncrementTests("-1.0", "0.0");
+	BigDoublePreIncrementTest("1.0", "2.0");
+	BigDoublePreIncrementTest("9.0", "10.0");
+	BigDoublePreIncrementTest("999.999", "1000.999");
+	BigDoublePreIncrementTest("-2.2", "-1.2");
+	BigDoublePreIncrementTest("-10.0", "-9.0");
+	BigDoublePreIncrementTest("-0.2", "0.8");
+	BigDoublePreIncrementTest("-1.0", "0.0");
+#pragma endregion
 
+#pragma region --BigInt Tests
 	test = 0;
 	fout << "---------\n";
 	fout << "--BigInt tests: \n";
 	BigIntPreDecrementTest("2", "1");
 	BigIntPreDecrementTest("10", "9");
 	BigIntPreDecrementTest("1000", "999");
+#pragma endregion
 
+#pragma region --BigDouble Tests
 	test = 0;
 	fout << "---------\n";
 	fout << "--BigDouble tests: \n";
-	BigDoublePreDecrementTests("2.0", "1.0");
-	BigDoublePreDecrementTests("10.0", "9.0");
-	BigDoublePreDecrementTests("1000.0", "999.0");
-	BigDoublePreDecrementTests("1000.105", "999.105");
+	BigDoublePreDecrementTest("2.0", "1.0");
+	BigDoublePreDecrementTest("10.0", "9.0");
+	BigDoublePreDecrementTest("1000.0", "999.0");
+	BigDoublePreDecrementTest("1000.105", "999.105");
+#pragma endregion
 
+#pragma region BigInt - Tests
 	test = 0;
 	fout << "---------\n";
 	fout << "BigInt - tests: \n";
@@ -432,7 +462,9 @@ int main() {
 	BigIntSubtractTest("-5", "-8", "3");
 	BigIntSubtractTest("-5684", "-5684", "0");
 	BigIntSubtractTest("-94826", "-897254", "802428");
+#pragma endregion
 
+#pragma region BigDouble - Tests
 	test = 0;
 	fout << "---------\n";
 	fout << "BigDouble - tests: \n";
@@ -468,7 +500,39 @@ int main() {
 	BigDoubleSubtractTest("-0.458", "-0.542", "0.084");
 	BigDoubleSubtractTest("-4865.1698", "-1008.1008", "-3857.069");
 	BigDoubleSubtractTest("-0.1", "-412.846", "412.746");
+#pragma endregion
 
+#pragma region BigInt * Tests
+	test = 0;
+	fout << "---------\n";
+	fout << "BigInt * Tests: \n";
+	//BigIntMultiplicationTest("4", "2", "8");
+	//BigIntMultiplicationTest("2", "3", "6");
+	//BigIntMultiplicationTest("2", "5", "10");
+	//BigIntMultiplicationTest("3", "6", "18");
+	//BigIntMultiplicationTest("6", "4", "24");
+	//BigIntMultiplicationTest("11", "2", "22");
+	//BigIntMultiplicationTest("13", "3", "39");
+	//BigIntMultiplicationTest("3", "13", "39");
+	//BigIntMultiplicationTest("50", "2", "100");
+	//BigIntMultiplicationTest("12", "12", "144");
+#pragma endregion
+
+#pragma region BigInt += Tests
+	test = 0;
+	fout << "---------\n";
+	fout << "BigInt += Tests: \n";
+	BigIntAddAssignmentTest("1", "1", "2");
+	BigIntAddAssignmentTest("125", "3846", "3971");
+	BigIntAddAssignmentTest("9991", "19", "10010");
+	BigIntAddAssignmentTest("-5", "5", "0");
+	BigIntAddAssignmentTest("-275", "25", "-250");
+	BigIntAddAssignmentTest("275", "-25", "250");
+	BigIntAddAssignmentTest("-275", "-25", "-300");
+	BigIntAddAssignmentTest("-25", "-275", "-300");
+#pragma endregion
+
+#pragma region BigInt < Tests
 	test = 0;
 	fout << "---------\n";
 	fout << "BigInt < Tests: \n";
@@ -488,7 +552,9 @@ int main() {
 	BigIntLessTest("-16784068463455", "-16784168463451", false);
 	BigIntLessTest("16784068463455", "16784168463451", true);
 	BigIntLessTest("16784068463455", "10784168463451", false);
+#pragma endregion
 
+#pragma region BigDouble < Tests
 	test = 0;
 	fout << "---------\n";
 	fout << "BigDouble < Tests: \n";
@@ -511,7 +577,9 @@ int main() {
 	BigDoubleLessTest("-1.00001", "-1.000001", true);
 	BigDoubleLessTest("0.47", "-0.18", false);
 	BigDoubleLessTest("0.0", "0.0", false);
+#pragma endregion
 
+#pragma region BigInt > Tests
 	test = 0;
 	fout << "---------\n";
 	fout << "BigInt > Tests: \n";
@@ -531,7 +599,9 @@ int main() {
 	BigIntGreaterTest("-200978", "-200979", true);
 	BigIntGreaterTest("-1001", "-1001", false);
 	BigIntGreaterTest("51145", "51644", false);
+#pragma endregion
 
+#pragma region BigDouble > Tests
 	test = 0;
 	fout << "---------\n";
 	fout << "BigDouble > Tests: \n";
@@ -560,7 +630,9 @@ int main() {
 	BigDoubleGreaterTest("-0.001", "-0.1", true);
 	BigDoubleGreaterTest("-0.1", "-0.001", false);
 	BigDoubleGreaterTest("-1.157412", "-10.4165841", true);
+#pragma endregion
 
+#pragma region BigInt == Tests
 	test = 0;
 	fout << "---------\n";
 	fout << "BigInt == Tests: \n";
@@ -570,7 +642,9 @@ int main() {
 	BigIntEqualTest("-105", "-105", true);
 	BigIntEqualTest("-105", "105", false);
 	BigIntEqualTest("105", "-105", false);
+#pragma endregion
 
+#pragma region BigDouble == Tests
 	test = 0;
 	fout << "---------\n";
 	fout << "BigDouble == Tests: \n";
@@ -580,7 +654,9 @@ int main() {
 	BigDoubleEqualTest("1.1654", "1.1654", true);
 	BigDoubleEqualTest("-864.1586", "864.1586", false);
 	BigDoubleEqualTest("0.001", "0.1", false);
+#pragma endregion
 
+#pragma region BigInt <= Tests
 	test = 0;
 	fout << "---------\n";
 	fout << "BigInt <= Tests: \n";
@@ -595,7 +671,9 @@ int main() {
 	BigIntLessOrEqualTest("-1", "-1", true);
 	BigIntLessOrEqualTest("-16784168463455", "-16784168463451", true);
 	BigIntLessOrEqualTest("-16784068463455", "-16784168463451", false);
+#pragma endregion
 
+#pragma region BigDouble <= Tests
 	test = 0;
 	fout << "---------\n";
 	fout << "BigDouble <= Tests: \n";
@@ -606,7 +684,9 @@ int main() {
 	BigDoubleLessOrEqualTest("0.801", "1.8", true);
 	BigDoubleLessOrEqualTest("-16784168463455.16784168463451", "-16784168463451.16784168463451", true);
 	BigDoubleLessOrEqualTest("-15641.1354", "-15641.136", false);
+#pragma endregion
 
+#pragma region BigInt >= Tests
 	test = 0;
 	fout << "---------\n";
 	fout << "BigInt >= Tests: \n";
@@ -617,7 +697,9 @@ int main() {
 	BigIntGreaterOrEqualTest("-164", "-181", true);
 	BigIntGreaterOrEqualTest("-16004", "-16001", false);
 	BigIntGreaterOrEqualTest("-16004", "-16011", true);
+#pragma endregion
 
+#pragma region BigDouble >= Tests
 	test = 0;
 	fout << "---------\n";
 	fout << "BigDouble >= Tests: \n";
@@ -627,7 +709,9 @@ int main() {
 	BigDoubleGreaterOrEqualTest("0.51145", "0.51644", false);
 	BigDoubleGreaterOrEqualTest("-105.501", "-105.888", true);
 	BigDoubleGreaterOrEqualTest("-1.501", "0.78545", false);
+#pragma endregion
 
+#pragma region BigInt != Tests
 	test = 0;
 	fout << "---------\n";
 	fout << "BigInt != Tests: \n";
@@ -635,7 +719,9 @@ int main() {
 	BigIntNotEqualTest("0", "0", false);
 	BigIntNotEqualTest("-165", "165", true);
 	BigIntNotEqualTest("-100", "-100", false);
+#pragma endregion
 
+#pragma region BigDouble != Tests
 	test = 0;
 	fout << "---------\n";
 	fout << "BigDouble != Tests: \n";
@@ -644,7 +730,9 @@ int main() {
 	BigDoubleNotEqualTest("3546512.0", "0.3546512", true);
 	BigDoubleNotEqualTest("-684.684", "684.684", true);
 	BigDoubleNotEqualTest("-104.000001", "-104.000001", false);
+#pragma endregion
 
+#pragma region BigInt unary- Tests
 	test = 0;
 	fout << "---------\n";
 	fout << "BigInt unary- Tests: \n";
@@ -652,7 +740,9 @@ int main() {
 	BigIntUnaryMinusTest("1876", "-1876");
 	BigIntUnaryMinusTest("-165", "165");
 	BigIntUnaryMinusTest("0", "0");
+#pragma endregion
 
+#pragma region BigDouble unary- Tests
 	test = 0;
 	fout << "---------\n";
 	fout << "BigDouble unary- Tests: \n";
@@ -661,12 +751,7 @@ int main() {
 	BigDoubleUnaryMinusTest("-1.84", "1.84");
 	BigDoubleUnaryMinusTest("-15898.8426", "15898.8426");
 	BigDoubleUnaryMinusTest("0.0", "0.0");
-
-	//test = 0;
-	//fout << "---------\n";
-	//fout << "BigMath abs BigInt Tests: \n";
-	//BigMathIntAbs("5", "5");
-	//BigMathIntAbs("158", "158");
+#pragma endregion
 
 	fout.close();
 	return 0;

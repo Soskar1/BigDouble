@@ -26,9 +26,13 @@ namespace Big {
 
 		BigInt operator-(const BigInt& bigInt) const;
 
+		BigInt operator*(const BigInt& bigInt) const;
+
 		BigInt& operator--();
 
 		BigInt& operator++();
+
+		BigInt& operator+=(const BigInt& bigInt);
 
 		BigInt operator-() const;
 

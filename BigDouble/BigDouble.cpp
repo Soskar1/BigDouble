@@ -180,6 +180,14 @@ namespace Big {
 		return newBigDouble;
 	}
 
+	BigDouble BigDouble::operator*(const BigDouble& bigDouble) const {
+		BigDouble newBigDouble;
+
+
+
+		return newBigDouble;
+	}
+
 	BigDouble& BigDouble::operator--() {
 		*this = *this - BigDouble("1.0");
 		return *this;

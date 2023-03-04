@@ -198,6 +198,11 @@ namespace Big {
 		return *this;
 	}
 
+	BigDouble& BigDouble::operator+=(const BigDouble& bigDouble) {
+		*this = *this + bigDouble;
+		return *this;
+	}
+
 	BigDouble BigDouble::operator-() const {
 		BigDouble newBigDouble(this->ToString());
 

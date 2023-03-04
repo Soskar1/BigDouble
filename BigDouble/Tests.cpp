@@ -317,6 +317,19 @@ void BigIntAddAssignmentTest(const std::string& firstArg, const std::string& sec
 
 	assert(first.ToString() == result);
 }
+
+void BigDoubleAddAssignmentTest(const std::string& firstArg, const std::string& secondArg, const std::string& result) {
+	++test;
+
+	Big::BigDouble first(firstArg);
+	Big::BigDouble second(secondArg);
+
+	first += second;
+
+	fout << test << "# result: " << first.ToString() << std::endl;
+
+	assert(first.ToString() == result);
+}
 #pragma endregion
 
 int main() {
@@ -538,6 +551,18 @@ int main() {
 	BigIntAddAssignmentTest("275", "-25", "250");
 	BigIntAddAssignmentTest("-275", "-25", "-300");
 	BigIntAddAssignmentTest("-25", "-275", "-300");
+#pragma endregion
+
+#pragma region BigInt += Tests
+	test = 0;
+	fout << "---------\n";
+	fout << "BigDouble += Tests: \n";
+	BigDoubleAddAssignmentTest("0.1", "0.1", "0.2");
+	BigDoubleAddAssignmentTest("125.125", "3846.3846", "3971.5096");
+	BigDoubleAddAssignmentTest("100.001", "399.999", "500.0");
+	BigDoubleAddAssignmentTest("-100.275", "50.25", "-50.025");
+	BigDoubleAddAssignmentTest("-275.275", "-25.025", "-300.3");
+	BigDoubleAddAssignmentTest("-25.025", "-275.275", "-300.3");
 #pragma endregion
 
 #pragma region BigInt < Tests

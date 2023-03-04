@@ -35,6 +35,8 @@ namespace Big {
 
 		BigDouble& operator++();
 
+		BigDouble& operator+=(const BigDouble& bigDouble);
+
 		bool operator<(const BigDouble& bigDouble) const;
 
 		bool operator>(const BigDouble& bigDouble) const;

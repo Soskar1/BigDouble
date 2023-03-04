@@ -180,6 +180,14 @@ BigInt += Tests:
 7# result: -300
 8# result: -300
 ---------
+BigDouble += Tests: 
+1# result: 0.2
+2# result: 3971.5096
+3# result: 500.0
+4# result: -50.025
+5# result: -300.3
+6# result: -300.3
+---------
 BigInt < Tests: 
 1# result: 1
 2# result: 0

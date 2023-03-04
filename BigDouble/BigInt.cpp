@@ -93,6 +93,9 @@ namespace Big {
 		if (newBuffer.length() < firstBuffer.length()) {
 			newBuffer.insert(0, firstBuffer.substr(0, firstBuffer.length() - newBuffer.length()));
 		}
+		else if (newBuffer.length() < secondBuffer.length()) {
+			newBuffer.insert(0, secondBuffer.substr(0, secondBuffer.length() - newBuffer.length()));
+		}
 
 		newBigInt.SetIntegralBuffer(newBuffer);
 

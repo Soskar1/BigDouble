@@ -69,15 +69,25 @@ namespace Big {
 		if (newBuffer.length() < firstBuffer.length()) {
 			newBuffer.insert(newBuffer.length(), firstBuffer.substr(newBuffer.length(), firstBuffer.length() - newBuffer.length()));
 		}
+		else if (newBuffer.length() < secondBuffer.length()) {
+			newBuffer.insert(newBuffer.length(), secondBuffer.substr(newBuffer.length(), secondBuffer.length() - newBuffer.length()));
+		}
 
 		while (newBuffer.length() > 1 && newBuffer[newBuffer.length() - 1] == '0') {
 			newBuffer.erase(newBuffer.length() - 1, 1);
 		}
 
 		newBigDouble.m_IntegralPart = this->m_IntegralPart + bigDouble.m_IntegralPart;
+		newBigDouble.SetFractionalBuffer(newBuffer);
 
 		if (memory) {
-			++newBigDouble;
+			if (!newBigDouble.IsNegative()) {
+				++newBigDouble;
+			}
+			else {
+				--newBigDouble;
+			}
+			
 			memory = false;
 		}
 
@@ -128,7 +138,12 @@ namespace Big {
 			newBuffer.insert(newBuffer.length(), firstBuffer.substr(newBuffer.length(), firstBuffer.length() - newBuffer.length()));
 		}
 
+		while (newBuffer.length() > 1 && newBuffer[newBuffer.length() - 1] == '0') {
+			newBuffer.erase(newBuffer.length() - 1, 1);
+		}
+
 		newBigDouble.m_IntegralPart = this->m_IntegralPart - bigDouble.m_IntegralPart;
+		newBigDouble.SetFractionalBuffer(newBuffer);
 
 		if (memory) {
 			if (!newBigDouble.IsNegative()) {

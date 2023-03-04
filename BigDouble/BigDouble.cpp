@@ -68,7 +68,7 @@ namespace Big {
 		newBigDouble.m_IntegralPart = this->m_IntegralPart + bigDouble.m_IntegralPart;
 
 		if (memory) {
-			++newBigDouble.m_IntegralPart;
+			++newBigDouble;
 			memory = false;
 		}
 
@@ -126,6 +126,11 @@ namespace Big {
 
 	BigDouble& BigDouble::operator--() {
 		*this = *this - BigDouble("1.0");
+		return *this;
+	}
+
+	BigDouble& BigDouble::operator++() {
+		*this = *this + BigDouble("1.0");
 		return *this;
 	}
 

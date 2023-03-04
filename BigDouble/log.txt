@@ -46,6 +46,11 @@ BigDouble + tests:
 5# result: -9
 6# result: -999
 ---------
+++BigDouble tests: 
+1# result: 2.0
+2# result: 10.0
+3# result: 1000.999
+---------
 BigInt - tests: 
 1# result: 3
 2# result: 1

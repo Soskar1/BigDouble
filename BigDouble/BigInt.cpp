@@ -264,6 +264,11 @@ namespace Big {
 		return *this;
 	}
 
+	BigInt& BigInt::operator*=(const BigInt& bigInt) {
+		*this = *this * bigInt;
+		return *this;
+	}
+
 	bool BigInt::operator<(const BigInt& bigInt) const {
 		if (this->m_IsNegative && !bigInt.m_IsNegative)
 			return true;

@@ -36,6 +36,8 @@ namespace Big {
 
 		BigInt& operator+=(const BigInt& bigInt);
 
+		BigInt& operator*=(const BigInt& bigInt);
+
 		BigInt operator-() const;
 
 		bool operator<(const BigInt& bigInt) const;

@@ -305,6 +305,19 @@ void BigIntMultiplicationTest(const std::string& firstArg, const std::string& se
 	assert(third.ToString() == result);
 }
 
+void BigDoubleMultiplicationTest(const std::string& firstArg, const std::string& secondArg, const std::string& result) {
+	++test;
+
+	Big::BigDouble first(firstArg);
+	Big::BigDouble second(secondArg);
+
+	Big::BigDouble third = first * second;
+
+	fout << test << "# result: " << third.ToString() << std::endl;
+
+	assert(third.ToString() == result);
+}
+
 void BigIntAddAssignmentTest(const std::string& firstArg, const std::string& secondArg, const std::string& result) {
 	++test;
 
@@ -325,6 +338,19 @@ void BigDoubleAddAssignmentTest(const std::string& firstArg, const std::string& 
 	Big::BigDouble second(secondArg);
 
 	first += second;
+
+	fout << test << "# result: " << first.ToString() << std::endl;
+
+	assert(first.ToString() == result);
+}
+
+void BigIntMultiplierAssignmentTest(const std::string& firstArg, const std::string& secondArg, const std::string& result) {
+	++test;
+
+	Big::BigInt first(firstArg);
+	Big::BigInt second(secondArg);
+
+	first *= second;
 
 	fout << test << "# result: " << first.ToString() << std::endl;
 
@@ -537,6 +563,61 @@ int main() {
 	BigIntMultiplicationTest("651", "325", "211575");
 	BigIntMultiplicationTest("65481", "2", "130962");
 	BigIntMultiplicationTest("65481", "-25965", "-1700214165");
+	BigIntMultiplicationTest("20", "10", "200");
+#pragma endregion
+
+#pragma region BigDouble * Tests
+	test = 0;
+	fout << "---------\n";
+	fout << "BigDouble * Tests: \n";
+	BigDoubleMultiplicationTest("1.0", "1.0", "1.0");
+	BigDoubleMultiplicationTest("2.0", "3.0", "6.0");
+	BigDoubleMultiplicationTest("0.2", "1.0", "0.2");
+	BigDoubleMultiplicationTest("0.2", "0.8", "0.16");
+	BigDoubleMultiplicationTest("5.2", "9.8", "50.96");
+	BigDoubleMultiplicationTest("2.0", "0.5", "1.0");
+	BigDoubleMultiplicationTest("2.0", "0.005", "0.01");
+	BigDoubleMultiplicationTest("0.005", "2.0", "0.01");
+	BigDoubleMultiplicationTest("0.005", "0.00000001", "0.00000000005");
+	BigDoubleMultiplicationTest("0.00000001", "0.005", "0.00000000005");
+	BigDoubleMultiplicationTest("123.123", "0.005", "0.615615");
+	BigDoubleMultiplicationTest("6845455.22445", "962442656546.89864515651", "6588358111492504326.9312580674286695");
+	BigDoubleMultiplicationTest("83957209573290750932672903672903804891782184018250185601286.65823579237639207693267290672390673296723906",
+		"0.000000000000000000000000000057281572937653276930262869030632626000603602306023060234274923789048329054832580923589032568932686005",
+		"4809201023814296104800879450164.8568490188916090045886280654749145987365297497433233505770010262056569038490072728264057954101302967822925614568365803447725038735598712585610222625926936721455220747513553");
+	BigDoubleMultiplicationTest("0.0", "0.0", "0.0");
+	BigDoubleMultiplicationTest("123.0", "0.0", "0.0");
+	BigDoubleMultiplicationTest("1.41421356237309504880168872420969807856967187537694",
+		"1.41421356237309504880168872420969807856967187537694",
+		"1.9999999999999999999999999999999999999999999999999771656080961606813043742880457326381198582670837636");
+	BigDoubleMultiplicationTest("1.00000000000000000000000000000000000000000000000001",
+		"1.00000000000000000000000000000000000000000000000001",
+		"1.0000000000000000000000000000000000000000000000000200000000000000000000000000000000000000000000000001");
+	BigDoubleMultiplicationTest("1.00000000000000000000000000000000000000000000000001",
+		"0.00000000000000000000000000000000000000000000000001",
+		"0.0000000000000000000000000000000000000000000000000100000000000000000000000000000000000000000000000001");
+	BigDoubleMultiplicationTest("-5.0", "5.0", "-25.0");
+	BigDoubleMultiplicationTest("5.0", "-5.0", "-25.0");
+	BigDoubleMultiplicationTest("-5.0", "-5.0", "25.0");
+	BigDoubleMultiplicationTest("-5.0", "5.0", "-25.0");
+	BigDoubleMultiplicationTest("2.0", "2.1", "4.2");
+	BigDoubleMultiplicationTest("2.0", "2.01", "4.02");
+	BigDoubleMultiplicationTest("2.01", "2.0", "4.02");
+	BigDoubleMultiplicationTest("20.0", "2.0", "40.0");
+	BigDoubleMultiplicationTest("2.0", "20.0", "40.0");
+	BigDoubleMultiplicationTest("20.123", "2.0", "40.246");
+	BigDoubleMultiplicationTest("20.0", "2.123", "42.46");
+	BigDoubleMultiplicationTest("20.123456789", "2.798", "56.305432095622");
+	BigDoubleMultiplicationTest("20.1232346", "2.7897988798789", "56.13977734662032428994");
+	BigDoubleMultiplicationTest("20.0", "2.123", "42.46");
+	BigDoubleMultiplicationTest("1.123456789", "0.798", "0.896518517622");
+	BigDoubleMultiplicationTest("1.1232346", "0.7897988798789", "0.88712942892122428994");
+	BigDoubleMultiplicationTest("9.9999999999999999999999999999999999999999999999999", 
+		"1.0000000000000000000000000000000000000000000000001",
+		"10.00000000000000000000000000000000000000000000000089999999999999999999999999999999999999999999999999");
+	BigDoubleMultiplicationTest("9.0",
+		"0.0000000000000000000000000000000000000000000000001",
+		"0.0000000000000000000000000000000000000000000000009");
 #pragma endregion
 
 #pragma region BigInt += Tests
@@ -553,7 +634,7 @@ int main() {
 	BigIntAddAssignmentTest("-25", "-275", "-300");
 #pragma endregion
 
-#pragma region BigInt += Tests
+#pragma region BigDouble += Tests
 	test = 0;
 	fout << "---------\n";
 	fout << "BigDouble += Tests: \n";
@@ -563,6 +644,17 @@ int main() {
 	BigDoubleAddAssignmentTest("-100.275", "50.25", "-50.025");
 	BigDoubleAddAssignmentTest("-275.275", "-25.025", "-300.3");
 	BigDoubleAddAssignmentTest("-25.025", "-275.275", "-300.3");
+#pragma endregion
+
+#pragma region BigInt *= Tests
+	test = 0;
+	fout << "---------\n";
+	fout << "BigInt *= Tests: \n";
+	BigIntMultiplierAssignmentTest("2", "3", "6");
+	BigIntMultiplierAssignmentTest("32", "3", "96");
+	BigIntMultiplierAssignmentTest("157", "579", "90903");
+	BigIntMultiplierAssignmentTest("-8", "-2", "16");
+	BigIntMultiplierAssignmentTest("-750", "2", "-1500");
 #pragma endregion
 
 #pragma region BigInt < Tests

@@ -231,12 +231,24 @@ void BigIntUnaryMinusTest(const std::string& firstArg, const std::string& result
 	assert(second.ToString() == result);
 }
 
-void BigIntPreDecrementTests(const std::string& firstArg, const std::string& result) {
+void BigIntPreDecrementTest(const std::string& firstArg, const std::string& result) {
 	++test;
 
 	Big::BigInt first(firstArg);
 	
 	--first;
+
+	fout << test << "# result: " << first.ToString() << std::endl;
+
+	assert(first.ToString() == result);
+}
+
+void BigIntPreIncrementTest(const std::string& firstArg, const std::string& result) {
+	++test;
+
+	Big::BigInt first(firstArg);
+
+	++first;
 
 	fout << test << "# result: " << first.ToString() << std::endl;
 
@@ -312,6 +324,16 @@ int main() {
 
 	test = 0;
 	fout << "---------\n";
+	fout << "++BigInt tests: \n";
+	BigIntPreIncrementTest("1", "2");
+	BigIntPreIncrementTest("9", "10");
+	BigIntPreIncrementTest("999", "1000");
+	BigIntPreIncrementTest("-1", "0");
+	BigIntPreIncrementTest("-10", "-9");
+	BigIntPreIncrementTest("-1000", "-999");
+
+	test = 0;
+	fout << "---------\n";
 	fout << "BigInt - tests: \n";
 	BigIntSubtractTest("8", "5", "3");
 	BigIntSubtractTest("7", "6", "1");
@@ -347,9 +369,9 @@ int main() {
 	test = 0;
 	fout << "---------\n";
 	fout << "--BigInt tests: \n";
-	BigIntPreDecrementTests("2", "1");
-	BigIntPreDecrementTests("10", "9");
-	BigIntPreDecrementTests("1000", "999");
+	BigIntPreDecrementTest("2", "1");
+	BigIntPreDecrementTest("10", "9");
+	BigIntPreDecrementTest("1000", "999");
 
 	test = 0;
 	fout << "---------\n";

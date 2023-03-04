@@ -65,7 +65,12 @@ namespace Big {
 			newBuffer.erase(newBuffer.length() - 1, 1);
 		}
 
-		newBigDouble.m_IntegralPart = this->m_IntegralPart + bigDouble.m_IntegralPart + memory;
+		newBigDouble.m_IntegralPart = this->m_IntegralPart + bigDouble.m_IntegralPart;
+
+		if (memory) {
+			++newBigDouble.m_IntegralPart;
+			memory = false;
+		}
 
 		newBigDouble.SetBuffer(newBuffer);
 		return newBigDouble;

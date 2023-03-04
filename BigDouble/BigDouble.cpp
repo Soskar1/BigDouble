@@ -98,6 +98,22 @@ namespace Big {
 	BigDouble BigDouble::operator-(const BigDouble& bigDouble) const {
 		BigDouble newBigDouble;
 
+		if (!this->IsNegative() && bigDouble.IsNegative()) {
+			newBigDouble = *this + (-bigDouble);
+			return newBigDouble;
+		}
+		else if (this->IsNegative() && !bigDouble.IsNegative()) {
+			newBigDouble = -*this + bigDouble;
+
+			newBigDouble.m_IntegralPart.SetIsNegative(true);
+			newBigDouble.UpdateBuffer();
+			return newBigDouble;
+		}
+		else if (this->IsNegative() && bigDouble.IsNegative()) {
+			newBigDouble = *this + (-bigDouble);
+			return newBigDouble;
+		}
+
 		std::string firstBuffer = this->GetFractionalPart();
 		std::string secondBuffer = bigDouble.GetFractionalPart();
 
@@ -280,7 +296,7 @@ namespace Big {
 	}
 
 	bool BigDouble::IsNegative() const {
-		return this->m_IntegralPart.GetIsNegative();
+		return this->m_IntegralPart.m_IsNegative;
 	}
 
 	std::string BigDouble::GetFractionalPart() const {
@@ -292,6 +308,10 @@ namespace Big {
 		this->m_FractionalPart = buffer;
 
 		this->m_Buffer << this->m_IntegralPart.ToString() << "." << this->m_FractionalPart;
+	}
+
+	void BigDouble::UpdateBuffer() {
+		SetFractionalBuffer(m_FractionalPart);
 	}
 
 	std::string BigDouble::ToString() const {

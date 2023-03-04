@@ -311,10 +311,6 @@ namespace Big {
 		}
 	}
 
-	bool BigInt::GetIsNegative() const {
-		return this->m_IsNegative;
-	}
-
 	void BigInt::SetIsNegative(const bool& value) {
 		this->m_IsNegative = value;
 

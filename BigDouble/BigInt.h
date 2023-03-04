@@ -14,8 +14,6 @@ namespace Big {
 
 		void SetIntegralBuffer(const std::string& newBuffer);
 
-		bool GetIsNegative() const;
-
 		void SetIsNegative(const bool& value);
 
 		friend class BigDouble;

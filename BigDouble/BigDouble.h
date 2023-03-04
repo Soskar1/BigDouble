@@ -10,6 +10,8 @@ namespace Big {
 
 		BigInt m_IntegralPart;
 
+		void UpdateBuffer();
+
 		void SetFractionalBuffer(const std::string& buffer);
 
 		std::string GetFractionalPart() const;

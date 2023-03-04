@@ -67,6 +67,10 @@ BigDouble + tests:
 1# result: 2.0
 2# result: 10.0
 3# result: 1000.999
+4# result: -1.2
+5# result: -9.0
+6# result: 0.8
+7# result: 0.0
 ---------
 --BigInt tests: 
 1# result: 1
@@ -131,6 +135,19 @@ BigDouble - tests:
 17# result: -11.1
 18# result: 0.0
 19# result: -9999.1
+20# result: 0.8
+21# result: 0.61
+22# result: 72.73
+23# result: 8302.7439
+24# result: -0.7
+25# result: -0.6138
+26# result: -11.05
+27# result: -1098840.06373388
+28# result: -0.3
+29# result: 0.3
+30# result: 0.084
+31# result: -3857.069
+32# result: 412.746
 ---------
 BigInt < Tests: 
 1# result: 1

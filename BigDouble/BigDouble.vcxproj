@@ -21,10 +21,12 @@
   <ItemGroup>
     <ClInclude Include="BigDouble.h" />
     <ClInclude Include="BigInt.h" />
+    <ClInclude Include="BigMath.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="BigDouble.cpp" />
     <ClCompile Include="BigInt.cpp" />
+    <ClCompile Include="BigMath.cpp" />
     <ClCompile Include="Tests.cpp" />
   </ItemGroup>
   <PropertyGroup Label="Globals">

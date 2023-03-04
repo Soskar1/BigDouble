@@ -10,11 +10,13 @@ namespace Big {
 
 		BigInt m_IntegralPart;
 
-		bool m_IsNegative = false;
+		void UpdateBuffer();
 
-		void SetBuffer(const std::string& buffer);
+		void SetFractionalBuffer(const std::string& buffer);
 
 		std::string GetFractionalPart() const;
+
+		bool IsNegative() const;
 
 	public:
 		BigDouble();
@@ -25,7 +27,23 @@ namespace Big {
 
 		BigDouble operator-(const BigDouble& bigDouble) const;
 
+		BigDouble operator-() const;
+
+		BigDouble& operator--();
+
+		BigDouble& operator++();
+
 		bool operator<(const BigDouble& bigDouble) const;
+
+		bool operator>(const BigDouble& bigDouble) const;
+
+		bool operator<=(const BigDouble& bigDouble) const;
+
+		bool operator>=(const BigDouble& bigDouble) const;
+
+		bool operator==(const BigDouble& bigDouble) const;
+
+		bool operator!=(const BigDouble& bigDouble) const;
 
 		std::string ToString() const;
 	};

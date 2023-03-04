@@ -8,10 +8,15 @@ namespace Big {
 	class BigInt {
 	private:
 		std::stringstream m_IntegralBuffer;
+		std::string m_IntegralString;
 
 		bool m_IsNegative = false;
 
-		void SetBuffer(const std::string& newBuffer);
+		void SetIntegralBuffer(const std::string& newBuffer);
+
+		void SetIsNegative(const bool& value);
+
+		friend class BigDouble;
 	public:
 		BigInt();
 
@@ -19,15 +24,25 @@ namespace Big {
 
 		BigInt operator+(const BigInt& bigInt) const;
 
-		BigInt operator+(bool& memory) const;
-
 		BigInt operator-(const BigInt& bigInt) const;
 
-		BigInt operator-(bool& memory) const;
+		BigInt& operator--();
+
+		BigInt& operator++();
+
+		BigInt operator-() const;
 
 		bool operator<(const BigInt& bigInt) const;
 
+		bool operator>(const BigInt& bigInt) const;
+
+		bool operator<=(const BigInt& bigInt) const;
+
+		bool operator>=(const BigInt& bigInt) const;
+
 		bool operator==(const BigInt& bigInt) const;
+
+		bool operator!=(const BigInt& bigInt) const;
 
 		std::string ToString() const;
 	};

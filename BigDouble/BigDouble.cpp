@@ -4,7 +4,8 @@
 
 namespace Big {
 	BigDouble::BigDouble() {
-		m_Buffer.str(std::string());
+		m_Buffer.str("0.0");
+		m_FractionalPart = "0";
 	}
 
 	BigDouble::BigDouble(const std::string& buffer) {
@@ -24,107 +25,122 @@ namespace Big {
 	BigDouble BigDouble::operator+(const BigDouble& bigDouble) const {
 		BigDouble newBigDouble;
 
-		std::string firstFractionalPart = this->GetFractionalPart();
-		std::string secondFractionalPart = bigDouble.GetFractionalPart();
+		if (!this->IsNegative() && bigDouble.IsNegative()) {
+			newBigDouble = *this - (-bigDouble);
+			return newBigDouble;
+		}
+		else if (this->IsNegative() && !bigDouble.IsNegative()) {
+			newBigDouble = bigDouble - (-*this);
+			return newBigDouble;
+		}
+
+		std::string firstBuffer = this->GetFractionalPart();
+		std::string secondBuffer = bigDouble.GetFractionalPart();
 
 		std::string newBuffer;
 
-		size_t minFractionLength;
-
-		if (firstFractionalPart.length() > secondFractionalPart.length()) {
-			newBigDouble = BigDouble(this->ToString());
-			minFractionLength = secondFractionalPart.length();
-		}
-		else {
-			newBigDouble = BigDouble(bigDouble.ToString());
-			minFractionLength = firstFractionalPart.length();
-		}
-
 		bool memory = false;
 
-		for (int index = minFractionLength - 1; index >= 0; --index) {
-			int num = (firstFractionalPart[index] - ASCII_INT_DIFFERENCE) + (secondFractionalPart[index] - ASCII_INT_DIFFERENCE) + memory;
+		if (*this < bigDouble) {
+			std::string tmp = firstBuffer;
+			firstBuffer = secondBuffer;
+			secondBuffer = tmp;
+		}
+
+		size_t minFractionSize = std::min(firstBuffer.length(), secondBuffer.length());
+		
+		for (int index = minFractionSize - 1; index >= 0; --index) {
+			int num = (firstBuffer[index] - ASCII_INT_DIFFERENCE) + (secondBuffer[index] - ASCII_INT_DIFFERENCE) + memory;
 
 			if (memory) {
 				memory = false;
 			}
 
 			if (num >= 10) {
-				memory = true;
 				num -= 10;
+				memory = true;
 			}
-
-			if (num == 0 && newBuffer.length() == 0)
-				continue;
 
 			newBuffer += num + ASCII_INT_DIFFERENCE;
 		}
 
-		if (newBuffer.length() == 0) {
-			newBuffer.insert(0, 1, '0');
+		std::reverse(newBuffer.begin(), newBuffer.end());
+		
+		if (newBuffer.length() < firstBuffer.length()) {
+			newBuffer.insert(newBuffer.length(), firstBuffer.substr(newBuffer.length(), firstBuffer.length() - newBuffer.length()));
 		}
-		else {
-			std::reverse(newBuffer.begin(), newBuffer.end());
-		}
-
-		if (newBuffer.length() < secondFractionalPart.length()) {
-			newBuffer.insert(0, secondFractionalPart.substr(minFractionLength, secondFractionalPart.length()));
+		else if (newBuffer.length() < secondBuffer.length()) {
+			newBuffer.insert(newBuffer.length(), secondBuffer.substr(newBuffer.length(), secondBuffer.length() - newBuffer.length()));
 		}
 
-		newBigDouble.m_IntegralPart = this->m_IntegralPart + bigDouble.m_IntegralPart + memory;
+		while (newBuffer.length() > 1 && newBuffer[newBuffer.length() - 1] == '0') {
+			newBuffer.erase(newBuffer.length() - 1, 1);
+		}
 
-		newBigDouble.SetBuffer(newBuffer);
+		newBigDouble.m_IntegralPart = this->m_IntegralPart + bigDouble.m_IntegralPart;
+		newBigDouble.SetFractionalBuffer(newBuffer);
+
+		if (memory) {
+			if (!newBigDouble.IsNegative()) {
+				++newBigDouble;
+			}
+			else {
+				--newBigDouble;
+			}
+			
+			memory = false;
+		}
+
+		newBigDouble.SetFractionalBuffer(newBuffer);
 		return newBigDouble;
 	}
 
 	BigDouble BigDouble::operator-(const BigDouble& bigDouble) const {
 		BigDouble newBigDouble;
 
-		std::string firstFractionalPart = this->GetFractionalPart();
-		std::string secondFractionalPart = bigDouble.GetFractionalPart();
+		if (!this->IsNegative() && bigDouble.IsNegative()) {
+			newBigDouble = *this + (-bigDouble);
+			return newBigDouble;
+		}
+		else if (this->IsNegative() && !bigDouble.IsNegative()) {
+			newBigDouble = -*this + bigDouble;
+
+			newBigDouble.m_IntegralPart.SetIsNegative(true);
+			newBigDouble.UpdateBuffer();
+			return newBigDouble;
+		}
+		else if (this->IsNegative() && bigDouble.IsNegative()) {
+			newBigDouble = *this + (-bigDouble);
+			return newBigDouble;
+		}
+
+		std::string firstBuffer = this->GetFractionalPart();
+		std::string secondBuffer = bigDouble.GetFractionalPart();
 
 		std::string newBuffer;
 
-		size_t maxFractionLength;
-
-		if (firstFractionalPart.length() < secondFractionalPart.length()) {
-			maxFractionLength = secondFractionalPart.length();
-			firstFractionalPart.insert(firstFractionalPart.length(), maxFractionLength - firstFractionalPart.length(), '0');
-		}
-		else if (firstFractionalPart.length() > secondFractionalPart.length()) {
-			maxFractionLength = firstFractionalPart.length();
-			secondFractionalPart.insert(secondFractionalPart.length(), maxFractionLength - secondFractionalPart.length(), '0');
-
-			if (*this < bigDouble) {
-				newBigDouble.m_IsNegative = true;
-
-				std::string tmp = firstFractionalPart;
-				firstFractionalPart = secondFractionalPart;
-				secondFractionalPart = tmp;
-			}
-		}
-		else {
-			maxFractionLength = firstFractionalPart.length();
-		}
-
 		bool memory = false;
 
-		for (int index = maxFractionLength - 1; index >= 0; --index) {
-			int num = (firstFractionalPart[index] - ASCII_INT_DIFFERENCE) - (secondFractionalPart[index] - ASCII_INT_DIFFERENCE) - memory;
+		if (*this < bigDouble) {
+			std::string tmp = firstBuffer;
+			firstBuffer = secondBuffer;
+			secondBuffer = tmp;
+		}
+
+		if (firstBuffer.length() < secondBuffer.length()) {
+			firstBuffer.insert(firstBuffer.length(), secondBuffer.length() - firstBuffer.length(), '0');
+		}
+
+		size_t minFractionSize = std::min(firstBuffer.length(), secondBuffer.length());
+
+		for (int index = minFractionSize - 1; index >= 0; --index) {
+			int num = (firstBuffer[index] - ASCII_INT_DIFFERENCE) - (secondBuffer[index] - ASCII_INT_DIFFERENCE) - memory;
 
 			if (memory) {
 				memory = false;
 			}
 
 			if (num < 0) {
-				if (!newBigDouble.m_IsNegative && *this < bigDouble) {
-					num = -num;
-					newBigDouble.m_IsNegative = true;
-
-					newBuffer += num + ASCII_INT_DIFFERENCE;
-					break;
-				}
-
 				num += 10;
 				memory = true;
 			}
@@ -134,13 +150,54 @@ namespace Big {
 
 		std::reverse(newBuffer.begin(), newBuffer.end());
 
-		if (newBuffer.length() < secondFractionalPart.length()) {
-			newBuffer.insert(0, secondFractionalPart.substr(0, secondFractionalPart.length() - newBuffer.length()));
-;		}
+		if (newBuffer.length() < firstBuffer.length()) {
+			newBuffer.insert(newBuffer.length(), firstBuffer.substr(newBuffer.length(), firstBuffer.length() - newBuffer.length()));
+		}
 
-		newBigDouble.m_IntegralPart = this->m_IntegralPart - bigDouble.m_IntegralPart - memory;
+		while (newBuffer.length() > 1 && newBuffer[newBuffer.length() - 1] == '0') {
+			newBuffer.erase(newBuffer.length() - 1, 1);
+		}
 
-		newBigDouble.SetBuffer(newBuffer);
+		newBigDouble.m_IntegralPart = this->m_IntegralPart - bigDouble.m_IntegralPart;
+		newBigDouble.SetFractionalBuffer(newBuffer);
+
+		if (memory) {
+			if (!newBigDouble.IsNegative()) {
+				--newBigDouble;
+			}
+			else {
+				++newBigDouble;
+			}
+
+			memory = false;
+		}
+
+		if (*this < bigDouble) {
+			newBigDouble.m_IntegralPart.SetIsNegative(true);
+		}
+
+		newBigDouble.SetFractionalBuffer(newBuffer);
+		return newBigDouble;
+	}
+
+	BigDouble& BigDouble::operator--() {
+		*this = *this - BigDouble("1.0");
+		return *this;
+	}
+
+	BigDouble& BigDouble::operator++() {
+		*this = *this + BigDouble("1.0");
+		return *this;
+	}
+
+	BigDouble BigDouble::operator-() const {
+		BigDouble newBigDouble(this->ToString());
+
+		if (this->ToString() != "0.0") {
+			newBigDouble.m_IntegralPart.SetIsNegative(!newBigDouble.IsNegative());
+			newBigDouble.SetFractionalBuffer(newBigDouble.GetFractionalPart());
+		}
+
 		return newBigDouble;
 	}
 
@@ -154,35 +211,107 @@ namespace Big {
 
 			size_t minFractionSize = std::min(firstBuffer.length(), secondBuffer.length());
 
-			for (int index = 0; index < minFractionSize; ++index) {
-				if (firstBuffer[index] < secondBuffer[index])
-					return true;
-				else if (firstBuffer[index] > secondBuffer[index])
-					return false;
-			}
+			if (!this->IsNegative() && !bigDouble.IsNegative()) {
+				for (int index = 0; index < minFractionSize; ++index) {
+					if (firstBuffer[index] < secondBuffer[index])
+						return true;
+					else if (firstBuffer[index] > secondBuffer[index])
+						return false;
+				}
 
-			if (firstBuffer.length() < secondBuffer.length()) {
-				return true;
+				if (firstBuffer.length() < secondBuffer.length()) {
+					return true;
+				}
+			}
+			else if (this->IsNegative() && bigDouble.IsNegative()) {
+				for (int index = 0; index < minFractionSize; ++index) {
+					if (firstBuffer[index] > secondBuffer[index])
+						return true;
+					else if (firstBuffer[index] < secondBuffer[index])
+						return false;
+				}
+
+				if (firstBuffer.length() > secondBuffer.length()) {
+					return true;
+				}
 			}
 		}
 
 		return false;
 	}
 
+	bool BigDouble::operator>(const BigDouble& bigDouble) const {
+		if (this->m_IntegralPart > bigDouble.m_IntegralPart)
+			return true;
+
+		std::string firstBuffer = this->GetFractionalPart();
+		std::string secondBuffer = bigDouble.GetFractionalPart();
+
+		size_t minFractionSize = std::min(firstBuffer.length(), secondBuffer.length());
+
+		if (!this->IsNegative() && !bigDouble.IsNegative()) {
+			for (int index = 0; index < minFractionSize; ++index) {
+				if (firstBuffer[index] > secondBuffer[index]) {
+					return true;
+				}
+				else if (firstBuffer[index] < secondBuffer[index]) {
+					return false;
+				}
+			}
+
+			if (firstBuffer.length() > minFractionSize)
+				return true;
+		}
+		else if (this->IsNegative() && bigDouble.IsNegative()) {
+			for (int index = 0; index < minFractionSize; ++index) {
+				if (firstBuffer[index] < secondBuffer[index]) {
+					return true;
+				}
+				else if (firstBuffer[index] > secondBuffer[index]) {
+					return false;
+				}
+			}
+
+			if (firstBuffer.length() < minFractionSize)
+				return true;
+		}
+
+		return false;
+	}
+
+	bool BigDouble::operator==(const BigDouble& bigDouble) const {
+		return this->ToString() == bigDouble.ToString();
+	}
+
+	bool BigDouble::operator!=(const BigDouble& bigDouble) const {
+		return this->ToString() != bigDouble.ToString();;
+	}
+
+	bool BigDouble::operator<=(const BigDouble& bigDouble) const {
+		return (*this == bigDouble || *this < bigDouble);
+	}
+
+	bool BigDouble::operator>=(const BigDouble& bigDouble) const {
+		return (*this == bigDouble || *this > bigDouble);
+	}
+
+	bool BigDouble::IsNegative() const {
+		return this->m_IntegralPart.m_IsNegative;
+	}
+
 	std::string BigDouble::GetFractionalPart() const {
 		return this->m_FractionalPart;
 	}
 
-	void BigDouble::SetBuffer(const std::string& buffer) {
+	void BigDouble::SetFractionalBuffer(const std::string& buffer) {
 		this->m_Buffer.str(std::string());
 		this->m_FractionalPart = buffer;
 
-		if (!m_IsNegative || this->m_IntegralPart.ToString()[0] == '-') {
-			this->m_Buffer << this->m_IntegralPart.ToString() << "." << this->m_FractionalPart;
-		}
-		else {
-			this->m_Buffer << "-" << this->m_IntegralPart.ToString() << "." << this->m_FractionalPart;
-		}
+		this->m_Buffer << this->m_IntegralPart.ToString() << "." << this->m_FractionalPart;
+	}
+
+	void BigDouble::UpdateBuffer() {
+		SetFractionalBuffer(m_FractionalPart);
 	}
 
 	std::string BigDouble::ToString() const {

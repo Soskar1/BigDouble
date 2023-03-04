@@ -345,7 +345,13 @@ int main() {
 	BigDoubleAdditionTest("999.99999", "0.00001", "1000.0");
 	BigDoubleAdditionTest("0.00001", "999.99999", "1000.0");
 	BigDoubleAdditionTest("75.25", "100.25", "175.5");
-	//BigDoubleAdditionTest("0.5", "-0.3", "0.2");
+	BigDoubleAdditionTest("0.5", "-0.3", "0.2");
+	BigDoubleAdditionTest("0.7895", "-0.1489", "0.6406");
+	BigDoubleAdditionTest("1.7", "-1.5", "0.2");
+	BigDoubleAdditionTest("1.7", "-2.5", "-0.8");
+	//BigDoubleAdditionTest("1486.767", "-1000.295", "486.472");
+	//BigDoubleAdditionTest("500.767", "-1000.295", "-499.528");
+	//BigDoubleAdditionTest("-0.5", "0.3", "-0.2");
 
 	test = 0;
 	fout << "---------\n";
@@ -363,6 +369,21 @@ int main() {
 	BigDoublePreIncrementTests("1.0", "2.0");
 	BigDoublePreIncrementTests("9.0", "10.0");
 	BigDoublePreIncrementTests("999.999", "1000.999");
+
+	test = 0;
+	fout << "---------\n";
+	fout << "--BigInt tests: \n";
+	BigIntPreDecrementTest("2", "1");
+	BigIntPreDecrementTest("10", "9");
+	BigIntPreDecrementTest("1000", "999");
+
+	test = 0;
+	fout << "---------\n";
+	fout << "--BigDouble tests: \n";
+	BigDoublePreDecrementTests("2.0", "1.0");
+	BigDoublePreDecrementTests("10.0", "9.0");
+	BigDoublePreDecrementTests("1000.0", "999.0");
+	BigDoublePreDecrementTests("1000.105", "999.105");
 
 	test = 0;
 	fout << "---------\n";
@@ -397,21 +418,6 @@ int main() {
 	BigIntSubtractTest("-5", "-8", "3");
 	BigIntSubtractTest("-5684", "-5684", "0");
 	BigIntSubtractTest("-94826", "-897254", "802428");
-
-	test = 0;
-	fout << "---------\n";
-	fout << "--BigInt tests: \n";
-	BigIntPreDecrementTest("2", "1");
-	BigIntPreDecrementTest("10", "9");
-	BigIntPreDecrementTest("1000", "999");
-
-	test = 0;
-	fout << "---------\n";
-	fout << "--BigDouble tests: \n";
-	BigDoublePreDecrementTests("2.0", "1.0");
-	BigDoublePreDecrementTests("10.0", "9.0");
-	BigDoublePreDecrementTests("1000.0", "999.0");
-	BigDoublePreDecrementTests("1000.105", "999.105");
 
 	test = 0;
 	fout << "---------\n";

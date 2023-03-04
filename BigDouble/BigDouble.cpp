@@ -25,9 +25,14 @@ namespace Big {
 	BigDouble BigDouble::operator+(const BigDouble& bigDouble) const {
 		BigDouble newBigDouble;
 
-		//if (bigDouble.IsNegative()) {
-		//	newBigDouble = 
-		//}
+		if (!this->IsNegative() && bigDouble.IsNegative()) {
+			newBigDouble = *this - (-bigDouble);
+			return newBigDouble;
+		}
+		else if (this->IsNegative() && !bigDouble.IsNegative()) {
+			newBigDouble = bigDouble - (-*this);
+			return newBigDouble;
+		}
 
 		std::string firstBuffer = this->GetFractionalPart();
 		std::string secondBuffer = bigDouble.GetFractionalPart();
@@ -126,7 +131,13 @@ namespace Big {
 		newBigDouble.m_IntegralPart = this->m_IntegralPart - bigDouble.m_IntegralPart;
 
 		if (memory) {
-			--newBigDouble;
+			if (!newBigDouble.IsNegative()) {
+				--newBigDouble;
+			}
+			else {
+				++newBigDouble;
+			}
+
 			memory = false;
 		}
 
@@ -169,7 +180,7 @@ namespace Big {
 
 			size_t minFractionSize = std::min(firstBuffer.length(), secondBuffer.length());
 
-			if (!this->m_IntegralPart.GetIsNegative() && !bigDouble.m_IntegralPart.GetIsNegative()) {
+			if (!this->IsNegative() && !bigDouble.IsNegative()) {
 				for (int index = 0; index < minFractionSize; ++index) {
 					if (firstBuffer[index] < secondBuffer[index])
 						return true;
@@ -181,7 +192,7 @@ namespace Big {
 					return true;
 				}
 			}
-			else if (this->m_IntegralPart.GetIsNegative() && bigDouble.m_IntegralPart.GetIsNegative()) {
+			else if (this->IsNegative() && bigDouble.IsNegative()) {
 				for (int index = 0; index < minFractionSize; ++index) {
 					if (firstBuffer[index] > secondBuffer[index])
 						return true;
@@ -207,7 +218,7 @@ namespace Big {
 
 		size_t minFractionSize = std::min(firstBuffer.length(), secondBuffer.length());
 
-		if (!this->m_IntegralPart.m_IsNegative && !bigDouble.m_IntegralPart.m_IsNegative) {
+		if (!this->IsNegative() && !bigDouble.IsNegative()) {
 			for (int index = 0; index < minFractionSize; ++index) {
 				if (firstBuffer[index] > secondBuffer[index]) {
 					return true;
@@ -220,7 +231,7 @@ namespace Big {
 			if (firstBuffer.length() > minFractionSize)
 				return true;
 		}
-		else if (this->m_IntegralPart.m_IsNegative && bigDouble.m_IntegralPart.m_IsNegative) {
+		else if (this->IsNegative() && bigDouble.IsNegative()) {
 			for (int index = 0; index < minFractionSize; ++index) {
 				if (firstBuffer[index] < secondBuffer[index]) {
 					return true;

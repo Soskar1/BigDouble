@@ -6,11 +6,13 @@ namespace Big {
 	BigInt::BigInt() {
 		m_IntegralBuffer.str("0");
 		m_IntegralString = "0";
+		m_IsNegative = false;
 	}
 
 	BigInt::BigInt(const std::string& buffer) {
 		m_IntegralBuffer << buffer;
 		m_IntegralString = buffer;
+		m_IsNegative = false;
 
 		if (m_IntegralString.length() > 0) {
 			if (m_IntegralString[0] == '-') {

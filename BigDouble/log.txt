@@ -75,6 +75,12 @@ BigInt - tests:
 2# result: 9
 3# result: 999
 ---------
+--BigDouble tests: 
+1# result: 1.0
+2# result: 9.0
+3# result: 999.0
+4# result: 999.105
+---------
 BigDouble - tests: 
 1# result: 0.2
 2# result: 0.4

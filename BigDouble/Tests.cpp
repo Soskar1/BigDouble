@@ -243,6 +243,18 @@ void BigIntPreDecrementTests(const std::string& firstArg, const std::string& res
 	assert(first.ToString() == result);
 }
 
+void BigDoublePreDecrementTests(const std::string& firstArg, const std::string& result) {
+	++test;
+
+	Big::BigDouble first(firstArg);
+
+	--first;
+
+	fout << test << "# result: " << first.ToString() << std::endl;
+
+	assert(first.ToString() == result);
+}
+
 void BigMathIntAbs(const std::string& firstArg, const std::string& result) {
 	++test;
 
@@ -338,6 +350,14 @@ int main() {
 	BigIntPreDecrementTests("2", "1");
 	BigIntPreDecrementTests("10", "9");
 	BigIntPreDecrementTests("1000", "999");
+
+	test = 0;
+	fout << "---------\n";
+	fout << "--BigDouble tests: \n";
+	BigDoublePreDecrementTests("2.0", "1.0");
+	BigDoublePreDecrementTests("10.0", "9.0");
+	BigDoublePreDecrementTests("1000.0", "999.0");
+	BigDoublePreDecrementTests("1000.105", "999.105");
 
 	test = 0;
 	fout << "---------\n";

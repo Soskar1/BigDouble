@@ -111,12 +111,17 @@ namespace Big {
 		newBigDouble.m_IntegralPart = this->m_IntegralPart - bigDouble.m_IntegralPart;
 
 		if (memory) {
-			--newBigDouble.m_IntegralPart;
+			--newBigDouble;
 			memory = false;
 		}
 
 		newBigDouble.SetBuffer(newBuffer);
 		return newBigDouble;
+	}
+
+	BigDouble& BigDouble::operator--() {
+		*this = *this - BigDouble("1.0");
+		return *this;
 	}
 
 	bool BigDouble::operator<(const BigDouble& bigDouble) const {

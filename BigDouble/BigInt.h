@@ -30,7 +30,7 @@ namespace Big {
 
 		BigInt operator-(const BigInt& bigInt) const;
 
-		BigInt operator-(bool& memory) const;
+		BigInt& operator--();
 
 		BigInt operator-() const;
 

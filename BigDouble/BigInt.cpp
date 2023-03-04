@@ -213,47 +213,6 @@ namespace Big {
 		return newBigInt;
 	}
 
-	BigInt BigInt::operator-(bool& memory) const {
-		BigInt newBigInt(this->ToString());
-
-		if (!memory)
-			return newBigInt;
-
-		int i = 0;
-		std::string buffer = newBigInt.m_IntegralBuffer.str();
-
-		while (memory) {
-			if (i == buffer.length() - 1) {
-				memory = false;
-				buffer.erase(0, 1);
-				break;
-			}
-
-			int num = buffer[buffer.length() - 1 - i] - ASCII_INT_DIFFERENCE - memory;
-
-			if (memory) {
-				memory = false;
-			}
-
-			if (num < 0) {
-				memory = true;
-				num += 10;
-			}
-
-			buffer[buffer.length() - 1 - i] = num + ASCII_INT_DIFFERENCE;
-
-			++i;
-		}
-
-		if (buffer.length() == 0) {
-			buffer.insert(0, 1, '0');
-		}
-
-		newBigInt.SetBuffer(buffer);
-
-		return newBigInt;
-	}
-
 	BigInt BigInt::operator-() const {
 		BigInt newBigInt(this->ToString());
 
@@ -262,6 +221,12 @@ namespace Big {
 		}
 
 		return newBigInt;
+	}
+
+	BigInt& BigInt::operator--() {
+		*this = *this - BigInt("1");
+
+		return *this;
 	}
 
 	bool BigInt::operator<(const BigInt& bigInt) const {

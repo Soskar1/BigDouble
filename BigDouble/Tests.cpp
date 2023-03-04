@@ -231,6 +231,18 @@ void BigIntUnaryMinusTest(const std::string& firstArg, const std::string& result
 	assert(second.ToString() == result);
 }
 
+void BigIntPreDecrementTests(const std::string& firstArg, const std::string& result) {
+	++test;
+
+	Big::BigInt first(firstArg);
+	
+	--first;
+
+	fout << test << "# result: " << first.ToString() << std::endl;
+
+	assert(first.ToString() == result);
+}
+
 void BigMathIntAbs(const std::string& firstArg, const std::string& result) {
 	++test;
 
@@ -267,7 +279,7 @@ int main() {
 
 	test = 0;
 	fout << "---------\n";
-	fout << "BigDouble addition tests: \n";
+	fout << "BigDouble + tests: \n";
 	BigDoubleAdditionTest("0.2", "0.5", "0.7");
 	BigDoubleAdditionTest("0.4", "0.2", "0.6");
 	BigDoubleAdditionTest("0.27", "0.42", "0.69");
@@ -320,16 +332,26 @@ int main() {
 	BigIntSubtractTest("-5684", "-5684", "0");
 	BigIntSubtractTest("-94826", "-897254", "802428");
 
-	//test = 0;
-	//fout << "---------\n";
-	//fout << "BigDouble subtract tests: \n";
-	//BigDoubleSubtractTest("0.5", "0.3", "0.2");
-	//BigDoubleSubtractTest("0.537", "0.121", "0.416");
-	//BigDoubleSubtractTest("0.47", "0.18", "0.29");
-	//BigDoubleSubtractTest("0.501", "0.002", "0.499");
-	//BigDoubleSubtractTest("0.101", "0.0001", "0.1009");
-	//BigDoubleSubtractTest("0.973", "0.4", "0.573");
-	//BigDoubleSubtractTest("1.5", "0.6", "0.9");
+	test = 0;
+	fout << "---------\n";
+	fout << "--BigInt tests: \n";
+	BigIntPreDecrementTests("2", "1");
+	BigIntPreDecrementTests("10", "9");
+	BigIntPreDecrementTests("1000", "999");
+
+	test = 0;
+	fout << "---------\n";
+	fout << "BigDouble - tests: \n";
+	BigDoubleSubtractTest("0.5", "0.3", "0.2");
+	BigDoubleSubtractTest("0.8", "0.4", "0.4");
+	BigDoubleSubtractTest("0.36", "0.12", "0.24");
+	BigDoubleSubtractTest("0.537", "0.121", "0.416");
+	BigDoubleSubtractTest("0.47", "0.18", "0.29");
+	BigDoubleSubtractTest("0.501", "0.002", "0.499");
+	BigDoubleSubtractTest("0.101", "0.0001", "0.1009");
+	BigDoubleSubtractTest("0.973", "0.4", "0.573");
+	BigDoubleSubtractTest("1.5", "0.6", "0.9");
+	BigDoubleSubtractTest("2.5", "0.6", "1.9");
 	//BigDoubleSubtractTest("1000.001", "0.002", "999.999");
 	//BigDoubleSubtractTest("0.3", "0.7", "-0.4");
 	//BigDoubleSubtractTest("0.01", "0.02", "-0.01");

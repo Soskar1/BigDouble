@@ -231,6 +231,18 @@ void BigIntUnaryMinusTest(const std::string& firstArg, const std::string& result
 	assert(second.ToString() == result);
 }
 
+void BigDoubleUnaryMinusTest(const std::string& firstArg, const std::string& result) {
+	++test;
+
+	Big::BigDouble first(firstArg);
+	Big::BigDouble second;
+	second = -first;
+
+	fout << test << "# result: " << second.ToString() << std::endl;
+
+	assert(second.ToString() == result);
+}
+
 void BigIntPreDecrementTest(const std::string& firstArg, const std::string& result) {
 	++test;
 
@@ -333,6 +345,7 @@ int main() {
 	BigDoubleAdditionTest("999.99999", "0.00001", "1000.0");
 	BigDoubleAdditionTest("0.00001", "999.99999", "1000.0");
 	BigDoubleAdditionTest("75.25", "100.25", "175.5");
+	//BigDoubleAdditionTest("0.5", "-0.3", "0.2");
 
 	test = 0;
 	fout << "---------\n";
@@ -413,14 +426,15 @@ int main() {
 	BigDoubleSubtractTest("0.973", "0.4", "0.573");
 	BigDoubleSubtractTest("1.5", "0.6", "0.9");
 	BigDoubleSubtractTest("2.5", "0.6", "1.9");
-	//BigDoubleSubtractTest("1000.001", "0.002", "999.999");
-	//BigDoubleSubtractTest("0.3", "0.7", "-0.4");
-	//BigDoubleSubtractTest("0.01", "0.02", "-0.01");
-	//BigDoubleSubtractTest("0.001", "0.01", "-0.009");
-	//BigDoubleSubtractTest("7.7", "8.8", "-1.1");
-	//BigDoubleSubtractTest("177.7", "188.8", "-11.1");
-	//BigDoubleSubtractTest("5.7", "5.7", "0.0");
-	//BigDoubleSubtractTest("1.0", "10000.1", "-9999.1");
+	BigDoubleSubtractTest("1000.001", "0.002", "999.999");
+	BigDoubleSubtractTest("0.3", "0.7", "-0.4");
+	BigDoubleSubtractTest("0.01", "0.02", "-0.01");
+	BigDoubleSubtractTest("0.001", "0.01", "-0.009");
+	BigDoubleSubtractTest("1.1", "1.2", "-0.1");
+	BigDoubleSubtractTest("7.7", "8.8", "-1.1");
+	BigDoubleSubtractTest("177.7", "188.8", "-11.1");
+	BigDoubleSubtractTest("5.7", "5.7", "0.0");
+	BigDoubleSubtractTest("1.0", "10000.1", "-9999.1");
 
 	test = 0;
 	fout << "---------\n";
@@ -605,6 +619,15 @@ int main() {
 	BigIntUnaryMinusTest("1876", "-1876");
 	BigIntUnaryMinusTest("-165", "165");
 	BigIntUnaryMinusTest("0", "0");
+
+	test = 0;
+	fout << "---------\n";
+	fout << "BigDouble unary- Tests: \n";
+	BigDoubleUnaryMinusTest("1.0", "-1.0");
+	BigDoubleUnaryMinusTest("498.648", "-498.648");
+	BigDoubleUnaryMinusTest("-1.84", "1.84");
+	BigDoubleUnaryMinusTest("-15898.8426", "15898.8426");
+	BigDoubleUnaryMinusTest("0.0", "0.0");
 
 	//test = 0;
 	//fout << "---------\n";

@@ -25,6 +25,10 @@ namespace Big {
 	BigDouble BigDouble::operator+(const BigDouble& bigDouble) const {
 		BigDouble newBigDouble;
 
+		//if (bigDouble.IsNegative()) {
+		//	newBigDouble = 
+		//}
+
 		std::string firstBuffer = this->GetFractionalPart();
 		std::string secondBuffer = bigDouble.GetFractionalPart();
 
@@ -72,7 +76,7 @@ namespace Big {
 			memory = false;
 		}
 
-		newBigDouble.SetBuffer(newBuffer);
+		newBigDouble.SetFractionalBuffer(newBuffer);
 		return newBigDouble;
 	}
 
@@ -85,6 +89,12 @@ namespace Big {
 		std::string newBuffer;
 
 		bool memory = false;
+
+		if (*this < bigDouble) {
+			std::string tmp = firstBuffer;
+			firstBuffer = secondBuffer;
+			secondBuffer = tmp;
+		}
 
 		if (firstBuffer.length() < secondBuffer.length()) {
 			firstBuffer.insert(firstBuffer.length(), secondBuffer.length() - firstBuffer.length(), '0');
@@ -120,7 +130,11 @@ namespace Big {
 			memory = false;
 		}
 
-		newBigDouble.SetBuffer(newBuffer);
+		if (*this < bigDouble) {
+			newBigDouble.m_IntegralPart.SetIsNegative(true);
+		}
+
+		newBigDouble.SetFractionalBuffer(newBuffer);
 		return newBigDouble;
 	}
 
@@ -132,6 +146,17 @@ namespace Big {
 	BigDouble& BigDouble::operator++() {
 		*this = *this + BigDouble("1.0");
 		return *this;
+	}
+
+	BigDouble BigDouble::operator-() const {
+		BigDouble newBigDouble(this->ToString());
+
+		if (this->ToString() != "0.0") {
+			newBigDouble.m_IntegralPart.SetIsNegative(!newBigDouble.IsNegative());
+			newBigDouble.SetFractionalBuffer(newBigDouble.GetFractionalPart());
+		}
+
+		return newBigDouble;
 	}
 
 	bool BigDouble::operator<(const BigDouble& bigDouble) const {
@@ -228,11 +253,15 @@ namespace Big {
 		return (*this == bigDouble || *this > bigDouble);
 	}
 
+	bool BigDouble::IsNegative() const {
+		return this->m_IntegralPart.GetIsNegative();
+	}
+
 	std::string BigDouble::GetFractionalPart() const {
 		return this->m_FractionalPart;
 	}
 
-	void BigDouble::SetBuffer(const std::string& buffer) {
+	void BigDouble::SetFractionalBuffer(const std::string& buffer) {
 		this->m_Buffer.str(std::string());
 		this->m_FractionalPart = buffer;
 

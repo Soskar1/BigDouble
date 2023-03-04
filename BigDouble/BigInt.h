@@ -12,7 +12,7 @@ namespace Big {
 
 		bool m_IsNegative = false;
 
-		void SetBuffer(const std::string& newBuffer);
+		void SetIntegralBuffer(const std::string& newBuffer);
 
 		bool GetIsNegative() const;
 

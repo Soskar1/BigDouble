@@ -92,7 +92,7 @@ namespace Big {
 			newBuffer.insert(0, firstBuffer.substr(0, firstBuffer.length() - newBuffer.length()));
 		}
 
-		newBigInt.SetBuffer(newBuffer);
+		newBigInt.SetIntegralBuffer(newBuffer);
 
 		return newBigInt;
 	}
@@ -172,7 +172,7 @@ namespace Big {
 			newBuffer.erase(0, 1);
 		}
 
-		newBigInt.SetBuffer(newBuffer);
+		newBigInt.SetIntegralBuffer(newBuffer);
 		return newBigInt;
 	}
 
@@ -294,7 +294,7 @@ namespace Big {
 		return m_IntegralBuffer.str();
 	}
 
-	void BigInt::SetBuffer(const std::string& newBuffer) {
+	void BigInt::SetIntegralBuffer(const std::string& newBuffer) {
 		m_IntegralBuffer.str(std::string());
 		m_IntegralString = newBuffer;
 
@@ -313,6 +313,6 @@ namespace Big {
 	void BigInt::SetIsNegative(const bool& value) {
 		this->m_IsNegative = value;
 
-		this->SetBuffer(this->m_IntegralString);
+		this->SetIntegralBuffer(this->m_IntegralString);
 	}
 }

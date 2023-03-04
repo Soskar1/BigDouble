@@ -4,12 +4,15 @@
 
 namespace Big {
 	BigInt::BigInt() {
-		m_IntegralBuffer.str(std::string());
+		m_IntegralBuffer.str("0");
+		m_IntegralString = "0";
+		m_IsNegative = false;
 	}
 
 	BigInt::BigInt(const std::string& buffer) {
 		m_IntegralBuffer << buffer;
 		m_IntegralString = buffer;
+		m_IsNegative = false;
 
 		if (m_IntegralString.length() > 0) {
 			if (m_IntegralString[0] == '-') {
@@ -90,45 +93,11 @@ namespace Big {
 		if (newBuffer.length() < firstBuffer.length()) {
 			newBuffer.insert(0, firstBuffer.substr(0, firstBuffer.length() - newBuffer.length()));
 		}
-
-		newBigInt.SetBuffer(newBuffer);
-
-		return newBigInt;
-	}
-
-	BigInt BigInt::operator+(bool& memory) const {
-		BigInt newBigInt(this->ToString());
-
-		if (!memory)
-			return newBigInt;
-
-		int i = 0;
-		std::string buffer = newBigInt.m_IntegralBuffer.str();
-		
-		while (memory) {
-			if (i == buffer.length()) {
-				buffer.insert(0, 1, '1');
-				memory = false;
-				break;
-			}
-
-			int num = buffer[buffer.length() - 1 - i] - ASCII_INT_DIFFERENCE + memory;
-
-			if (memory) {
-				memory = false;
-			}
-
-			if (num >= 10) {
-				memory = true;
-				num -= 10;
-			}
-
-			buffer[buffer.length() - 1 - i] = num + ASCII_INT_DIFFERENCE;
-
-			++i;
+		else if (newBuffer.length() < secondBuffer.length()) {
+			newBuffer.insert(0, secondBuffer.substr(0, secondBuffer.length() - newBuffer.length()));
 		}
 
-		newBigInt.SetBuffer(buffer);
+		newBigInt.SetIntegralBuffer(newBuffer);
 
 		return newBigInt;
 	}
@@ -208,48 +177,7 @@ namespace Big {
 			newBuffer.erase(0, 1);
 		}
 
-		newBigInt.SetBuffer(newBuffer);
-		return newBigInt;
-	}
-
-	BigInt BigInt::operator-(bool& memory) const {
-		BigInt newBigInt(this->ToString());
-
-		if (!memory)
-			return newBigInt;
-
-		int i = 0;
-		std::string buffer = newBigInt.m_IntegralBuffer.str();
-
-		while (memory) {
-			if (i == buffer.length() - 1) {
-				memory = false;
-				buffer.erase(0, 1);
-				break;
-			}
-
-			int num = buffer[buffer.length() - 1 - i] - ASCII_INT_DIFFERENCE - memory;
-
-			if (memory) {
-				memory = false;
-			}
-
-			if (num < 0) {
-				memory = true;
-				num += 10;
-			}
-
-			buffer[buffer.length() - 1 - i] = num + ASCII_INT_DIFFERENCE;
-
-			++i;
-		}
-
-		if (buffer.length() == 0) {
-			buffer.insert(0, 1, '0');
-		}
-
-		newBigInt.SetBuffer(buffer);
-
+		newBigInt.SetIntegralBuffer(newBuffer);
 		return newBigInt;
 	}
 
@@ -261,6 +189,18 @@ namespace Big {
 		}
 
 		return newBigInt;
+	}
+
+	BigInt& BigInt::operator--() {
+		*this = *this - BigInt("1");
+
+		return *this;
+	}
+
+	BigInt& BigInt::operator++() {
+		*this = *this + BigInt("1");
+
+		return *this;
 	}
 
 	bool BigInt::operator<(const BigInt& bigInt) const {
@@ -359,7 +299,7 @@ namespace Big {
 		return m_IntegralBuffer.str();
 	}
 
-	void BigInt::SetBuffer(const std::string& newBuffer) {
+	void BigInt::SetIntegralBuffer(const std::string& newBuffer) {
 		m_IntegralBuffer.str(std::string());
 		m_IntegralString = newBuffer;
 
@@ -371,13 +311,9 @@ namespace Big {
 		}
 	}
 
-	bool BigInt::GetIsNegative() const {
-		return this->m_IsNegative;
-	}
-
 	void BigInt::SetIsNegative(const bool& value) {
 		this->m_IsNegative = value;
 
-		this->SetBuffer(this->m_IntegralString);
+		this->SetIntegralBuffer(this->m_IntegralString);
 	}
 }

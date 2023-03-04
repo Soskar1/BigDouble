@@ -12,9 +12,7 @@ namespace Big {
 
 		bool m_IsNegative = false;
 
-		void SetBuffer(const std::string& newBuffer);
-
-		bool GetIsNegative() const;
+		void SetIntegralBuffer(const std::string& newBuffer);
 
 		void SetIsNegative(const bool& value);
 
@@ -26,11 +24,11 @@ namespace Big {
 
 		BigInt operator+(const BigInt& bigInt) const;
 
-		BigInt operator+(bool& memory) const;
-
 		BigInt operator-(const BigInt& bigInt) const;
 
-		BigInt operator-(bool& memory) const;
+		BigInt& operator--();
+
+		BigInt& operator++();
 
 		BigInt operator-() const;
 

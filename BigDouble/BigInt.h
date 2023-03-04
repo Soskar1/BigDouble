@@ -12,6 +12,8 @@ namespace Big {
 
 		bool m_IsNegative = false;
 
+		void UpdateBuffer();
+
 		void SetIntegralBuffer(const std::string& newBuffer);
 
 		void SetIsNegative(const bool& value);

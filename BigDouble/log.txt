@@ -151,6 +151,24 @@ BigDouble - tests:
 32# result: 412.746
 ---------
 BigInt * Tests: 
+1# result: 8
+2# result: 6
+3# result: 10
+4# result: 18
+5# result: 24
+6# result: 22
+7# result: 39
+8# result: 39
+9# result: 100
+10# result: 144
+11# result: 3862548
+12# result: 3862548
+13# result: -25
+14# result: -25
+15# result: 25
+16# result: 211575
+17# result: 130962
+18# result: -1700214165
 ---------
 BigInt += Tests: 
 1# result: 2

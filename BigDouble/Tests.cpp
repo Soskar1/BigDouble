@@ -506,16 +506,24 @@ int main() {
 	test = 0;
 	fout << "---------\n";
 	fout << "BigInt * Tests: \n";
-	//BigIntMultiplicationTest("4", "2", "8");
-	//BigIntMultiplicationTest("2", "3", "6");
-	//BigIntMultiplicationTest("2", "5", "10");
-	//BigIntMultiplicationTest("3", "6", "18");
-	//BigIntMultiplicationTest("6", "4", "24");
-	//BigIntMultiplicationTest("11", "2", "22");
-	//BigIntMultiplicationTest("13", "3", "39");
-	//BigIntMultiplicationTest("3", "13", "39");
-	//BigIntMultiplicationTest("50", "2", "100");
-	//BigIntMultiplicationTest("12", "12", "144");
+	BigIntMultiplicationTest("4", "2", "8");
+	BigIntMultiplicationTest("2", "3", "6");
+	BigIntMultiplicationTest("2", "5", "10");
+	BigIntMultiplicationTest("3", "6", "18");
+	BigIntMultiplicationTest("6", "4", "24");
+	BigIntMultiplicationTest("11", "2", "22");
+	BigIntMultiplicationTest("13", "3", "39");
+	BigIntMultiplicationTest("3", "13", "39");
+	BigIntMultiplicationTest("50", "2", "100");
+	BigIntMultiplicationTest("12", "12", "144");
+	BigIntMultiplicationTest("5647", "684", "3862548");
+	BigIntMultiplicationTest("684", "5647", "3862548");
+	BigIntMultiplicationTest("-5", "5", "-25");
+	BigIntMultiplicationTest("5", "-5", "-25");
+	BigIntMultiplicationTest("-5", "-5", "25");
+	BigIntMultiplicationTest("651", "325", "211575");
+	BigIntMultiplicationTest("65481", "2", "130962");
+	BigIntMultiplicationTest("65481", "-25965", "-1700214165");
 #pragma endregion
 
 #pragma region BigInt += Tests

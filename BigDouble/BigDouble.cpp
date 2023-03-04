@@ -180,6 +180,90 @@ namespace Big {
 		return newBigDouble;
 	}
 
+	BigDouble BigDouble::operator*(const BigDouble& bigDouble) const {
+		BigDouble newBigDouble;
+
+		std::string firstIntegralBuffer = this->m_IntegralPart.m_IntegralString;
+		std::string secondIntegralBuffer = bigDouble.m_IntegralPart.m_IntegralString;
+
+		std::string firstFractionalBuffer = this->GetFractionalPart();
+		std::string secondFractionalBuffer = bigDouble.GetFractionalPart();
+
+		std::string buffer;
+		std::string newIntegralBuffer;
+		std::string newFractionalBuffer;
+
+		BigInt firstNumerator;
+		BigInt secondNumerator;
+
+		BigInt tensToAPower("10");
+		BigInt fraction;
+
+		int firstPrecision = 0;
+		int secondPrecision = 0;
+		int newPrecision = 0;
+
+		if (firstFractionalBuffer.length() > 1 || 
+			firstFractionalBuffer.length() == 1 && firstFractionalBuffer[0] != '0') {
+			firstPrecision = firstFractionalBuffer.length();
+		}
+
+		if (secondFractionalBuffer.length() > 1 ||
+			secondFractionalBuffer.length() == 1 && secondFractionalBuffer[0] != '0') {
+			secondPrecision = secondFractionalBuffer.length();
+		}
+
+		if (firstPrecision == 0) {
+			tensToAPower.SetIntegralBuffer("1");
+		}
+		else {
+			BigInt ten("10");
+
+			for (int power = 1; power < firstPrecision; ++power) {
+				tensToAPower *= ten;
+			}
+		}
+
+		fraction.SetIntegralBuffer(firstFractionalBuffer);
+		firstNumerator = this->m_IntegralPart * tensToAPower + fraction;
+
+		tensToAPower.SetIntegralBuffer("10");
+
+		if (secondPrecision == 0) {
+			tensToAPower.SetIntegralBuffer("1");
+		}
+		else {
+			BigInt ten("10");
+
+			for (int power = 1; power < secondPrecision; ++power) {
+				tensToAPower *= ten;
+			}
+		}
+
+		fraction.SetIntegralBuffer(secondFractionalBuffer);
+		secondNumerator = bigDouble.m_IntegralPart * tensToAPower + fraction;
+
+		BigInt newNumerator;
+		newNumerator = firstNumerator * secondNumerator;
+		newPrecision = firstPrecision + secondPrecision;
+
+		buffer = newNumerator.ToString();
+		newIntegralBuffer = buffer.substr(0, buffer.length() - newPrecision);
+		newFractionalBuffer = buffer.substr(newIntegralBuffer.length(), newPrecision);
+
+		while (newIntegralBuffer.length() > 1 && newIntegralBuffer[0] == '0') {
+			newIntegralBuffer.erase(0, 1);
+		}
+
+		while (newFractionalBuffer.length() > 1 && newFractionalBuffer[newFractionalBuffer.length() - 1] == '0') {
+			newFractionalBuffer.erase(newFractionalBuffer.length() - 1, 1);
+		}
+
+		newBigDouble.m_IntegralPart.SetIntegralBuffer(newIntegralBuffer);
+		newBigDouble.SetFractionalBuffer(newFractionalBuffer);
+		return newBigDouble;
+	}
+
 	BigDouble& BigDouble::operator--() {
 		*this = *this - BigDouble("1.0");
 		return *this;
@@ -187,6 +271,11 @@ namespace Big {
 
 	BigDouble& BigDouble::operator++() {
 		*this = *this + BigDouble("1.0");
+		return *this;
+	}
+
+	BigDouble& BigDouble::operator+=(const BigDouble& bigDouble) {
+		*this = *this + bigDouble;
 		return *this;
 	}
 
@@ -306,6 +395,10 @@ namespace Big {
 	void BigDouble::SetFractionalBuffer(const std::string& buffer) {
 		this->m_Buffer.str(std::string());
 		this->m_FractionalPart = buffer;
+
+		if (this->m_FractionalPart == "") {
+			m_FractionalPart = "0";
+		}
 
 		this->m_Buffer << this->m_IntegralPart.ToString() << "." << this->m_FractionalPart;
 	}

@@ -4,7 +4,8 @@
 
 namespace Big {
 	BigDouble::BigDouble() {
-		m_Buffer.str(std::string());
+		m_Buffer.str("0.0");
+		m_FractionalPart = "0";
 	}
 
 	BigDouble::BigDouble(const std::string& buffer) {
@@ -24,51 +25,44 @@ namespace Big {
 	BigDouble BigDouble::operator+(const BigDouble& bigDouble) const {
 		BigDouble newBigDouble;
 
-		std::string firstFractionalPart = this->GetFractionalPart();
-		std::string secondFractionalPart = bigDouble.GetFractionalPart();
+		std::string firstBuffer = this->GetFractionalPart();
+		std::string secondBuffer = bigDouble.GetFractionalPart();
 
 		std::string newBuffer;
 
-		size_t minFractionLength;
-
-		if (firstFractionalPart.length() > secondFractionalPart.length()) {
-			newBigDouble = BigDouble(this->ToString());
-			minFractionLength = secondFractionalPart.length();
-		}
-		else {
-			newBigDouble = BigDouble(bigDouble.ToString());
-			minFractionLength = firstFractionalPart.length();
-		}
-
 		bool memory = false;
 
-		for (int index = minFractionLength - 1; index >= 0; --index) {
-			int num = (firstFractionalPart[index] - ASCII_INT_DIFFERENCE) + (secondFractionalPart[index] - ASCII_INT_DIFFERENCE) + memory;
+		if (*this < bigDouble) {
+			std::string tmp = firstBuffer;
+			firstBuffer = secondBuffer;
+			secondBuffer = tmp;
+		}
+
+		size_t minFractionSize = std::min(firstBuffer.length(), secondBuffer.length());
+		
+		for (int index = minFractionSize - 1; index >= 0; --index) {
+			int num = (firstBuffer[index] - ASCII_INT_DIFFERENCE) + (secondBuffer[index] - ASCII_INT_DIFFERENCE) + memory;
 
 			if (memory) {
 				memory = false;
 			}
 
 			if (num >= 10) {
-				memory = true;
 				num -= 10;
+				memory = true;
 			}
-
-			if (num == 0 && newBuffer.length() == 0)
-				continue;
 
 			newBuffer += num + ASCII_INT_DIFFERENCE;
 		}
 
-		if (newBuffer.length() == 0) {
-			newBuffer.insert(0, 1, '0');
-		}
-		else {
-			std::reverse(newBuffer.begin(), newBuffer.end());
+		std::reverse(newBuffer.begin(), newBuffer.end());
+		
+		if (newBuffer.length() < firstBuffer.length()) {
+			newBuffer.insert(newBuffer.length(), firstBuffer.substr(newBuffer.length(), firstBuffer.length() - newBuffer.length()));
 		}
 
-		if (newBuffer.length() < secondFractionalPart.length()) {
-			newBuffer.insert(0, secondFractionalPart.substr(minFractionLength, secondFractionalPart.length()));
+		while (newBuffer.length() > 1 && newBuffer[newBuffer.length() - 1] == '0') {
+			newBuffer.erase(newBuffer.length() - 1, 1);
 		}
 
 		newBigDouble.m_IntegralPart = this->m_IntegralPart + bigDouble.m_IntegralPart + memory;

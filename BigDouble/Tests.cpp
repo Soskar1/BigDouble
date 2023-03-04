@@ -265,14 +265,26 @@ int main() {
 	BigIntAdditionTest("-564", "-136", "-700");
 	BigIntAdditionTest("-84265", "-96514", "-180779");
 
-	//test = 0;
-	//fout << "---------\n";
-	//fout << "BigDouble addition tests: \n";
-	//BigDoubleAdditionTest("0.2", "0.5", "0.7");
-	//BigDoubleAdditionTest("0.031", "0.071", "0.102");
-	//BigDoubleAdditionTest("0.93", "0.12", "1.05");
-	//BigDoubleAdditionTest("0.99999", "0.00001", "1.0");
-	//BigDoubleAdditionTest("999.99999", "0.00001", "1000.0");
+	test = 0;
+	fout << "---------\n";
+	fout << "BigDouble addition tests: \n";
+	BigDoubleAdditionTest("0.2", "0.5", "0.7");
+	BigDoubleAdditionTest("0.4", "0.2", "0.6");
+	BigDoubleAdditionTest("0.27", "0.42", "0.69");
+	BigDoubleAdditionTest("0.39", "0.02", "0.41");
+	BigDoubleAdditionTest("0.48", "0.02", "0.5");
+	BigDoubleAdditionTest("0.4897", "0.02", "0.5097");
+	BigDoubleAdditionTest("0.0999", "0.0001", "0.1");
+	BigDoubleAdditionTest("0.02", "0.39", "0.41");
+	BigDoubleAdditionTest("0.02", "0.48", "0.5");
+	BigDoubleAdditionTest("0.02", "0.4897", "0.5097");
+	BigDoubleAdditionTest("0.0001", "0.0999", "0.1");
+	BigDoubleAdditionTest("0.93", "0.12", "1.05");
+	BigDoubleAdditionTest("0.99999", "0.00001", "1.0");
+	BigDoubleAdditionTest("0.12", "0.93", "1.05");
+	BigDoubleAdditionTest("999.99999", "0.00001", "1000.0");
+	BigDoubleAdditionTest("0.00001", "999.99999", "1000.0");
+	BigDoubleAdditionTest("75.25", "100.25", "175.5");
 
 	test = 0;
 	fout << "---------\n";

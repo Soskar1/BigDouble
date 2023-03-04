@@ -4,7 +4,8 @@
 
 namespace Big {
 	BigInt::BigInt() {
-		m_IntegralBuffer.str(std::string());
+		m_IntegralBuffer.str("0");
+		m_IntegralString = "0";
 	}
 
 	BigInt::BigInt(const std::string& buffer) {
@@ -103,7 +104,7 @@ namespace Big {
 			return newBigInt;
 
 		int i = 0;
-		std::string buffer = newBigInt.m_IntegralBuffer.str();
+		std::string buffer = this->m_IntegralString;
 		
 		while (memory) {
 			if (i == buffer.length()) {

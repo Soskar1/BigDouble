@@ -288,7 +288,7 @@ namespace Big {
 		}
 
 		if (*this == one) {
-			return BigInt(bigInt.ToString());
+			return one;
 		}
 		
 		if (bigInt == one) {

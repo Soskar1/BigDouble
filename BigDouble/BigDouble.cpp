@@ -1,7 +1,7 @@
 #include "BigDouble.h"
 
 #define ASCII_INT_DIFFERENCE 48
-#define NEWTON_RAPHSON_ITERATIONS 11
+#define NEWTON_RAPHSON_ITERATIONS 15
 
 namespace Big {
 	BigDouble::BigDouble() {
@@ -288,15 +288,12 @@ namespace Big {
 		if (this->m_FractionalPart != "0" || bigDouble.m_FractionalPart != "0") {
 			BigDouble x("0.1");
 
-			if (bigDouble > BigDouble("1.0")) {
-				BigDouble tens("0.1");
+			if (*this < bigDouble) {
 				int power = bigDouble.m_IntegralPart.m_IntegralString.length() - 1;
 
 				for (int i = 0; i < power * 2 - 4; ++i) {
-					tens *= BigDouble("0.1");
+					x *= BigDouble("0.1");
 				}
-
-				x = BigDouble(tens.ToString());
 			}
 
 			BigDouble two("2.0");
@@ -304,8 +301,8 @@ namespace Big {
 			for (int index = 0; index < NEWTON_RAPHSON_ITERATIONS; ++index) {
 				x = x * (two - (bigDouble * x));
 
-				if (x.GetFractionalPart().length() > 101) {
-					x.m_FractionalPart = x.m_FractionalPart.substr(0, 100);
+				if (x.GetFractionalPart().length() > 110) {
+					x.m_FractionalPart = x.m_FractionalPart.substr(0, 110);
 				}
 			}
 
@@ -317,11 +314,15 @@ namespace Big {
 			BigInt integralPart = this->m_IntegralPart / bigDouble.m_IntegralPart;
 			BigInt fraction = this->m_IntegralPart % bigDouble.m_IntegralPart;
 			BigInt ten("10");
+			BigInt zero("0");
 
 			for (int index = 0; index < 101; ++index) {
 				fraction *= ten;
 				buffer << (fraction / bigDouble.m_IntegralPart);
 				fraction = fraction % bigDouble.m_IntegralPart;
+
+				if (fraction == zero)
+					break;
 			}
 
 			newIntegralBuffer = integralPart.m_IntegralString;
@@ -421,36 +422,38 @@ namespace Big {
 		if (this->m_IntegralPart > bigDouble.m_IntegralPart)
 			return true;
 
-		std::string firstBuffer = this->GetFractionalPart();
-		std::string secondBuffer = bigDouble.GetFractionalPart();
+		if (this->m_IntegralPart == bigDouble.m_IntegralPart) {
+			std::string firstBuffer = this->GetFractionalPart();
+			std::string secondBuffer = bigDouble.GetFractionalPart();
 
-		size_t minFractionSize = std::min(firstBuffer.length(), secondBuffer.length());
+			size_t minFractionSize = std::min(firstBuffer.length(), secondBuffer.length());
 
-		if (!this->IsNegative() && !bigDouble.IsNegative()) {
-			for (int index = 0; index < minFractionSize; ++index) {
-				if (firstBuffer[index] > secondBuffer[index]) {
+			if (!this->IsNegative() && !bigDouble.IsNegative()) {
+				for (int index = 0; index < minFractionSize; ++index) {
+					if (firstBuffer[index] > secondBuffer[index]) {
+						return true;
+					}
+					else if (firstBuffer[index] < secondBuffer[index]) {
+						return false;
+					}
+				}
+
+				if (firstBuffer.length() > minFractionSize)
 					return true;
-				}
-				else if (firstBuffer[index] < secondBuffer[index]) {
-					return false;
-				}
 			}
+			else if (this->IsNegative() && bigDouble.IsNegative()) {
+				for (int index = 0; index < minFractionSize; ++index) {
+					if (firstBuffer[index] < secondBuffer[index]) {
+						return true;
+					}
+					else if (firstBuffer[index] > secondBuffer[index]) {
+						return false;
+					}
+				}
 
-			if (firstBuffer.length() > minFractionSize)
-				return true;
-		}
-		else if (this->IsNegative() && bigDouble.IsNegative()) {
-			for (int index = 0; index < minFractionSize; ++index) {
-				if (firstBuffer[index] < secondBuffer[index]) {
+				if (firstBuffer.length() < minFractionSize)
 					return true;
-				}
-				else if (firstBuffer[index] > secondBuffer[index]) {
-					return false;
-				}
 			}
-
-			if (firstBuffer.length() < minFractionSize)
-				return true;
 		}
 
 		return false;

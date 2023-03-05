@@ -32,6 +32,8 @@ namespace Big {
 
 		BigInt operator/(const BigInt& bigInt) const;
 
+		BigInt operator%(const BigInt& bigInt) const;
+
 		BigInt& operator--();
 
 		BigInt& operator++();
@@ -55,6 +57,8 @@ namespace Big {
 		bool operator==(const BigInt& bigInt) const;
 
 		bool operator!=(const BigInt& bigInt) const;
+
+		friend std::ostream& operator<<(std::ostream& out, const BigInt& bigInt);
 
 		std::string ToString() const;
 	};

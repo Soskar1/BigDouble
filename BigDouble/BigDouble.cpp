@@ -225,6 +225,10 @@ namespace Big {
 			}
 		}
 
+		while (firstFractionalBuffer.length() > 1 && firstFractionalBuffer[0] == '0') {
+			firstFractionalBuffer.erase(0, 1);
+		}
+
 		fraction.SetIntegralBuffer(firstFractionalBuffer);
 		firstNumerator = this->m_IntegralPart * tensToAPower + fraction;
 
@@ -241,6 +245,10 @@ namespace Big {
 			}
 		}
 
+		while (secondFractionalBuffer.length() > 1 && secondFractionalBuffer[0] == '0') {
+			secondFractionalBuffer.erase(0, 1);
+		}
+
 		fraction.SetIntegralBuffer(secondFractionalBuffer);
 		secondNumerator = bigDouble.m_IntegralPart * tensToAPower + fraction;
 
@@ -249,6 +257,8 @@ namespace Big {
 		newPrecision = firstPrecision + secondPrecision;
 
 		buffer = newNumerator.ToString();
+		buffer.insert(0, newPrecision, '0');
+
 		newIntegralBuffer = buffer.substr(0, buffer.length() - newPrecision);
 		newFractionalBuffer = buffer.substr(newIntegralBuffer.length(), newPrecision);
 
@@ -260,15 +270,22 @@ namespace Big {
 			newFractionalBuffer.erase(newFractionalBuffer.length() - 1, 1);
 		}
 
+		if (newIntegralBuffer == "") {
+			newIntegralBuffer = "0";
+		}
+
 		newBigDouble.m_IntegralPart.SetIntegralBuffer(newIntegralBuffer);
 		newBigDouble.SetFractionalBuffer(newFractionalBuffer);
+		newBigDouble.UpdateBuffer();
 		return newBigDouble;
 	}
 
 	BigDouble BigDouble::operator/(const BigDouble& bigDouble) const {
 		BigDouble newBigDouble;
+		std::string newIntegralBuffer;
+		std::string newFractionalBuffer;
 
-		if (this->m_FractionalPart != "0" && bigDouble.m_FractionalPart != "0") {
+		if (this->m_FractionalPart != "0" || bigDouble.m_FractionalPart != "0") {
 			BigDouble x("0.1");
 
 			if (bigDouble > BigDouble("1.0")) {
@@ -286,24 +303,44 @@ namespace Big {
 
 			for (int index = 0; index < NEWTON_RAPHSON_ITERATIONS; ++index) {
 				x = x * (two - (bigDouble * x));
+
+				if (x.GetFractionalPart().length() > 101) {
+					x.m_FractionalPart = x.m_FractionalPart.substr(0, 100);
+				}
 			}
 
 			newBigDouble = *this * x;
-
-			if (newBigDouble.GetFractionalPart().length() > 100) {
-				if (newBigDouble.m_FractionalPart[100] - ASCII_INT_DIFFERENCE >= 5) {
-					newBigDouble += BigDouble("0.0000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000001");
-				}
-
-				newBigDouble.m_FractionalPart = newBigDouble.m_FractionalPart.substr(0, 100);
-
-				while (newBigDouble.m_FractionalPart.length() > 1 && newBigDouble.m_FractionalPart[newBigDouble.m_FractionalPart.length() - 1] == '0') {
-					newBigDouble.m_FractionalPart.erase(newBigDouble.m_FractionalPart.length() - 1);
-				}
-			}
 		}
 		else {
+			std::stringstream buffer;
+			
+			BigInt integralPart = this->m_IntegralPart / bigDouble.m_IntegralPart;
+			BigInt fraction = this->m_IntegralPart % bigDouble.m_IntegralPart;
+			BigInt ten("10");
 
+			for (int index = 0; index < 101; ++index) {
+				fraction *= ten;
+				buffer << (fraction / bigDouble.m_IntegralPart);
+				fraction = fraction % bigDouble.m_IntegralPart;
+			}
+
+			newIntegralBuffer = integralPart.m_IntegralString;
+			newFractionalBuffer = buffer.str();
+
+			newBigDouble.m_IntegralPart.SetIntegralBuffer(newIntegralBuffer);
+			newBigDouble.SetFractionalBuffer(newFractionalBuffer);
+		}
+
+		if (newBigDouble.GetFractionalPart().length() > 100) {
+			if (newBigDouble.m_FractionalPart[100] - ASCII_INT_DIFFERENCE >= 5) {
+				newBigDouble += BigDouble("0.0000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000001");
+			}
+
+			newBigDouble.m_FractionalPart = newBigDouble.m_FractionalPart.substr(0, 100);
+
+			while (newBigDouble.m_FractionalPart.length() > 1 && newBigDouble.m_FractionalPart[newBigDouble.m_FractionalPart.length() - 1] == '0') {
+				newBigDouble.m_FractionalPart.erase(newBigDouble.m_FractionalPart.length() - 1);
+			}
 		}
 
 		newBigDouble.UpdateBuffer();
@@ -433,6 +470,11 @@ namespace Big {
 
 	bool BigDouble::operator>=(const BigDouble& bigDouble) const {
 		return (*this == bigDouble || *this > bigDouble);
+	}
+
+	std::ostream& operator<<(std::ostream& out, const BigInt& bigInt) {
+		out << bigInt.m_IntegralString;
+		return out;
 	}
 
 	bool BigDouble::IsNegative() const {

@@ -184,6 +184,11 @@ namespace Big {
 
 	BigInt BigInt::operator*(const BigInt& bigInt) const {
 		BigInt newBigInt;
+		BigInt zero("0");
+
+		if (*this == zero || bigInt == zero) {
+			return zero;
+		}
 
 		std::string firstBuffer = this->m_IntegralString;
 		std::string secondBuffer = bigInt.m_IntegralString;
@@ -268,6 +273,37 @@ namespace Big {
 
 		newBigInt.UpdateBuffer();
 		return newBigInt;
+	}
+
+	BigInt BigInt::operator%(const BigInt& bigInt) const {
+		BigInt zero("0");
+		BigInt one("1");
+
+		if (*this == zero || bigInt == zero) {
+			return zero;
+		}
+
+		if (this->m_IsNegative) {
+			return BigInt(this->ToString());
+		}
+
+		if (*this == one) {
+			return BigInt(bigInt.ToString());
+		}
+		
+		if (bigInt == one) {
+			return zero;
+		}
+
+		BigInt tmp(this->m_IntegralString);
+		BigInt divider(bigInt.m_IntegralString);
+
+		while (tmp >= divider) {
+			tmp -= divider;
+		}
+
+		tmp.UpdateBuffer();
+		return tmp;
 	}
 
 	BigInt BigInt::operator-() const {

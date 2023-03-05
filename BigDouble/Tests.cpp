@@ -384,6 +384,20 @@ void BigDoubleDivisionTest(const std::string& firstArg, const std::string& secon
 
 	assert(third.ToString() == result);
 }
+
+void BigIntModulusTest(const std::string& firstArg, const std::string& secondArg, const std::string& result) {
+	++test;
+
+	Big::BigInt first(firstArg);
+	Big::BigInt second(secondArg);
+	Big::BigInt third;
+
+	third = first % second;
+
+	fout << test << "# result: " << third.ToString() << std::endl;
+
+	assert(third.ToString() == result);
+}
 #pragma endregion
 
 int main() {
@@ -592,6 +606,9 @@ int main() {
 	BigIntMultiplicationTest("65481", "2", "130962");
 	BigIntMultiplicationTest("65481", "-25965", "-1700214165");
 	BigIntMultiplicationTest("20", "10", "200");
+	BigIntMultiplicationTest("5", "0", "0");
+	BigIntMultiplicationTest("0", "5", "0");
+	BigIntMultiplicationTest("10", "0", "0");
 #pragma endregion
 
 #pragma region BigDouble * Tests
@@ -606,6 +623,7 @@ int main() {
 	BigDoubleMultiplicationTest("2.0", "0.5", "1.0");
 	BigDoubleMultiplicationTest("2.0", "0.005", "0.01");
 	BigDoubleMultiplicationTest("0.005", "2.0", "0.01");
+	BigDoubleMultiplicationTest("0.01", "0.1", "0.001");
 	BigDoubleMultiplicationTest("0.005", "0.00000001", "0.00000000005");
 	BigDoubleMultiplicationTest("0.00000001", "0.005", "0.00000000005");
 	BigDoubleMultiplicationTest("123.123", "0.005", "0.615615");
@@ -648,7 +666,7 @@ int main() {
 		"0.0000000000000000000000000000000000000000000000009");
 #pragma endregion
 	
-#pragma region BigDouble / Tests
+#pragma region BigInt / Tests
 	test = 0;
 	fout << "---------\n";
 	fout << "BigInt / Tests: \n";
@@ -667,13 +685,29 @@ int main() {
 	test = 0;
 	fout << "---------\n";
 	fout << "BigDouble / Tests: \n";
-	//BigDoubleDivisionTest("36.0", "6.0", "6.0");
-	//BigDoubleDivisionTest("0.0001", "10000.0", "0.00000001");
-	//BigDoubleDivisionTest("6.0", "2.0", "3.0");
-	//BigDoubleDivisionTest("8.0", "4.0", "2.0");
-	//BigDoubleDivisionTest("24.0", "6.0", "4.0");
-	//BigDoubleDivisionTest("3.0", "7.0", "0.4285714285714285714285714285714285714285714285714285714285714285714285714285714285714285714285714286");
-	//BigDoubleDivisionTest("7.0", "3.0", "2.3333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333");
+	BigDoubleDivisionTest("36.0", "6.0", "6.0");
+	BigDoubleDivisionTest("0.0001", "10000.0", "0.00000001");
+	BigDoubleDivisionTest("6.0", "2.0", "3.0");
+	BigDoubleDivisionTest("8.0", "4.0", "2.0");
+	BigDoubleDivisionTest("24.0", "6.0", "4.0");
+	BigDoubleDivisionTest("3.0", "7.0", "0.4285714285714285714285714285714285714285714285714285714285714285714285714285714285714285714285714286");
+	BigDoubleDivisionTest("7.0", "3.0", "2.3333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333");
+#pragma endregion
+
+#pragma region BigInt % Tests
+	test = 0;
+	fout << "---------\n";
+	fout << "BigInt / Tests: \n";
+	BigIntModulusTest("5", "2", "1");
+	BigIntModulusTest("3", "5", "3");
+	BigIntModulusTest("187", "36", "7");
+	BigIntModulusTest("187", "1", "0");
+	BigIntModulusTest("1", "187", "187");
+	BigIntModulusTest("0", "187", "0");
+	BigIntModulusTest("187", "0", "0");
+	BigIntModulusTest("-11", "5", "-11");
+	BigIntModulusTest("23", "-11", "1");
+	BigIntModulusTest("36", "6", "0");
 #pragma endregion
 
 #pragma region BigInt += Tests

@@ -237,6 +237,39 @@ namespace Big {
 		return newBigInt;
 	}
 
+	BigInt BigInt::operator/(const BigInt& bigInt) const {
+		BigInt newBigInt;
+		BigInt zero("0");
+
+		if (bigInt == BigInt("1")) {
+			newBigInt = BigInt(this->ToString());
+			return newBigInt;
+		}
+
+		if (bigInt == zero || *this == zero) {
+			return zero;
+		}
+
+		BigInt tmp(this->m_IntegralString);
+		BigInt divider(bigInt.m_IntegralString);
+
+		while (tmp > zero) {
+			tmp -= divider;
+			++newBigInt;
+		}
+
+		if (tmp != zero) {
+			--newBigInt;
+		}
+
+		if (this->m_IsNegative || bigInt.m_IsNegative) {
+			newBigInt.SetIsNegative(true);
+		}
+
+		newBigInt.UpdateBuffer();
+		return newBigInt;
+	}
+
 	BigInt BigInt::operator-() const {
 		BigInt newBigInt(this->ToString());
 
@@ -261,6 +294,11 @@ namespace Big {
 
 	BigInt& BigInt::operator+=(const BigInt& bigInt) {
 		*this = *this + bigInt;
+		return *this;
+	}
+
+	BigInt& BigInt::operator-=(const BigInt& bigInt) {
+		*this = *this - bigInt;
 		return *this;
 	}
 

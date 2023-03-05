@@ -268,26 +268,43 @@ namespace Big {
 	BigDouble BigDouble::operator/(const BigDouble& bigDouble) const {
 		BigDouble newBigDouble;
 
-		BigDouble x("0.1");
+		if (this->m_FractionalPart != "0" && bigDouble.m_FractionalPart != "0") {
+			BigDouble x("0.1");
 
-		if (bigDouble > BigDouble("1.0")) {
-			BigDouble tens("0.1");
-			int power = bigDouble.m_IntegralPart.m_IntegralString.length() - 1;
+			if (bigDouble > BigDouble("1.0")) {
+				BigDouble tens("0.1");
+				int power = bigDouble.m_IntegralPart.m_IntegralString.length() - 1;
 
-			for (int i = 0; i < power * 2 - 4; ++i) {
-				tens *= BigDouble("0.1");
+				for (int i = 0; i < power * 2 - 4; ++i) {
+					tens *= BigDouble("0.1");
+				}
+
+				x = BigDouble(tens.ToString());
 			}
 
-			x = BigDouble(tens.ToString());
+			BigDouble two("2.0");
+
+			for (int index = 0; index < NEWTON_RAPHSON_ITERATIONS; ++index) {
+				x = x * (two - (bigDouble * x));
+			}
+
+			newBigDouble = *this * x;
+
+			if (newBigDouble.GetFractionalPart().length() > 100) {
+				if (newBigDouble.m_FractionalPart[100] - ASCII_INT_DIFFERENCE >= 5) {
+					newBigDouble += BigDouble("0.0000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000001");
+				}
+
+				newBigDouble.m_FractionalPart = newBigDouble.m_FractionalPart.substr(0, 100);
+
+				while (newBigDouble.m_FractionalPart.length() > 1 && newBigDouble.m_FractionalPart[newBigDouble.m_FractionalPart.length() - 1] == '0') {
+					newBigDouble.m_FractionalPart.erase(newBigDouble.m_FractionalPart.length() - 1);
+				}
+			}
 		}
+		else {
 
-		BigDouble two("2.0");
-
-		for (int index = 0; index < NEWTON_RAPHSON_ITERATIONS; ++index) {
-			x = x * (two - (bigDouble * x));
 		}
-
-		newBigDouble = *this * x;
 
 		newBigDouble.UpdateBuffer();
 		return newBigDouble;

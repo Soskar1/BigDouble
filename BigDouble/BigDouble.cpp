@@ -353,6 +353,19 @@ namespace Big {
 		return newBigDouble;
 	}
 
+	BigDouble BigDouble::operator%(const BigDouble& bigDouble) const {
+		if (this->GetFractionalPart() != "0" || bigDouble.GetFractionalPart() != "0") {
+			return BigDouble("0.0");
+		}
+
+		BigDouble newBigDouble;
+
+		newBigDouble.m_IntegralPart = this->m_IntegralPart % bigDouble.m_IntegralPart;
+
+		newBigDouble.UpdateBuffer();
+		return newBigDouble;
+	}
+
 	BigDouble& BigDouble::operator--() {
 		*this = *this - BigDouble("1.0");
 		return *this;

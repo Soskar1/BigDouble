@@ -398,6 +398,20 @@ void BigIntModulusTest(const std::string& firstArg, const std::string& secondArg
 
 	assert(third.ToString() == result);
 }
+
+void BigDoubleModulusTest(const std::string& firstArg, const std::string& secondArg, const std::string& result) {
+	++test;
+
+	Big::BigDouble first(firstArg);
+	Big::BigDouble second(secondArg);
+	Big::BigDouble third;
+
+	third = first % second;
+
+	fout << test << "# result: " << third.ToString() << std::endl;
+
+	assert(third.ToString() == result);
+}
 #pragma endregion
 
 int main() {
@@ -724,6 +738,24 @@ int main() {
 	//BigDoubleDivisionTest("58173571057190571905671975619725917591729671920671290671290671290.2562158162582165892165891265892156218956128956125891625981",
 	//	"0.2562158162582165892165891265892156218956128956125891625981",
 	//	"5.435531647151007173252718299331821128887128515549167978521762663691209720909000020457829591545249677");
+#pragma endregion
+
+#pragma region BigInt % Tests
+	test = 0;
+	fout << "---------\n";
+	fout << "BigDouble % Tests: \n";
+	BigDoubleModulusTest("5.0", "2.0", "1.0");
+	BigDoubleModulusTest("3.0", "5.0", "3.0");
+	BigDoubleModulusTest("187.0", "36.0", "7.0");
+	BigDoubleModulusTest("187.0", "1.0", "0.0");
+	BigDoubleModulusTest("1.0", "187.0", "1.0");
+	BigDoubleModulusTest("0.0", "187.0", "0.0");
+	BigDoubleModulusTest("187.0", "0.0", "0.0");
+	BigDoubleModulusTest("-11.0", "5.0", "-1.0");
+	BigDoubleModulusTest("23.0", "-11.0", "1.0");
+	BigDoubleModulusTest("36.0", "6.0", "0.0");
+	BigDoubleModulusTest("-5.0", "5.0", "0.0");
+	BigDoubleModulusTest("3.2", "5.7", "0.0");
 #pragma endregion
 
 #pragma region BigInt += Tests

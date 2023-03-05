@@ -31,6 +31,8 @@ namespace Big {
 
 		BigDouble operator/(const BigDouble& bigDouble) const;
 
+		BigDouble operator%(const BigDouble& bigInt) const;
+
 		BigDouble operator-() const;
 
 		BigDouble& operator--();

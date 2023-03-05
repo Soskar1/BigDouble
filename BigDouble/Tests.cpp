@@ -356,6 +356,20 @@ void BigIntMultiplierAssignmentTest(const std::string& firstArg, const std::stri
 
 	assert(first.ToString() == result);
 }
+
+void BigDoubleDivisionTest(const std::string& firstArg, const std::string& secondArg, const std::string& result) {
+	++test;
+
+	Big::BigDouble first(firstArg);
+	Big::BigDouble second(secondArg);
+	Big::BigDouble third;
+
+	third = first / second;
+
+	fout << test << "# result: " << third.ToString() << std::endl;
+
+	assert(third.ToString() == result);
+}
 #pragma endregion
 
 int main() {
@@ -618,6 +632,17 @@ int main() {
 	BigDoubleMultiplicationTest("9.0",
 		"0.0000000000000000000000000000000000000000000000001",
 		"0.0000000000000000000000000000000000000000000000009");
+#pragma endregion
+	
+#pragma region BigDouble / Tests
+	test = 0;
+	fout << "---------\n";
+	fout << "BigDouble / Tests: \n";
+	BigDoubleDivisionTest("0.0001", "10000.0", "0.00000001");
+	BigDoubleDivisionTest("6.0", "2.0", "3.0");
+	BigDoubleDivisionTest("8.0", "4.0", "2.0");
+	BigDoubleDivisionTest("24.0", "6.0", "4.0");
+	BigDoubleDivisionTest("3.0", "7.0", "0.4285714285714285714285714285714285714285714285714285714285714285714285714285714285714285714285714286");
 #pragma endregion
 
 #pragma region BigInt += Tests

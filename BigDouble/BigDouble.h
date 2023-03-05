@@ -29,6 +29,8 @@ namespace Big {
 
 		BigDouble operator*(const BigDouble& bigDouble) const;
 
+		BigDouble operator/(const BigDouble& bigDouble) const;
+
 		BigDouble operator-() const;
 
 		BigDouble& operator--();
@@ -36,6 +38,8 @@ namespace Big {
 		BigDouble& operator++();
 
 		BigDouble& operator+=(const BigDouble& bigDouble);
+
+		BigDouble& operator*=(const BigDouble& bigDouble);
 
 		bool operator<(const BigDouble& bigDouble) const;
 

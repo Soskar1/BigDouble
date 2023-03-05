@@ -1,6 +1,7 @@
 #include "BigDouble.h"
 
 #define ASCII_INT_DIFFERENCE 48
+#define NEWTON_RAPHSON_ITERATIONS 11
 
 namespace Big {
 	BigDouble::BigDouble() {
@@ -264,6 +265,34 @@ namespace Big {
 		return newBigDouble;
 	}
 
+	BigDouble BigDouble::operator/(const BigDouble& bigDouble) const {
+		BigDouble newBigDouble;
+
+		BigDouble x("0.1");
+
+		if (bigDouble > BigDouble("1.0")) {
+			BigDouble tens("0.1");
+			int power = bigDouble.m_IntegralPart.m_IntegralString.length() - 1;
+
+			for (int i = 0; i < power * 2 - 4; ++i) {
+				tens *= BigDouble("0.1");
+			}
+
+			x = BigDouble(tens.ToString());
+		}
+
+		BigDouble two("2.0");
+
+		for (int index = 0; index < NEWTON_RAPHSON_ITERATIONS; ++index) {
+			x = x * (two - (bigDouble * x));
+		}
+
+		newBigDouble = *this * x;
+
+		newBigDouble.UpdateBuffer();
+		return newBigDouble;
+	}
+
 	BigDouble& BigDouble::operator--() {
 		*this = *this - BigDouble("1.0");
 		return *this;
@@ -276,6 +305,11 @@ namespace Big {
 
 	BigDouble& BigDouble::operator+=(const BigDouble& bigDouble) {
 		*this = *this + bigDouble;
+		return *this;
+	}
+
+	BigDouble& BigDouble::operator*=(const BigDouble& bigDouble) {
+		*this = *this * bigDouble;
 		return *this;
 	}
 

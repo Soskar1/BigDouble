@@ -682,6 +682,23 @@ int main() {
 	BigIntDivisionTest("100000", "0", "0");
 #pragma endregion
 
+#pragma region BigInt % Tests
+	test = 0;
+	fout << "---------\n";
+	fout << "BigInt % Tests: \n";
+	BigIntModulusTest("5", "2", "1");
+	BigIntModulusTest("3", "5", "3");
+	BigIntModulusTest("187", "36", "7");
+	BigIntModulusTest("187", "1", "0");
+	BigIntModulusTest("1", "187", "1");
+	BigIntModulusTest("0", "187", "0");
+	BigIntModulusTest("187", "0", "0");
+	BigIntModulusTest("-11", "5", "-1");
+	BigIntModulusTest("23", "-11", "1");
+	BigIntModulusTest("36", "6", "0");
+	BigIntModulusTest("-5", "5", "0");
+#pragma endregion
+
 #pragma region BigDouble / Tests
 	test = 0;
 	fout << "---------\n";
@@ -695,6 +712,11 @@ int main() {
 	BigDoubleDivisionTest("3.0", "7.0", "0.4285714285714285714285714285714285714285714285714285714285714285714285714285714285714285714285714286");
 	BigDoubleDivisionTest("7.0", "3.0", "2.3333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333");
 	BigDoubleDivisionTest("6.0", "0.5", "12.0");
+	BigDoubleDivisionTest("0.0", "0.5", "0.0");
+	BigDoubleDivisionTest("5.0", "0.0", "0.0");
+	BigDoubleDivisionTest("5.0", "-5.0", "-1.0");
+	BigDoubleDivisionTest("-5.0", "5.0", "-1.0");
+	BigDoubleDivisionTest("-5.0", "-5.0", "1.0");
 	/*BigDoubleDivisionTest("58173571057190571905671975619725917591729671920671290671290671290.25621581625821658921658912658921562189561289561258916259810",
 		"0.2562158162582165892165891265892156218956128956125891625981",
 		"227049102224675806682158569179536746983186000410395781967141083010.8686842847140546186659554856688777482561741887840663373036639890648407405663227683395715086371909745");*/
@@ -702,22 +724,6 @@ int main() {
 	//BigDoubleDivisionTest("58173571057190571905671975619725917591729671920671290671290671290.2562158162582165892165891265892156218956128956125891625981",
 	//	"0.2562158162582165892165891265892156218956128956125891625981",
 	//	"5.435531647151007173252718299331821128887128515549167978521762663691209720909000020457829591545249677");
-#pragma endregion
-
-#pragma region BigInt % Tests
-	test = 0;
-	fout << "---------\n";
-	fout << "BigInt % Tests: \n";
-	BigIntModulusTest("5", "2", "1");
-	BigIntModulusTest("3", "5", "3");
-	BigIntModulusTest("187", "36", "7");
-	BigIntModulusTest("187", "1", "0");
-	BigIntModulusTest("1", "187", "1");
-	BigIntModulusTest("0", "187", "0");
-	BigIntModulusTest("187", "0", "0");
-	BigIntModulusTest("-11", "5", "-11");
-	BigIntModulusTest("23", "-11", "1");
-	BigIntModulusTest("36", "6", "0");
 #pragma endregion
 
 #pragma region BigInt += Tests

@@ -283,10 +283,6 @@ namespace Big {
 			return zero;
 		}
 
-		if (this->m_IsNegative) {
-			return BigInt(this->ToString());
-		}
-
 		if (*this == one) {
 			return one;
 		}
@@ -300,6 +296,10 @@ namespace Big {
 
 		while (tmp >= divider) {
 			tmp -= divider;
+		}
+
+		if (this->m_IsNegative && tmp.m_IntegralString != "0") {
+			tmp.SetIsNegative(true);
 		}
 
 		tmp.UpdateBuffer();

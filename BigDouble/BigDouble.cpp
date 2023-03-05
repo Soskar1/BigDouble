@@ -285,6 +285,11 @@ namespace Big {
 		std::string newIntegralBuffer;
 		std::string newFractionalBuffer;
 
+		if (this->IsNegative() && !bigDouble.IsNegative() ||
+			!this->IsNegative() && bigDouble.IsNegative()) {
+			newBigDouble.m_IntegralPart.SetIsNegative(true);
+		}
+
 		if (this->m_FractionalPart != "0" || bigDouble.m_FractionalPart != "0") {
 			BigDouble x("0.1");
 

@@ -225,6 +225,19 @@ BigInt / Tests:
 8# result: 0
 9# result: 0
 ---------
+BigInt % Tests: 
+1# result: 1
+2# result: 3
+3# result: 7
+4# result: 0
+5# result: 1
+6# result: 0
+7# result: 0
+8# result: -1
+9# result: 1
+10# result: 0
+11# result: 0
+---------
 BigDouble / Tests: 
 1# result: 6.0
 2# result: 0.00000001
@@ -235,18 +248,11 @@ BigDouble / Tests:
 7# result: 0.4285714285714285714285714285714285714285714285714285714285714285714285714285714285714285714285714286
 8# result: 2.3333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333
 9# result: 12.0
----------
-BigInt % Tests: 
-1# result: 1
-2# result: 3
-3# result: 7
-4# result: 0
-5# result: 1
-6# result: 0
-7# result: 0
-8# result: -11
-9# result: 1
-10# result: 0
+10# result: 0.0
+11# result: 0.0
+12# result: -1.0
+13# result: -1.0
+14# result: 1.0
 ---------
 BigInt += Tests: 
 1# result: 2
